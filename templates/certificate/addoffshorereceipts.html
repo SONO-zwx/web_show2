@@ -1,0 +1,312 @@
+{% extends 'parent_template/certificate.html' %}
+
+{% load static %}
+
+{% block 门店外采需求单-active %}
+    active
+{% endblock %}
+
+{% block body1 %}
+    <div class="dashboard-ecommerce">
+        <div class="container-fluid dashboard-content ">
+            <!-- ============================================================== -->
+            <!-- pageheader  -->
+            <!-- ============================================================== -->
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="page-header">
+                        <h2 class="pageheader-title">门店外采单据</h2>
+                        <div class="page-breadcrumb">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="#" class="breadcrumb-link">外采单据</a>
+                                    </li>
+                                    <li class="breadcrumb-item active" aria-current="page">创建外采单据
+                                    </li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <h5>
+                <a href="{% url 'certificate:addoffshoreaddreceipts' %}"><span
+                        style="width: 100px;height: 30px;display: inline-block;text-align: center;line-height: 30px;background-color: rgb(51, 122, 183);color: white;border: 1px solid grey;">创建外采单据</span></a>
+                <a href="{% url 'certificate:offshoreaddreceipts' %}"><span
+                        style="width: 100px;height: 30px;display: inline-block;text-align: center;line-height: 30px;">外采货品确认</span></a>
+                <a href="{% url 'certificate:shouoffshoreaddreceipts' %}"><span
+                        style="width: 100px;height: 30px;display: inline-block;text-align: center;line-height: 30px;">外采货品收货</span></a>
+                <a href="{% url 'certificate:tuishoreonereceipts' %}"><span
+                        style="width: 100px;height: 30px;display: inline-block;text-align: center;line-height: 30px;">货品退货</span></a>
+
+            </h5>
+            <div class="ecommerce-widget" id="div01" style="display: block">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="row">
+                        <div class="col-xl-8 col-lg-6 col-md-6" style="margin: 0 auto">
+                            <div class="card">
+                                <div class="card-body">
+                                    <form action="{% url 'certificate:addoffshoreaddreceipts' %}" method="post"
+                                          enctype='multipart/form-data'>
+                                        {% csrf_token %}
+                                        <table style="width: 100%" border="1" cellspacing="1" cellpadding="2">
+                                            <tr>
+                                                <td colspan="8">
+                                                    <h3 style="text-align: center">外采单据凭证</h3>
+                                                </td>
+                                            </tr>
+                                            <tr style="height: 60px">
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    门&nbsp;&nbsp;店
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    <select class="form-control" id="shopname"
+                                                            required="" name="shopname">
+                                                        <option>请选择</option>
+                                                        {% for shopname in ShopNames %}
+                                                            <option>{{ shopname.shopname }}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    当&nbsp;前&nbsp;状&nbsp;态
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    <input type="text" class="form-control" readonly
+                                                           value="申请中" name="status" id="status">
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%" rowspan="2">
+                                                    车&nbsp;辆&nbsp;信&nbsp;息&nbsp;图&nbsp;片
+                                                </td>
+                                                <td style="width: 12.5%" colspan="1" rowspan="2">
+                                                    <input type="file" style="width: 100%"
+                                                           multiple="multiple" onchange="readAsDataURL()"
+                                                           id="carinfoimg" name="carinfoimg">
+                                                </td>
+                                                <td style="width: 25%" colspan="2" rowspan="2">
+                                                    <div id="result" name="result"></div>
+                                                </td>
+                                            </tr>
+                                            <tr style="height: 60px">
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    供&nbsp;货&nbsp;商
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    <select class="form-control" id="gongaccount"
+                                                            required="" name="gongaccount">
+                                                        <option>请选择</option>
+                                                        {% for account in gongaccount %}
+                                                            <option value="{{ account.id }}">{{ account.effect }}
+                                                                -- {{ account.name }} -- {{ account.types }}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    车&nbsp;辆&nbsp;品&nbsp;牌
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    <input type="text" class="form-control"
+                                                           name="brand" id="brand">
+                                                </td>
+                                            </tr>
+                                            <tr style="height: 60px">
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    车&nbsp;&nbsp;型
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    <input type="text" class="form-control"
+                                                           name="motorcycle" id="motorcycle">
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    车&nbsp;架&nbsp;号
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    <input type="text" class="form-control"
+                                                           name="forid" id="forid">
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%" rowspan="2">
+                                                    车&nbsp;架&nbsp;号&nbsp;照&nbsp;片
+                                                </td>
+                                                <td style="width: 12.5%" colspan="1" rowspan="2">
+                                                    <input type="file" style="width: 100%"
+                                                           multiple="multiple" onchange="readAsDataURL1()"
+                                                           id="vinimg" name="vinimg">
+                                                </td>
+                                                <td style="width: 25%" colspan="2" rowspan="2">
+                                                    <div id="result1" name="result1"></div>
+                                                </td>
+                                            </tr>
+                                            <tr style="height: 60px">
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    需&nbsp;求&nbsp;描&nbsp;述
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%" colspan="3">
+                                                    <input type="text" class="form-control"
+                                                           name="model" id="model">
+                                                </td>
+                                            </tr>
+                                            <tr style="height: 120px">
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    相&nbsp;关&nbsp;视&nbsp;频
+                                                </td>
+                                                <td colspan="1">
+                                                    <input type="file" style="width: 100%"
+                                                           multiple="multiple" onchange="readAsDataURL2()"
+                                                           id="kindsimg" name="kindsimg">
+                                                </td>
+                                                <td colspan="6">
+                                                    <div id="result2" name="result2"></div>
+                                                </td>
+                                            </tr>
+                                            <tr style="height: 60px">
+                                                <td colspan="8" style="text-align: center" >
+                                                    <button type="button" onclick="submits()" id="Submit"
+                                                            style="width:140px;height:36px;line-height:18px;font-size:18px; color:#2ea8e5;padding-bottom:4px">
+                                                        创建
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </form>
+                                    <!-- 弹窗 -->
+                                    <div id="myModal" class="modal">
+                                        <!-- 弹窗内容 -->
+                                        <img class="modal-content" id="img01">
+                                        <div>
+                                            <div style="margin: 0 auto; width: 205px;">
+                                                <div style="position: fixed;bottom: 40px;">
+                                                    <button type="button" class="btn btn-outline-light"
+                                                            id="fangda">
+                                                        <span class="fa fa-search-plus"></span>
+                                                    </button>
+                                                    <button type="button" class="btn btn-outline-light"
+                                                            id="suoxiao">
+                                                        <span class="fas fa-search-minus"></span>
+                                                    </button>
+                                                    <button type="button" class="btn btn-outline-light"
+                                                            id="zuozhuan">
+                                                        <span class="fas fa-undo"></span>
+                                                    </button>
+                                                    <button type="button" class="btn btn-outline-light"
+                                                            id="youzhuan">
+                                                        <span class="fas fa-redo"></span>
+                                                    </button>
+                                                    <button type="button" class="btn btn-outline-light"
+                                                            id="youzhuan"
+                                                            onclick="document.getElementById('myModal').style.display='none'">
+                                                        <span class="fa fa-power-off"></span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <script>
+        function submits() {
+            document.getElementById("Submit").setAttribute("disabled", "disabled");
+            var shopname = $('#shopname').val();
+            if (shopname === '请选择') {
+                alert('请选择门店');
+                document.getElementById("Submit").removeAttribute("disabled");
+                return false;
+            }
+
+            var gongaccount = $('#gongaccount').val();
+            if (gongaccount === '请选择') {
+                alert('请选择供货商');
+                document.getElementById("Submit").removeAttribute("disabled");
+                return false;
+            }
+            var brand = $('#brand').val();
+            if (brand === '') {
+                alert('请添加车辆品牌');
+                document.getElementById("Submit").removeAttribute("disabled");
+                return false;
+            }
+            var motorcycle = $('#motorcycle').val();
+            if (motorcycle === '') {
+                alert('请添加车型');
+                document.getElementById("Submit").removeAttribute("disabled");
+                return false;
+            }
+
+            var model = $('#model').val();
+            if (model === '') {
+                alert('请添加需求描述');
+                document.getElementById("Submit").removeAttribute("disabled");
+                return false;
+            }
+            var carinfoimg = $('#carinfoimg').val();
+            if (carinfoimg === '') {
+                alert('请添加车辆信息图片');
+                document.getElementById("Submit").removeAttribute("disabled");
+                return false;
+            }
+            var vinimg = $('#vinimg').val();
+            if (vinimg === '') {
+                alert('车架号信息图片');
+                document.getElementById("Submit").removeAttribute("disabled");
+                return false;
+            }
+            $('form').submit();
+        }
+    </script>
+
+    <script>
+        function readAsDataURL() {
+            var file = document.getElementById("carinfoimg").files;
+            var result = document.getElementById("result");
+            result.innerHTML = '';
+            for (i = 0; i < file.length; i++) {
+                var reader = new FileReader();
+                reader.index = 'carinfo' + i.toString();
+                reader.readAsDataURL(file[i], i);
+                reader.onload = function (event) {
+                    result.innerHTML = result.innerHTML + '<img src="' + this.result + '" alt="" style="height: 100px" id="myImg' + this.index + '" onclick="bigimg(\'myImg' + this.index + '\')"/>';
+                }
+            }
+        }
+    </script>
+    <script>
+        function readAsDataURL1() {
+            var file = document.getElementById("vinimg").files;
+            var result = document.getElementById("result1");
+            result.innerHTML = '';
+            for (i = 0; i < file.length; i++) {
+                var reader = new FileReader();
+                reader.index = 'vin' + i.toString();
+                reader.readAsDataURL(file[i], i);
+                reader.onload = function (event) {
+                    result.innerHTML = result.innerHTML + '<img src="' + this.result + '" alt="" style="height: 100px" id="myImg' + this.index + '" onclick="bigimg(\'myImg' + this.index + '\')"/>';
+                }
+            }
+        }
+    </script>
+    <script>
+        function readAsDataURL2() {
+            var file = document.getElementById("kindsimg").files;
+            var result = document.getElementById("result2");
+            result.innerHTML = '';
+            for (i = 0; i < file.length; i++) {
+                var reader = new FileReader();
+                reader.index = 'vin' + i.toString();
+                reader.readAsDataURL(file[i], i);
+                reader.onload = function (event) {
+                    result.innerHTML = result.innerHTML + '<img src="' + this.result + '" alt="" style="height: 100px" id="myImg' + this.index + '" onclick="bigimg(\'myImg' + this.index + '\')"/>';
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="{% static 'img/css/myimg.css' %}">
+    <script src="{% static 'img/js/myjs.js' %}"></script>
+
+{% endblock %}
+

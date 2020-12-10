@@ -1,0 +1,150 @@
+{% load static %}
+{% load templatetag %}
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}">
+    <link href="{% static 'assets/vendor/fonts/circular-std/style.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'assets/libs/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/vendor/fonts/fontawesome/css/fontawesome-all.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/vendor/charts/chartist-bundle/chartist.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/vendor/charts/morris-bundle/morris.css' %}">
+    <link rel="stylesheet"
+          href="{% static 'assets/vendor/fonts/material-design-iconic-font/css/materialdesignicons.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/vendor/charts/c3charts/c3.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/vendor/fonts/flag-icon-css/flag-icon.min.css' %}">
+    <title>SONO AUTO CARE</title>
+
+</head>
+
+<body>
+
+<div class="dashboard-main-wrapper">
+
+    <!--startprint1-->
+    <div class="col-xl-8 col-lg-6 col-md-6" style="">
+        <div class="card">
+            <div class="card-body">
+                <div class="printonly">
+                    <table style="width: 100%" border="1" cellspacing="1" cellpadding="2">
+                        <tr style="height: 40px; text-align: center;">
+                            <td colspan="3">
+                                <h3>{{ nowinfo.name }}报表明细单</h3>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-sm-center" style="width: 12.5%">
+                                <table style="width: 100%" border="1" cellspacing="1" cellpadding="2"
+                                       id="table001">
+                                    <tr>
+                                        <td class="text-sm-center" style="width: 12.5%">项目名称</td>
+                                        <td class="text-sm-center" style="width: 12.5%">金额</td>
+                                    </tr>
+                                    {% for info in nowinfo.one %}
+                                        <tr style="height: 35px">
+                                            <td class="text-sm-center"
+                                                style="width: 50%">
+                                                {{ info.项目名称 }}
+                                            </td>
+                                            <td class="text-sm-center" style="width: 50%">
+                                                ￥{{ info.金额|floatformat:"2" }}</td>
+                                        </tr>
+                                    {% endfor %}
+
+
+                                </table>
+                            </td>
+                            <td class="text-sm-center" style="width: 12.5%">
+                                <table style="width: 100%" border="1" cellspacing="1" cellpadding="2"
+                                       id="table002">
+                                    <tr>
+                                        <td class="text-sm-center" style="width: 12.5%">项目名称</td>
+                                        <td class="text-sm-center" style="width: 12.5%">金额</td>
+                                    </tr>
+                                    {% for info in nowinfo.two %}
+                                        <tr style="height: 35px">
+                                            <td class="text-sm-center"
+                                                style="width: 50%">
+                                                {{ info.项目名称 }}
+                                            </td>
+                                            <td class="text-sm-center" style="width: 50%">
+                                                ￥{{ info.金额|floatformat:"2" }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                </table>
+                            </td>
+                            <td class="text-sm-center" style="width: 12.5%">
+                                <table style="width: 100%" border="1" cellspacing="1" cellpadding="2"
+                                       id="table003">
+                                    <tr>
+                                        <td class="text-sm-center" style="width: 12.5%">项目名称</td>
+                                        <td class="text-sm-center" style="width: 12.5%">金额</td>
+                                    </tr>
+                                    {% for info in nowinfo.three %}
+                                        <tr style="height: 35px">
+                                            <td class="text-sm-center"
+                                                style="width: 50%">
+                                                {{ info.项目名称 }}
+                                            </td>
+                                            <td class="text-sm-center" style="width: 50%">
+                                                ￥{{ info.金额|floatformat:"2" }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                </table>
+                            </td>
+                        </tr>
+
+
+                    </table>
+                </div>
+                <!-- 弹窗 -->
+                <div id="myModal" class="modal">
+                    <!-- 弹窗内容 -->
+                    <img class="modal-content" id="img01">
+                    <div>
+                        <div style="margin: 0 auto; width: 205px;">
+                            <div style="position: fixed;bottom: 40px;">
+                                <button type="button" class="btn btn-outline-light"
+                                        id="fangda">
+                                    <span class="fa fa-search-plus"></span>
+                                </button>
+                                <button type="button" class="btn btn-outline-light"
+                                        id="suoxiao">
+                                    <span class="fas fa-search-minus"></span>
+                                </button>
+                                <button type="button" class="btn btn-outline-light"
+                                        id="zuozhuan">
+                                    <span class="fas fa-undo"></span>
+                                </button>
+                                <button type="button" class="btn btn-outline-light"
+                                        id="youzhuan">
+                                    <span class="fas fa-redo"></span>
+                                </button>
+                                <button type="button" class="btn btn-outline-light"
+                                        id="youzhuan"
+                                        onclick="document.getElementById('myModal').style.display='none'">
+                                    <span class="fa fa-power-off"></span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!--endprint1-->
+    </div>
+</div>
+<script src="{% static 'assets/vendor/jquery/jquery-3.3.1.min.js' %}"></script>
+<!-- bootstap bundle js -->
+<script src="{% static 'assets/vendor/bootstrap/js/bootstrap.bundle.js' %}"></script>
+<!-- slimscroll js -->
+<script src="{% static 'assets/vendor/slimscroll/jquery.slimscroll.js' %}"></script>
+
+</body>
+
+</html>

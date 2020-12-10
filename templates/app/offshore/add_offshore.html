@@ -1,0 +1,342 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SONO AUTO CARE</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0
+        }
+    </style>
+    <link rel="stylesheet" href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/vendor/fonts/fontawesome/css/fontawesome-all.css' %}">
+</head>
+<body>
+
+<div style="width: 100%">
+    <a href="javascript:history.go(-1)">
+        <div style="width: 100%">
+            <div style="width: 100%; height: 120px; background-color: grey;">
+                <div style="width: 50px; height: 120px; float: left;">
+
+                </div>
+                <div style=" float: left; width: 50px; height: 120px; z-index:100">
+                    <img src="{% static '/app/images/事项审批-管理层/u2724.png' %}" alt=""
+                         style="height: 60px; margin-top: 30px">
+                </div>
+                <div style="float: left; height: 120px; text-align: center; width: 100%; margin-top: -120px">
+                    <p style="font-size: 48px;line-height: 120px; color: white">外采需求单</p>
+                </div>
+            </div>
+        </div>
+    </a>
+    <form action="{% url 'offshore:add_offshore' %}" method="post" id="myform"
+          enctype='multipart/form-data'>
+        <div style="width: 100%">
+            <div style="width: 100%;height:640px;  margin-top: 20px;">
+                <div style="width: 98%; margin: 0 auto;">
+                    <div style="width: 25%; float: left">
+                        <div style="height: 80px; text-align: right">
+                            <p style="line-height: 80px; font-size: 36px">门店&emsp;</p>
+                        </div>
+                        <div style="height: 80px; text-align: right">
+                            <p style="line-height: 80px; font-size: 36px">经办人&emsp;</p>
+                        </div>
+                        <div style="height: 80px; text-align: right">
+                            <p style="line-height: 80px; font-size: 36px">供货商&emsp;</p>
+                        </div>
+                        <div style="height: 80px; text-align: right">
+                            <p style="line-height: 80px; font-size: 36px">车辆品牌&emsp;</p>
+                        </div>
+                        <div style="height: 80px; text-align: right">
+                            <p style="line-height: 80px; font-size: 36px">车型&emsp;</p>
+                        </div>
+                        <div style="height: 80px; text-align: right">
+                            <p style="line-height: 80px; font-size: 36px">车架号&emsp;</p>
+                        </div>
+                        <div style="height: 160px; text-align: right">
+                            <p style="line-height: 160px; font-size: 36px">需求描述&emsp;</p>
+                        </div>
+                    </div>
+                    <div style="width: 75%; float: left">
+                        <div style="height: 80px; text-align: left">
+                            <p style="line-height: 80px; font-size: 36px"><input type="text" readonly
+                                                                                 style="display: block; width: 90%; height: 70px; font-size: 36px;border-radius: 20px;"
+                                                                                 value="{{ nowshopname }}"
+                                                                                 name="shopname"
+                                                                                 id="shopname"></p>
+                        </div>
+                        <div style="height: 80px; text-align: left">
+                            <p style="line-height: 80px; font-size: 36px"><input type="text" readonly
+                                                                                 style="display: block; width: 90%; height: 70px; font-size: 36px;border-radius: 20px;"
+                                                                                 value="{{ name }}" name="name"
+                                                                                 id="name">
+                            </p>
+                        </div>
+                        <div style="height: 80px; text-align: left">
+                            <p style="line-height: 80px; font-size: 36px"><select id="gongaccount"
+                                                                                  style="display: block; width: 90%; height: 70px; font-size: 36px;border-radius: 20px;"
+                                                                                  required="" name="gongaccount">
+                                <option>请选择</option>
+                                {% for account in gongaccount %}
+                                    <option value="{{ account.id }}">{{ account.effect }}
+                                        -- {{ account.name }} -- {{ account.types }}</option>
+                                {% endfor %}
+                            </select></p>
+                        </div>
+                        <div style="height: 80px; text-align: left">
+                            <p style="line-height: 80px; font-size: 36px"><input type="text"
+                                                                                 style="display: block; width: 90%; height: 70px; font-size: 36px;border-radius: 20px;"
+                                                                                 value="" name="brand" id="brand"></p>
+                        </div>
+                        <div style="height: 80px; text-align: left">
+                            <p style="line-height: 80px; font-size: 36px"><input type="text"
+                                                                                 style="display: block; width: 90%; height: 70px; font-size: 36px;border-radius: 20px;"
+                                                                                 value="" name="motorcycle"
+                                                                                 id="motorcycle">
+                            </p>
+                        </div>
+                        <div style="height: 80px; text-align: left">
+                            <p style="line-height: 80px; font-size: 36px"><input type="text"
+                                                                                 style="display: block; width: 90%; height: 70px; font-size: 36px;border-radius: 20px;"
+                                                                                 value="" name="forid"
+                                                                                 id="forid">
+                            </p>
+                        </div>
+                        <div style="height: 160px; text-align: left">
+                            <p style="line-height: 160px; font-size: 36px"><input type="text"
+                                                                                  style="display: block; width: 90%; height: 160px; font-size: 36px;border-radius: 20px;"
+                                                                                  value="" name="model"
+                                                                                  id="model"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style="height: 20px;width: 100%;background-color: gainsboro;">
+            </div>
+            <div style="width: 100%; height: 300px">
+                <div style="width: 98%; margin: 0 auto">
+                    <div style="width: 98%;">
+                        <div style="height: 80px; text-align: left">
+                            <p style="line-height: 80px; font-size: 36px">&emsp;&emsp;车辆信息图片</p>
+                        </div>
+                    </div>
+                </div>
+                <div style="width: 33%; float: left">
+                    <div style="height: 200px; text-align: left">
+                        <input type="file" style="width: 100px; height: 100px; display: none"
+                               multiple="multiple" onchange="readAsDataURL('carinfoimg', 'result1')"
+                               id="carinfoimg" name="carinfoimg">
+                        <img src="{% static 'app/images/资金申请/u842.png' %}" alt="" style="width: 200px; height: 200px;"
+                             onclick="dianjitijiao('carinfoimg')">
+                    </div>
+                </div>
+                <div style="width: 33%; float: left">
+                    <div style="height: 200px; text-align: left">
+                        <div id="result1" name="result1"></div>
+                    </div>
+                </div>
+            </div>
+            <div style="width: 100%; height: 300px">
+                <div style="width: 98%; margin: 0 auto">
+                    <div style="width: 98%;">
+                        <div style="height: 80px; text-align: left">
+                            <p style="line-height: 80px; font-size: 36px">&emsp;&emsp;车架号照片</p>
+                        </div>
+                    </div>
+                </div>
+                <div style="width: 33%; float: left">
+                    <div style="height: 200px; text-align: left">
+                        <input type="file" style="width: 100px; height: 100px; display: none"
+                               multiple="multiple" onchange="readAsDataURL('vinimg', 'result2')"
+                               id="vinimg" name="vinimg">
+                        <img src="{% static 'app/images/资金申请/u842.png' %}" alt="" style="width: 200px; height: 200px;"
+                             onclick="dianjitijiao('vinimg')">
+                    </div>
+                </div>
+                <div style="width: 33%; float: left">
+                    <div style="height: 200px; text-align: left">
+                        <div id="result2" name="result2"></div>
+                    </div>
+                </div>
+            </div>
+            <div style="width: 100%; height: 300px">
+                <div style="width: 98%; margin: 0 auto">
+                    <div style="width: 98%;">
+                        <div style="height: 80px; text-align: left">
+                            <p style="line-height: 80px; font-size: 36px">&emsp;&emsp;相关视频</p>
+                        </div>
+                    </div>
+                </div>
+                <div style="width: 33%; float: left">
+                    <div style="height: 200px; text-align: left">
+                        <input type="file" style="width: 100px; height: 100px; display: none"
+                               multiple="multiple" onchange="readAsDataURL('kindsimg', 'result3')"
+                               id="kindsimg" name="kindsimg">
+                        <img src="{% static 'app/images/资金申请/u842.png' %}" alt="" style="width: 200px; height: 200px;"
+                             onclick="dianjitijiao('kindsimg')">
+                    </div>
+                </div>
+                <div style="width: 33%; float: left">
+                    <div style="height: 200px; text-align: left">
+                        <div id="result3" name="result3"></div>
+                    </div>
+                </div>
+            </div>
+            <div style="height: 20px;width: 100%;background-color: gainsboro;">
+            </div>
+
+            <div style="width: 100%; height: 120px; margin-top: 40px">
+                <div style="width: 50%; height: 120px;float: left; ">
+                    <input type="text" name="isok" value="1" id="isok" style="display: none">
+                    <input onclick="submits()" type="submit" value="提交"
+                            style="margin-right: 20px;display: block; float: right; width: 220px; height: 100px; color: white;border-radius: 15px;font-size: 36px; background-color: rgb(255,0,0);">
+
+                </div>
+            </div>
+            <div style="width: 100%; height: 50px">
+
+            </div>
+        </div>
+    </form>
+</div>
+<div id="myModal" class="modal">
+    <!-- 弹窗内容 -->
+    <img class="modal-content" id="img01">
+    <div>
+        <div style="margin: 0 auto; width: 205px;">
+            <div style="position: fixed;bottom: 40px;">
+                <button type="button" class="btn btn-outline-light"
+                        id="fangda">
+                    <span class="fa fa-search-plus"></span>
+                </button>
+                <button type="button" class="btn btn-outline-light"
+                        id="suoxiao">
+                    <span class="fas fa-search-minus"></span>
+                </button>
+                <button type="button" class="btn btn-outline-light"
+                        id="zuozhuan">
+                    <span class="fas fa-undo"></span>
+                </button>
+                <button type="button" class="btn btn-outline-light"
+                        id="youzhuan">
+                    <span class="fas fa-redo"></span>
+                </button>
+                <button type="button" class="btn btn-outline-light"
+                        id="youzhuan"
+                        onclick="document.getElementById('myModal').style.display='none'">
+                    <span class="fa fa-power-off"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function submits() {
+
+        var shopname = document.getElementById("shopname").value;
+        if (shopname === '请选择') {
+            alert('请选择门店');
+            document.getElementById("isok").setAttribute("value", "0");
+            return false;
+        }
+
+        var gongaccount = document.getElementById("gongaccount").value;
+        if (gongaccount === '请选择') {
+            alert('请选择供货商');
+            document.getElementById("isok").setAttribute("value", "0");
+            return false;
+        }
+        var brand = document.getElementById("brand").value;
+        if (brand === '') {
+            alert('请添加车辆品牌');
+            document.getElementById("isok").setAttribute("value", "0");
+            return false;
+        }
+        var motorcycle = document.getElementById("motorcycle").value;
+        if (motorcycle === '') {
+            alert('请添加车型');
+            document.getElementById("isok").setAttribute("value", "0");
+            return false;
+        }
+        var model = document.getElementById("model").value;
+        if (model === '') {
+            alert('请添加需求描述');
+            document.getElementById("isok").setAttribute("value", "0");
+            return false;
+        }
+        var carinfoimg = document.getElementById("carinfoimg").value;
+        if (carinfoimg === '') {
+            alert('请添加车辆信息图片');
+            document.getElementById("isok").setAttribute("value", "0");
+            return false;
+        }
+        var vinimg = document.getElementById("vinimg").value;
+        if (vinimg === '') {
+            alert('车架号信息图片');
+            document.getElementById("isok").setAttribute("value", "0");
+            return false;
+        }
+    }
+
+    function dianjitijiao(id) {
+        document.getElementById(id).click()
+    }
+
+    function readAsDataURL(id1, id2) {
+        var file = document.getElementById(id1).files;
+        var result = document.getElementById(id2);
+        result.innerHTML = '';
+        for (i = 0; i < file.length; i++) {
+            var reader = new FileReader();
+            reader.index = id1 + i.toString();
+            reader.readAsDataURL(file[i], i);
+            reader.onload = function (event) {
+                result.innerHTML = result.innerHTML + '<img src="' + this.result + '" alt="" style="height: 200px; width:200px" id="myImg' + this.index + '" onclick="bigimg(\'myImg' + this.index + '\')"/>';
+            }
+        }
+    }
+
+    function bigimg(imgid) {
+        var modal = document.getElementById('myModal');
+        var img = document.getElementById(imgid);
+        var modalImg = document.getElementById("img01");
+        var captionText = document.getElementById("caption");
+        img.onclick = function () {
+            modal.style.display = "block";
+            modalImg.src = this.src;
+            captionText.innerHTML = this.alt;
+        };
+
+        var r = 0;
+        $('#zuozhuan').click(function () {
+            r -= 90;
+            $("#img01").css('transform', 'rotate(' + r + 'deg)');
+        });
+        $('#youzhuan').click(function () {
+            r += 90;
+            $("#img01").css('transform', 'rotate(' + r + 'deg)');
+        });
+        $("#fangda").click(function () {
+            var imageWidth = modalImg.width * 1.1;
+            var imageHeight = modalImg.height * 1.1;
+            $("#img01").css('width', imageWidth + 'px').css('height', imageHeight + 'px');
+        });
+        $("#suoxiao").click(function () {
+            var imageWidth = modalImg.width / 1.1;
+            var imageHeight = modalImg.height / 1.1;
+            $("#img01").css('width', imageWidth + 'px').css('height', imageHeight + 'px');
+        });
+    }
+
+</script>
+<script src="{% static 'assets/vendor/jquery/jquery-3.3.1.min.js' %}"></script>
+<!-- bootstap bundle js -->
+<script src="{% static 'assets/vendor/bootstrap/js/bootstrap.bundle.js' %}"></script>
+<!-- slimscroll js -->
+<script src="{% static 'assets/vendor/slimscroll/jquery.slimscroll.js' %}"></script>
+</body>
+</html>

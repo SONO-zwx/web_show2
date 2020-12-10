@@ -1,0 +1,331 @@
+{% extends 'parent_template/account_template.html' %}
+{% load static %}
+
+
+{% block 用户账号-active %}
+    active
+{% endblock %}
+
+{% block body1 %}
+    <div class="dashboard-ecommerce">
+        <div class="container-fluid dashboard-content ">
+            <!-- ============================================================== -->
+            <!-- pageheader  -->
+            <!-- ============================================================== -->
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="page-header">
+                        <h2 class="pageheader-title">账号管理</h2>
+                        <div class="page-breadcrumb">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item">
+                                        <a href="#" class="breadcrumb-link">账号管理</a>
+                                    </li>
+                                    <li class="breadcrumb-item active" aria-current="page">
+                                        添加账号
+                                    </li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <h5>
+                <a href="{% url 'account:addaccount' %}"><span
+                        style="width: 100px;height: 30px;display: inline-block;text-align: center;line-height: 30px;background-color: rgb(51, 122, 183);color: white;border: 1px solid grey;">添加账号</span></a>
+                <a href="{% url 'account:accountlimits' %}"><span
+                        style="width: 100px;height: 30px;display: inline-block;text-align: center;line-height: 30px;">账号权限</span></a>
+            </h5>
+            <div class="ecommerce-widget" id="div01" style="display: block">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="row">
+                        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-12">
+                            <div class="card">
+                                <h5 class="card-header">门店员工账号</h5>
+                                <div class="card-body">
+                                    <table class="table">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col">账号</th>
+                                            <th scope="col">用户</th>
+                                            <th scope="col">门店</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for accountinfo in account %}
+                                            <tr>
+                                                <td>
+                                                    <a href="{% url 'account:addaccount' %}?userid={{ accountinfo.id }}&accountpage={{ account.number }}">{{ accountinfo.username }}</a>
+                                                </td>
+                                                <td>
+                                                    <a href="{% url 'account:addaccount' %}?userid={{ accountinfo.id }}&accountpage={{ account.number }}">{{ accountinfo.name }}</a>
+                                                </td>
+                                                <td>
+                                                    <a href="{% url 'account:addaccount' %}?userid={{ accountinfo.id }}&accountpage={{ account.number }}">{{ accountinfo.shopname }}</a>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                                <nav aria-label="Page navigation">
+                                    <div class="pagination">
+                                        <ul class="pagination">
+                                            <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
+                                            <li>当前页数：{{ account.number }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
+                                            {% if account.has_previous %}
+                                                <li>
+                                                    <a href="{% url 'account:addaccount' %}?accountpage={{ account.previous_page_number }}"
+                                                       aria-label="Previous"><span aria-hidden="true">&laquo;&nbsp;&nbsp;</span></a>
+                                                </li>
+                                            {% endif %}
+
+                                            {% for num in account.paginator.page_range %}
+                                                {% if num == account.number|add:-1 or num == account.number|add:-2 or num == account.number|add:-3 or num == account.number or num == account.number|add:1 or num == account.number|add:2 or num == account.number|add:3 %}
+                                                    {% if num == account.number %}
+                                                        <li><a href="">{{ num }}&nbsp;&nbsp;</a></li>
+                                                    {% else %}
+                                                        <li>
+                                                            <a href="{% url 'account:addaccount' %}?accountpage={{ num }}">{{ num }}&nbsp;&nbsp;</a>
+                                                        </li>
+                                                    {% endif %}
+                                                {% endif %}
+                                            {% endfor %}
+
+                                            {% if account.has_next %}
+                                                <li>
+                                                    <a href="{% url 'account:addaccount' %}?accountpage={{ account.next_page_number }}"
+                                                       aria-label="Next">
+                                                        <span aria-hidden="true">&raquo;&nbsp;&nbsp;</span></a></li>
+                                            {% endif %}
+                                        </ul>
+                                    </div>
+                                </nav>
+                                <div aria-label="Page navigation" style="margin-left: 29px;margin-top: -13px;">
+                                    <span>跳转至</span>
+                                    <input type="text" style="width: 30px;" class="jump">
+                                    <input type="hidden" value="{{ info.paginator.num_pages }}" class="hidden_val">
+                                    <span>页</span>
+                                    <input type="button" value="GO" onclick="jump_to()">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-8 col-lg-6 col-md-6 col-sm-12 col-12">
+                            <div class="card">
+                                <h5 class="card-header">详情页面</h5>
+                                <div class="card-body">
+                                    <form action="{% url 'account:addaccount' %}" method="post">
+                                        <div class="form-group row">
+                                            <label class="col-12 col-sm-3 col-form-label text-sm-right">账&nbsp;&nbsp;&nbsp;&nbsp;号</label>
+                                            {% if userinfo %}
+                                                <div class="col-12 col-sm-8 col-lg-6">
+                                                    <input readonly type="text" class="form-control" name="username"
+                                                           id="username"
+                                                           value="{{ userinfo.username }}">
+                                                </div>
+                                            {% else %}
+                                                <div class="col-12 col-sm-8 col-lg-6">
+                                                    <input type="text" class="form-control" name="username"
+                                                           id="username"
+                                                           value="{{ userinfo.username }}">
+                                                </div>
+                                            {% endif %}
+
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-12 col-sm-3 col-form-label text-sm-right">密&nbsp;&nbsp;&nbsp;&nbsp;码</label>
+                                            <div class="col-12 col-sm-8 col-lg-6">
+                                                <input type="text" class="form-control" name="password" id="password"
+                                                       value="{{ userinfo.password }}">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-12 col-sm-3 col-form-label text-sm-right">用&nbsp;&nbsp;户&nbsp;&nbsp;名</label>
+                                            <div class="col-12 col-sm-8 col-lg-6">
+                                                <input type="text" class="form-control" name="name" id="name"
+                                                       value="{{ userinfo.name }}">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-12 col-sm-3 col-form-label text-sm-right">公&nbsp;&nbsp;&nbsp;&nbsp;司</label>
+                                            <div class="col-12 col-sm-8 col-lg-6">
+                                                <input readonly="readonly" type="text" class="form-control"
+                                                       name="superior"
+                                                       id="superior"
+                                                       value="{{ superior }}">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-12 col-sm-3 col-form-label text-sm-right">门&nbsp;&nbsp;&nbsp;&nbsp;店</label>
+                                            <div class="col-12 col-sm-8 col-lg-6">
+                                                {% if ShopName != '总部' %}
+                                                    <select class="custom-select d-block w-100" id="shopname"
+                                                            name="shopname">
+                                                        <option>{{ ShopName }}</option>
+                                                    </select>
+                                                {% else %}
+                                                    <select class="custom-select d-block w-100" id="shopname"
+                                                            name="shopname">
+                                                        <option>请选择门店</option>
+
+                                                        {% for shopname in ShopNames %}
+                                                            {% if shopname.shopname == userinfo.shopname %}
+                                                                <option selected="selected">{{ shopname.shopname }}</option>
+                                                            {% else %}
+                                                                <option>{{ shopname.shopname }}</option>
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    </select>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label text-sm-right">是&nbsp;&nbsp;否&nbsp;&nbsp;使&nbsp;&nbsp;用</label>
+                                            <div class="col-12 col-sm-8 col-lg-6">
+                                                <label class="custom-control custom-radio custom-control-inline">
+                                                    <input type="radio" name="isuse" id="isuse1"
+                                                           class="custom-control-input" value="1" {% if userinfo.isuse == 1 %}checked{% endif %}><span
+                                                        class="custom-control-label" >使用</span>
+                                                </label>
+                                                <label class="custom-control custom-radio custom-control-inline">
+                                                    <input type="radio" name="isuse" id="isuse2"
+                                                           class="custom-control-input" value="0" {% if userinfo.isuse == 0 %}checked{% endif %}><span
+                                                        class="custom-control-label">禁用</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row text-right">
+                                            <div class="col col-sm-10 col-lg-9 offset-sm-1 offset-lg-0">
+                                                {% if userinfo %}
+                                                    <input type="text" class="form-control" style="display: none"
+                                                           name="types" id="types" value="修改">
+                                                    <input type="text" class="form-control" style="display: none"
+                                                           name="id" id="id" value="{{ userinfo.id }}">
+                                                    <a id="activate">
+                                                        <button style="width:140px;height:36px;line-height:18px;font-size:18px; color:#2ea8e5;padding-bottom:4px"
+                                                                type="button" onclick="xiuverification()">
+                                                            修改
+                                                        </button>
+                                                    </a>
+                                                    <a id="activate">
+                                                        <button style="width:140px;height:36px;line-height:18px;font-size:18px; color:#2ea8e5;padding-bottom:4px"
+                                                                type="button" onclick="delaccount({{ userinfo.id }})">
+                                                            删除
+                                                        </button>
+                                                    </a>
+                                                {% else %}
+                                                    <input type="text" class="form-control" style="display: none"
+                                                           name="types" id="types" value="添加">
+                                                    <a id="activate">
+                                                        <button style="width:140px;height:36px;line-height:18px;font-size:18px; color:#2ea8e5;padding-bottom:4px"
+                                                                type="button"
+                                                                onclick="verification()">
+                                                            添加
+                                                        </button>
+                                                    </a>
+                                                {% endif %}
+
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function delaccount(id) {
+            $.ajax({
+                type: "post",
+                url: "{% url 'account:delaccount' %}",
+                data: {
+                    'id': id,
+                    'csrfmiddlewaretoken': '{{ csrf_token }}',
+                },
+                success: function (data) {
+                    parent.location.reload();
+                }
+            });
+        }
+    </script>
+    <script>
+        function verification() {
+            var username = document.getElementById("username").value;
+            var password = document.getElementById("password").value;
+            var name = document.getElementById("name").value;
+            var shopname = document.getElementById("shopname").value;
+            $.ajax({
+                type: "post",
+                url: "{% url 'account:isaccount' %}",
+                data: {
+                    'username': username,
+                    'csrfmiddlewaretoken': '{{ csrf_token }}',
+                },
+                success: function (data) {
+                    if (username === '') {
+                        alert("请输入账号");
+                        return false;
+                    } else if (password === '') {
+                        alert("请输入密码");
+                        return false;
+                    } else if (name === '') {
+                        alert("请输入姓名");
+                        return false;
+                    } else if (shopname === '请选择门店') {
+                        alert("请选择门店");
+                        return false;
+                    } else if (data.msg === 400) {
+                        alert("账号已存在");
+                        return false;
+                    } else {
+                        $('form').submit();
+                        return true;
+                    }
+                }
+            });
+        }
+    </script>
+    <script>
+        function xiuverification() {
+            var password = document.getElementById("password").value;
+            var name = document.getElementById("name").value;
+            var shopname = document.getElementById("shopname").value;
+
+            if (password === '') {
+                alert("请输入密码");
+                return false;
+            } else if (name === '') {
+                alert("请输入姓名");
+                return false;
+            } else if (shopname === '请选择门店') {
+                alert("请选择门店");
+                return false;
+            } else {
+                $('form').submit();
+                return true;
+            }
+
+        }
+
+        function jump_to() {
+            var href = $('.jump').val()
+            var num_pages = $('.hidden_val').val()
+            if (href === "" || href == null) {
+                alert('请输入正确的页码！')
+                return false
+            } else if (parseInt(href) > parseInt(num_pages)) {
+                location.href = '{% url 'account:addaccount' %}?accountpage=' + num_pages
+            } else if (num_pages === '') {
+                location.href = '{% url 'account:addaccount' %}?accountpage=' + 1
+            } else {
+                location.href = '{% url 'account:addaccount' %}?accountpage=' + href
+            }
+        }
+    </script>
+{% endblock %}
+

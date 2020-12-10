@@ -1,0 +1,311 @@
+{% extends 'parent_template/parent_template.html' %}
+{% load static %}
+
+{% block 门店单据-active %}
+    active
+{% endblock %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'assets/vendor/multi-select/css/multi-select.css' %}">
+{% endblock %}
+{% block 单据权限管理-active %}
+    active
+{% endblock %}
+
+{% block collapse3 %}
+collapse
+{% endblock %}
+{% block collapse1 %}
+collapse
+{% endblock %}
+{% block collapse2 %}
+
+{% endblock %}
+{% block collapse4 %}
+collapse
+{% endblock %}
+{% block collapse6 %}
+collapse
+{% endblock %}
+{% block collapse7 %}
+collapse
+{% endblock %}
+{% block collapse8 %}
+collapse
+{% endblock %}
+{% block collapse9 %}
+collapse
+{% endblock %}
+{% block collapse11 %}
+collapse
+{% endblock %}
+{% block collapse12 %}
+collapse
+{% endblock %}
+
+
+
+{% block body %}
+    <div class="dashboard-ecommerce">
+        <div class="container-fluid dashboard-content ">
+            <!-- ============================================================== -->
+            <!-- pageheader  -->
+            <!-- ============================================================== -->
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="page-header">
+                        <h2 class="pageheader-title">单据权限</h2>
+                        <div class="page-breadcrumb">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="#" class="breadcrumb-link">账号管理</a>
+                                    </li>
+                                    <li class="breadcrumb-item" aria-current="page">单据权限
+                                    </li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="ecommerce-widget" id="div01" style="display: block">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="row">
+                        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-12">
+                            <div class="card">
+                                <h5 class="card-header">公司职员</h5>
+                                <div class="card-body">
+                                    <table class="table">
+                                        <tbody>
+                                        <tr>
+                                            <td>
+                                                账号
+                                            </td>
+                                            <td>
+                                                姓名
+                                            </td>
+                                        </tr>
+                                        {% for user in userinfo %}
+                                            <tr>
+                                                <td>
+                                                    <a href="{% url 'certificate:receiptlimits' %}?userid={{ user.id }}">{{ user.username }}</a>
+                                                </td>
+                                                <td>
+                                                    <a href="{% url 'certificate:receiptlimits' %}?userid={{ user.id }}">{{ user.name }}</a>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                                <nav aria-label="Page navigation">
+                                    <div class="pagination">
+                                        <ul class="pagination">
+                                            <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
+                                            <li>当前页数：{{ userinfo.number }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
+                                            {% if userinfo.has_previous %}
+                                                <li>
+                                                    <a href="{% url 'certificate:receiptlimits' %}?userpage={{ userinfo.previous_page_number }}"
+                                                       aria-label="Previous">
+                                                        <span aria-hidden="true">&laquo;&nbsp;&nbsp;</span></a>
+                                                </li>
+                                            {% endif %}
+
+                                            {% for num in userinfo.paginator.page_range %}
+                                                {% if num == userinfo.number|add:-1 or num == userinfo.number|add:-2 or num == userinfo.number|add:-3 or num == userinfo.number or num == userinfo.number|add:1 or num == userinfo.number|add:2 or num == userinfo.number|add:3 %}
+                                                    {% if num == userinfo.number %}
+                                                        <li><a href="">{{ num }}&nbsp;&nbsp;</a></li>
+                                                    {% else %}
+                                                        <li>
+                                                            <a href="{% url 'certificate:receiptlimits' %}?userpage={{ num }}">{{ num }}&nbsp;&nbsp;</a>
+                                                        </li>
+                                                    {% endif %}
+                                                {% endif %}
+                                            {% endfor %}
+
+                                            {% if userinfo.has_next %}
+                                                <li>
+                                                    <a href="{% url 'certificate:receiptlimits' %}?userpage={{ userinfo.next_page_number }}"
+                                                       aria-label="Next">
+                                                        <span aria-hidden="true">&raquo;&nbsp;&nbsp;</span></a></li>
+                                            {% endif %}
+                                        </ul>
+                                    </div>
+                                </nav>
+                                <div aria-label="Page navigation" style="margin-left: 29px;margin-top: -13px;">
+                                    <span>跳转至</span>
+                                    <input type="text" style="width: 30px;" class="jump">
+                                    <input type="hidden" value="{{ info.paginator.num_pages }}" class="hidden_val">
+                                    <span>页</span>
+                                    <input type="button" value="GO" onclick="jump_to()">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-8 col-lg-6 col-md-6 col-sm-12 col-12">
+                            {% if oneuserinfo %}
+                                <div class="card">
+                                    <h5 class="card-header">详情页面</h5>
+                                    <div class="card-body">
+                                        <div class="form-group row">
+                                            <label class="col-12 col-sm-3 col-form-label text-sm-right">姓&nbsp;&nbsp;名</label>
+                                            <div class="col-12 col-sm-8 col-lg-6">
+                                                <input readonly="readonly" type="text" class="form-control" name="name"
+                                                       id="name"
+                                                       value="{{ oneuserinfo.name|default:'' }}">
+                                                <input type="text" class="form-control" name="id" id="id"
+                                                       value="{{ oneuserinfo.id|default:'' }}" style="display: none">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-12 col-sm-3 col-form-label text-sm-right">账&nbsp;&nbsp;号</label>
+                                            <div class="col-12 col-sm-8 col-lg-6">
+                                                <input readonly="readonly" type="text" class="form-control"
+                                                       name="remark" id="remark"
+                                                       value="{{ oneuserinfo.username|default:'' }}">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-12 col-sm-3 col-form-label text-sm-right">所&nbsp;&nbsp;属&nbsp;&nbsp;公&nbsp;&nbsp;司</label>
+                                            <div class="col-12 col-sm-8 col-lg-6">
+                                                <input readonly="readonly" type="text" class="form-control"
+                                                       name="superior" id="superior"
+                                                       value="{{ oneuserinfo.superior|default:'' }}">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-12 col-sm-3 col-form-label text-sm-right">创&nbsp;&nbsp;建&nbsp;&nbsp;单&nbsp;&nbsp;据&nbsp;&nbsp;权&nbsp;&nbsp;限</label>
+                                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                                                <div class="card">
+                                                    <div class="card-body">
+                                                        <select id='optgroup1' multiple='multiple' name="submit"
+                                                                id="submit">
+                                                            {% for keys,values in receiptlimit.items %}
+                                                                <optgroup label='{{ keys }}'>
+                                                                    {% for foo in values %}
+                                                                        {% if foo in oneuserinfo.submit %}
+                                                                            <option value="{{ foo }}" selected
+                                                                                    onclick="alertinfo('submit', '{{ oneuserinfo.id }}', 'selected', '{{ foo }}')">{{ keys }}
+                                                                                -- {{ foo }}</option>
+                                                                        {% else %}
+                                                                            <option value="{{ foo }}"
+                                                                                    onclick="alertinfo('submit', '{{ oneuserinfo.id }}', 'noselected', '{{ foo }}')">{{ keys }}
+                                                                                -- {{ foo }}</option>
+                                                                        {% endif %}
+
+                                                                    {% endfor %}
+                                                                </optgroup>
+                                                            {% endfor %}
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-12 col-sm-3 col-form-label text-sm-right">审&nbsp;&nbsp;批&nbsp;&nbsp;单&nbsp;&nbsp;据&nbsp;&nbsp;权&nbsp;&nbsp;限</label>
+                                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                                                <div class="card">
+                                                    <div class="card-body">
+                                                        <select id='optgroup2' multiple='multiple' name="oneapprover">
+                                                            {% for keys,values in receiptlimit.items %}
+
+                                                                <optgroup label='{{ keys }}'>
+                                                                    {% for foo in values %}
+                                                                        {% if foo in oneuserinfo.oneapprover %}
+                                                                            <option value="{{ foo }}" selected
+                                                                                    onclick="alertinfo('oneapprover', '{{ oneuserinfo.id }}', 'selected', '{{ foo }}')">{{ keys }}
+                                                                                -- {{ foo }}</option>
+                                                                        {% else %}
+                                                                            <option value="{{ foo }}"
+                                                                                    onclick="alertinfo('oneapprover', '{{ oneuserinfo.id }}', 'noselected', '{{ foo }}')">{{ keys }}
+                                                                                -- {{ foo }}</option>
+                                                                        {% endif %}
+                                                                    {% endfor %}
+                                                                </optgroup>
+                                                            {% endfor %}
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-12 col-sm-3 col-form-label text-sm-right">二&nbsp;级&nbsp;审&nbsp;批&nbsp;单&nbsp;据&nbsp;权&nbsp;限</label>
+                                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                                                <div class="card">
+                                                    <div class="card-body">
+                                                        <select id='optgroup3' multiple='multiple' name="twoapprover">
+                                                            {% for keys,values in receiptlimit.items %}
+                                                                <optgroup label='{{ keys }}'>
+                                                                    {% for foo in values %}
+                                                                        {% if foo in oneuserinfo.twoapprover %}
+                                                                            <option value="{{ foo }}" selected
+                                                                                    onclick="alertinfo('twoapprover', '{{ oneuserinfo.id }}', 'selected', '{{ foo }}')">{{ keys }}
+                                                                                -- {{ foo }}</option>
+                                                                        {% else %}
+                                                                            <option value="{{ foo }}"
+                                                                                    onclick="alertinfo('twoapprover', '{{ oneuserinfo.id }}', 'noselected', '{{ foo }}')">{{ keys }}
+                                                                                -- {{ foo }}</option>
+                                                                        {% endif %}
+                                                                    {% endfor %}
+                                                                </optgroup>
+                                                            {% endfor %}
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            {% endif %}
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="{% static 'assets/vendor/jquery/jquery-3.3.1.min.js' %}"></script>
+    <script src="{% static 'assets/vendor/multi-select/js/jquery.multi-select.js' %}"></script>
+    <script>
+        $('#optgroup1').multiSelect({selectableOptgroup: true});
+        $('#optgroup2').multiSelect({selectableOptgroup: true});
+        $('#optgroup3').multiSelect({selectableOptgroup: true});
+    </script>
+
+    <script>
+        function alertinfo(field, userid, nowstatus, values) {
+            $.ajax({
+                type: "post",
+                url: "{% url 'certificate:amendlimit' %}",
+                data: {
+                    'field': field,
+                    'userid': userid,
+                    'nowstatus': nowstatus,
+                    'values': values,
+                    'csrfmiddlewaretoken': '{{ csrf_token }}',
+                },
+                success: function (data) {
+                    parent.location.reload();
+                }
+            })
+        }
+
+        function jump_to() {
+            var href = $('.jump').val()
+            var num_pages = $('.hidden_val').val()
+            if (href === "" || href == null) {
+                alert('请输入正确的页码！')
+                return false
+            } else if (parseInt(href) > parseInt(num_pages)) {
+                location.href = '{% url 'certificate:receiptlimits' %}?userpage=' + num_pages
+            } else if (num_pages === '') {
+                location.href = '{% url 'certificate:receiptlimits' %}?userpage=' + 1
+            } else {
+                location.href = '{% url 'certificate:receiptlimits' %}?userpage=' + href
+            }
+        }
+    </script>
+
+{% endblock %}
+

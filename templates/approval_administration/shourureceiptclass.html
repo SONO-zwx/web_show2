@@ -1,0 +1,194 @@
+{% extends 'parent_template/approval_administration_template.html' %}
+
+{% block 收入单据审批权限-active %}
+    active
+{% endblock %}
+{% load static %}
+{% block body1 %}
+    <div class="dashboard-ecommerce">
+        <div class="container-fluid dashboard-content ">
+            <!-- ============================================================== -->
+            <!-- pageheader  -->
+            <!-- ============================================================== -->
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="page-header">
+                        <h2 class="pageheader-title">审批管理</h2>
+                        <div class="page-breadcrumb">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="#" class="breadcrumb-link">审批权限设置</a>
+                                    </li>
+                                    <li class="breadcrumb-item active" aria-current="page">收入单据审批权限
+                                    </li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <h5>
+                <a href="{% url 'approval_administration:shourureceiptclass' %}"><span style="width: 100px;height: 30px;display: inline-block;text-align: center;line-height: 30px;background-color: rgb(51, 122, 183);color: white;border: 1px solid grey;">收入单据类别</span></a>
+                <a href="{% url 'approval_administration:shouruaddreceiptclass' %}"><span style="width: 150px;height: 30px;display: inline-block;text-align: center;line-height: 30px;">添加收入单据类别</span></a>
+            </h5>
+            <div class="ecommerce-widget" id="div01" style="display: block">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="row">
+                        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-12">
+                            <div class="card">
+                                <h5 class="card-header">收入单据类别</h5>
+                                <div class="card-body">
+                                    <table class="table">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col">审批类别</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for receiptlimit in receiptlimits %}
+                                            <tr>
+                                                <td>
+                                                    <a href="{% url 'approval_administration:shourureceiptclass' %}?receiptlimitid={{ receiptlimit.id }}&receiptlimitspage={{ receiptlimits.number }}">{{ receiptlimit.two }}</a>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                                <nav aria-label="Page navigation">
+                                    <div class="pagination">
+                                        <ul class="pagination">
+                                            <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
+                                            <li>当前页数：{{ receiptlimits.number }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
+                                            {% if receiptlimits.has_previous %}
+                                                <li>
+                                                    <a href="{% url 'approval_administration:shourureceiptclass' %}?receiptlimitspage={{ receiptlimits.previous_page_number }}"
+                                                       aria-label="Previous">
+                                                        <span aria-hidden="true">&laquo;&nbsp;&nbsp;</span></a></li>
+                                            {% endif %}
+
+                                            {% for num in receiptlimits.paginator.page_range %}
+                                                {% if num == receiptlimits.number|add:-1 or num == receiptlimits.number|add:-2 or num == receiptlimits.number|add:-3 or num == receiptlimits.number or num == receiptlimits.number|add:1 or num == receiptlimits.number|add:2 or num == receiptlimits.number|add:3 %}
+                                                    {% if num == receiptlimits.number %}
+                                                        <li><a href="">{{ num }}&nbsp;&nbsp;</a></li>
+                                                    {% else %}
+                                                        <li>
+                                                            <a href="{% url 'approval_administration:shourureceiptclass' %}?receiptlimitspage={{ num }}">{{ num }}&nbsp;&nbsp;</a>
+                                                        </li>
+                                                    {% endif %}
+                                                {% endif %}
+                                            {% endfor %}
+
+                                            {% if receiptlimits.has_next %}
+                                                <li>
+                                                    <a href="{% url 'approval_administration:shourureceiptclass' %}?receiptlimitspage={{ receiptlimits.next_page_number }}"
+                                                       aria-label="Next">
+                                                        <span aria-hidden="true">&raquo;&nbsp;&nbsp;</span></a></li>
+                                            {% endif %}
+                                        </ul>
+                                    </div>
+                                </nav>
+                                <div aria-label="Page navigation" style="margin-left: 29px;margin-top: -13px;">
+                                    <span>跳转至</span>
+                                    <input type="text" style="width: 30px;" class="jump">
+                                    <input type="hidden" value="{{ receiptlimits.paginator.num_pages }}"
+                                           class="hidden_val">
+                                    <span>页</span>
+                                    <input type="button" value="GO" onclick="jump_to()">
+                                </div>
+                            </div>
+                        </div>
+                        {% if receiptlimitinfo %}
+                            <div class="col-xl-8 col-lg-6 col-md-6 col-sm-12 col-12">
+                                <div class="card">
+                                    <h5 class="card-header">详情页面</h5>
+                                    <div class="card-body">
+
+                                        <div class="form-group row">
+                                            <label class="col-12 col-sm-3 col-form-label text-sm-right">审&nbsp;&nbsp;批&nbsp;&nbsp;类&nbsp;&nbsp;别</label>
+                                            <div class="col-12 col-sm-8 col-lg-6">
+                                                <input readonly="readonly" type="text" class="form-control" name="two"
+                                                       id="two" value="{{ receiptlimitinfo.two }}">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-12 col-sm-3 col-form-label text-sm-right">所&nbsp;&nbsp;属&nbsp;&nbsp;公&nbsp;&nbsp;司</label>
+                                            <div class="col-12 col-sm-8 col-lg-6">
+                                                <input readonly="readonly" type="text" class="form-control"
+                                                       name="superior"
+                                                       id="superior" value="{{ receiptlimitinfo.superior }}">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-12 col-sm-3 col-form-label text-sm-right">使&nbsp;&nbsp;用&nbsp;&nbsp;状&nbsp;&nbsp;态</label>
+                                            <div class="col-12 col-sm-8 col-lg-6">
+                                                <select class="form-control" id="isapprover" required=""
+                                                        name="isapprover" disabled>
+                                                    {% if receiptlimitinfo.isapprover == '1' %}
+                                                        <option value="1" selected>使用</option>
+                                                        <option value="0">禁用</option>
+                                                    {% else %}
+                                                        <option value="0" selected>禁用</option>
+                                                        <option value="1">使用</option>
+                                                    {% endif %}
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-12 col-sm-3 col-form-label text-sm-right">审&nbsp;&nbsp;批&nbsp;&nbsp;权&nbsp;&nbsp;限</label>
+                                            <table>
+                                                {% for foo in receiptlimitinfo.limitinfo %}
+                                                    <tr>
+                                                        <td>
+                                                            <label class="col-12 col-sm-3 col-form-label text-sm-right">第{{ foo.number }}审批</label>
+                                                        </td>
+                                                        <td>
+                                                            <label class="col-12 col-sm-3 col-form-label text-sm-left">{{ foo.project }}</label>
+                                                        </td>
+                                                    </tr>
+                                                {% endfor %}
+                                            </table>
+
+
+                                        </div>
+                                        <div class="form-group row text-right">
+                                            <div class="col col-sm-10 col-lg-9 offset-sm-1 offset-lg-0">
+                                                <a id="activate"
+                                                   href="{% url 'approval_administration:shouruupdatereceiptclass' %}?receiptlimitid={{ receiptlimitinfo.id }}&receiptlimitspage={{ receiptlimits.number }}">
+                                                    <button style="width:140px;height:36px;line-height:18px;font-size:18px; color:#2ea8e5;padding-bottom:4px">
+                                                        修改
+                                                    </button>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+        function jump_to() {
+            var href = $('.jump').val();
+            var num_pages = $('.hidden_val').val();
+            if (href === "" || href == null) {
+                alert('请输入正确的页码！');
+                return false
+            } else if (parseInt(href) > parseInt(num_pages)) {
+                location.href = '{% url 'approval_administration:shourureceiptclass' %}?receiptlimitspage=' + num_pages
+            } else if (num_pages === '') {
+                location.href = '{% url 'approval_administration:shourureceiptclass' %}?receiptlimitspage=' + 1
+            } else {
+                location.href = '{% url 'approval_administration:shourureceiptclass' %}?receiptlimitspage=' + href
+            }
+        }
+    </script>
+{% endblock %}
+

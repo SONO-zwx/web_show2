@@ -1,0 +1,397 @@
+{% extends 'parent_template/parent_template.html' %}
+
+{% load static %}
+
+{% block 单据管理-active %}
+    active
+{% endblock %}
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'img/css/updateimg.css' %}">
+{% endblock %}
+
+{% block 未对账订单-active %}
+    active
+{% endblock %}
+
+{% block collapse3 %}
+    collapse
+{% endblock %}
+{% block collapse1 %}
+    collapse
+{% endblock %}
+{% block collapse2 %}
+    collapse
+{% endblock %}
+{% block collapse4 %}
+    collapse
+{% endblock %}
+{% block collapse6 %}
+    collapse
+{% endblock %}
+{% block collapse7 %}
+    collapse
+{% endblock %}
+{% block collapse8 %}
+    collapse
+{% endblock %}
+{% block collapse9 %}
+    collapse
+{% endblock %}
+{% block collapse11 %}
+    collapse
+{% endblock %}
+{% block collapse12 %}
+
+{% endblock %}
+{% block collapse12-2 %}
+
+{% endblock %}
+{% block collapse12-3 %}
+    collapse
+{% endblock %}
+
+{% block body %}
+    <div class="dashboard-ecommerce">
+        <div class="container-fluid dashboard-content ">
+            <!-- ============================================================== -->
+            <!-- pageheader  -->
+            <!-- ============================================================== -->
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="page-header">
+                        <h2 class="pageheader-title">门店单据</h2>
+                        <div class="page-breadcrumb">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="#" class="breadcrumb-link">非外采单据</a>
+                                    </li>
+                                    <li class="breadcrumb-item active" aria-current="page">资料填充
+                                    </li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <h5>
+                <a href="{% url 'financial_management:no_right' %}"><span
+                        style="width: 100px;height: 30px;display: inline-block;text-align: center;line-height: 30px;">未对选项卡</span></a>
+                <a href="{% url 'financial_management:already_right' %}"><span
+                        style="width: 100px;height: 30px;display: inline-block;text-align: center;line-height: 30px;background-color: rgb(51, 122, 183);color: white;border: 1px solid grey">已对选项卡</span></a>
+                <a href="{% url 'financial_management:already_pay' %}"><span
+                        style="width: 100px;height: 30px;display: inline-block;text-align: center;line-height: 30px;">已付款选项卡</span></a>
+            </h5>
+            <br>
+            <div class="row">
+                <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
+                    <div class="card" style="height: 40px;width: 260px;">
+                        <div class="form-group row" style="width: 377px;">
+                            <label class="col-12 col-sm-3 col-form-label text-sm-right"
+                                   style="line-height: 5px;">&emsp;开始日期</label>
+                            <div class="col-12 col-sm-8 col-lg-6" style="margin-top: -10px">
+                                <input type="date" class="form-control" name="starttime" id="starttime"
+                                       value="{{ search_info.starttime }}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card" style="height: 40px;width: 250px;margin-left: -116px;">
+                    <div class="form-group" style="width: 250px;">
+                        <span style="margin-left: 12px;margin-top: 10px;display: inline-block;font-size: 15px;">截止日期</span>
+                        <div style="margin-top: -30px;margin-left: 80px;width: 160px;"><input type="date"
+                                                                                              class="form-control"
+                                                                                              name="endtime"
+                                                                                              id="endtime"
+                                                                                              value="{{ search_info.endtime }}">
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <select name="shopname" id="shopname" class="form-control text-sm-center"
+                            style="width: 120px;margin-left: 10px;">
+                        <option>请选择门店</option>
+                        {% for shopname in ShopNames %}
+                            {% if search_info.shopname == shopname.shopname %}
+                                <option selected="selected">{{ shopname.shopname }}</option>
+                            {% else %}
+                                <option>{{ shopname.shopname }}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                    <select name="types" id="types" class="form-control text-sm-center"
+                            style="width: 120px;margin-left: 137px;margin-top: -38px;" onchange="confirm_form()">
+                        <option>请选择类型</option>
+                        {% for foo in types %}
+                            {% if search_info.types == foo %}
+                                <option selected>{{ foo }}</option>
+                            {% else %}
+                                <option>{{ foo }}</option>
+                            {% endif %}
+
+                        {% endfor %}
+
+                        <option>门店外采</option>
+                    </select>
+                    <select name="company_name" id="company_name" class="form-control text-sm-center"
+                            style="width: 129px;margin-left: 265px;margin-top: -38px;">
+                        <option>请选择公司名称</option>
+                    </select>
+                    <select name="project_name" id="project_name" class="form-control text-sm-center"
+                            style="width: 130px;margin-left: 402px;margin-top: -38px;">
+                        <option>请选择项目</option>
+                        {% for foo in project_name %}
+                            {% if search_info.project_name == foo.two %}
+                                <option selected>{{ foo.two }}</option>
+                            {% else %}
+                                <option>{{ foo.two }}</option>
+                            {% endif %}
+                        {% endfor %}
+
+                    </select>
+                </div>
+                <div style="margin-left: 10px;">
+                    <button type="button" class="btn btn-success" style="width: 70px;height: 37px;"
+                            onclick="searchinfo()">确认
+                    </button>&emsp;
+                    <button type="button" class="btn btn-warning" style="width: 70px;height: 37px;color: white"
+                            onclick="export_xlsx('tableExcel', '未对选项卡')">导出
+                    </button>
+                </div>
+            </div>
+
+            <div class="ecommerce-widget" id="div01" style="display: block">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="row">
+                        <div class="col-xl-10 col-lg-6 col-md-6 col-sm-12 col-12">
+                            <div class="card">
+                                <h5 class="card-header">单据历史</h5>
+                                <div class="card-body">
+                                    <table class="table">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col" style="width: 5%;text-align: center">创建时间</th>
+                                            <th scope="col" style="width: 5%;text-align: center">门店</th>
+                                            <th scope="col" style="width: 5%;text-align: center">收益类型</th>
+                                            <th scope="col" style="width: 5%;text-align: center">采购类型</th>
+                                            <th scope="col" style="width: 5%;text-align: center">月结公司</th>
+                                            <th scope="col" style="width: 5%;text-align: center">产品名称</th>
+                                            <th scope="col" style="width: 5%;text-align: center">金额</th>
+                                            <th scope="col" style="width: 5%;text-align: center">处理时间</th>
+                                            <th scope="col" style="width: 5%;text-align: center">操作</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for foo in info %}
+                                            <tr>
+                                                <td class="text-sm-center">
+                                                    <span>{{ foo.dates|date:'Y-m-d' }}</span>
+                                                </td>
+                                                <td class="text-sm-center">
+                                                    <span>{{ foo.shopname }}</span>
+                                                </td>
+                                                  <td class="text-sm-center">
+                                                    <span>{{ foo.typeinfos }}</span>
+                                                </td>
+                                                <td class="text-sm-center">
+                                                    <span>{{ foo.types }}</span>
+                                                </td>
+                                                <td class="text-sm-center">
+                                                    <span>{{ foo.companyinfo }}</span>
+                                                </td>
+                                                <td class="text-sm-center">
+                                                    <span>{{ foo.ertwo }}</span>
+                                                </td>
+                                                <td class="text-sm-center">
+                                                    <span>{{ foo.price }}</span>
+                                                </td>
+                                                <td class="text-sm-center">
+                                                    <span>{{ foo.zhidates|date:'Y-m-d' }}</span>
+                                                </td>
+                                                <td class="text-sm-center">
+                                                    <input type="submit" value="已打款"
+                                                           onclick="lock_detail('{{ foo.dealprojectstatus }}','{{ foo.id }}','{{ foo.dealprojectid }}')">
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                    <table class="table" id="tableExcel" style="display: none">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col" style="width: 5%;text-align: center">创建时间</th>
+                                            <th scope="col" style="width: 5%;text-align: center">门店</th>
+                                            <th scope="col" style="width: 5%;text-align: center">收益类型</th>
+                                            <th scope="col" style="width: 5%;text-align: center">采购类型</th>
+                                            <th scope="col" style="width: 5%;text-align: center">月结公司</th>
+                                            <th scope="col" style="width: 5%;text-align: center">产品名称</th>
+                                            <th scope="col" style="width: 5%;text-align: center">金额</th>
+                                            <th scope="col" style="width: 5%;text-align: center">处理时间</th>
+                                            <th scope="col" style="width: 5%;text-align: center">操作</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for foo in allnowinfo %}
+                                            <tr>
+                                                <td class="text-sm-center">
+                                                    <span>{{ foo.dates|date:'Y-m-d' }}</span>
+                                                </td>
+                                                <td class="text-sm-center">
+                                                    <span>{{ foo.shopname }}</span>
+                                                </td>
+                                                                                                <td class="text-sm-center">
+                                                    <span>{{ foo.typeinfos }}</span>
+                                                </td>
+                                                <td class="text-sm-center">
+                                                    <span>{{ foo.types }}</span>
+                                                </td>
+                                                <td class="text-sm-center">
+                                                    <span>{{ foo.companyinfo }}</span>
+                                                </td>
+                                                <td class="text-sm-center">
+                                                    <span>{{ foo.ertwo }}</span>
+                                                </td>
+                                                <td class="text-sm-center">
+                                                    <span>{{ foo.price }}</span>
+                                                </td>
+                                                <td class="text-sm-center">
+                                                    <span>{{ foo.zhidates|date:'Y-m-d' }}</span>
+                                                </td>
+                                                <td class="text-sm-center">
+                                                    <input type="submit" value="已对"
+                                                           onclick="lock_detail('{{ foo.dealprojectstatus }}','{{ foo.id }}','{{ foo.dealprojectid }}')">
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                    <nav aria-label="Page navigation">
+                                        <div class="pagination">
+                                            <ul class="pagination">
+                                                <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
+                                                <li>当前页数：{{ info.number }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
+                                                {% if info.has_previous %}
+                                                    <li>
+                                                        <a href="{% url 'financial_management:already_right' %}?fourreceiptspage={{ info.previous_page_number }}&shopname={{ search_info.shopname|default:'请选择门店' }}&starttime={{ search_info.starttime|default:'' }}&endtime={{ search_info.endtime|default:'' }}&project_name={{ search_info.project_name|default:'' }}&types={{ search_info.types|default:'请选择类型' }}"
+                                                           aria-label="Previous">
+                                                            <span aria-hidden="true">&laquo;&nbsp;&nbsp;</span></a>
+                                                    </li>
+                                                {% endif %}
+
+                                                {% for num in info.paginator.page_range %}
+                                                    {% if num == info.number|add:-1 or num == info.number|add:-2 or num == info.number|add:-3 or num == info.number or num == info.number|add:1 or num == info.number|add:2 or num == info.number|add:3 %}
+                                                        {% if num == info.number %}
+                                                            <li><a href="">{{ num }}&nbsp;&nbsp;</a></li>
+                                                        {% else %}
+                                                            <li>
+                                                                <a href="{% url 'financial_management:already_right' %}?fourreceiptspage={{ num }}&shopname={{ search_info.shopname|default:'请选择门店' }}&starttime={{ search_info.starttime|default:'' }}&endtime={{ search_info.endtime|default:'' }}&project_name={{ search_info.project_name|default:'' }}&types={{ search_info.types|default:'请选择类型' }}">{{ num }}&nbsp;&nbsp;</a>
+                                                            </li>
+                                                        {% endif %}
+                                                    {% endif %}
+                                                {% endfor %}
+
+                                                {% if info.has_next %}
+                                                    <li>
+                                                        <a href="{% url 'financial_management:already_right' %}?fourreceiptspage={{ info.next_page_number }}&shopname={{ search_info.shopname|default:'请选择门店' }}&starttime={{ search_info.starttime|default:'' }}&endtime={{ search_info.endtime|default:'' }}&project_name={{ search_info.project_name|default:'' }}&types={{ search_info.types|default:'请选择类型' }}"
+                                                           aria-label="Next">
+                                                            <span aria-hidden="true">&raquo;&nbsp;&nbsp;</span></a></li>
+                                                {% endif %}
+                                            </ul>
+                                        </div>
+                                    </nav>
+                                    <div aria-label="Page navigation" style="margin-left: 29px;margin-top: -13px;">
+                                        <span>跳转至</span>
+                                        <input type="text" style="width: 30px;" class="jump">
+                                        <input type="hidden" value="{{ info.paginator.num_pages }}" class="hidden_val">
+                                        <span>页</span>
+                                        <input type="button" value="GO" onclick="jump_to()">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{% static 'img/js/myjs.js' %}"></script>
+    <script src="{% static 'assets/libs/js/export_utils.js' %}"></script>
+    <script>
+        function searchinfo() {
+            var shopname = $('#shopname').val();
+            var types = $('#types').val();
+            var starttime = $('#starttime').val();
+            var endtime = $('#endtime').val();
+            var project_name = $('#project_name').val();
+            if (starttime > endtime) {
+                alert('开始时间应早于截止时间');
+                return false;
+            }
+            location.href = '{% url 'financial_management:already_right' %}?shopname=' + shopname + '&starttime=' + starttime + '&endtime=' + endtime + '&project_name=' + project_name + '&types=' + types
+
+        }
+    </script>
+    <script>
+        function confirm_form() {
+            var types = $("#types").val();
+
+            $.ajax({
+                type: 'POST',
+                url: '{% url 'financial_management:search_erinfo' %}',
+                data: {
+                    'types': types,
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                },
+                success: function (data) {
+
+                    $('#project_name').empty();
+                    $('#project_name').append('<option value="">请选择项目</option>');
+                    $.each(data.info, function (key, value) {
+                        $('#project_name').append('<option value="' + value.two + '">' + value.two + '</option>')
+                    });
+                }
+            })
+        }
+
+    </script>
+
+    <script>
+        function jump_to() {
+            var shopname = $('#shopname').val();
+            var types = $('#types').val();
+            var starttime = $('#starttime').val();
+            var endtime = $('#endtime').val();
+            var project_name = $('#project_name').val();
+            var href = $('.jump').val()
+            var num_pages = $('.hidden_val').val()
+            if (href === "" || href == null) {
+                alert('请输入正确的页码！')
+                return false
+            } else if (parseInt(href) > parseInt(num_pages)) {
+                location.href = '{% url 'financial_management:already_right' %}?fourreceiptspage=' + num_pages + '&shopname=' + shopname + '&starttime=' + starttime + '&endtime=' + endtime + '&project_name=' + project_name + '&types=' + types
+            } else if (num_pages === '') {
+                location.href = '{% url 'financial_management:already_right' %}?fourreceiptspage=' + 1 + '&shopname=' + shopname + '&starttime=' + starttime + '&endtime=' + endtime + '&project_name=' + project_name + '&types=' + types
+            } else {
+                location.href = '{% url 'financial_management:already_right' %}?fourreceiptspage=' + href + '&shopname=' + shopname + '&starttime=' + starttime + '&endtime=' + endtime + '&project_name=' + project_name + '&types=' + types
+            }
+        }
+
+        function lock_detail(status, orderid, dealid) {
+
+            $.ajax({
+                type: "post",
+                url: "{% url 'financial_management:already_right' %}",
+                data: {
+                    'orderid': orderid,
+                    'dealid': dealid,
+                    'status': status,
+                    'csrfmiddlewaretoken': '{{ csrf_token }}',
+                },
+                success: function (data) {
+                    location.reload()
+                }
+            })
+        }
+    </script>
+{% endblock %}
+

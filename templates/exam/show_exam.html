@@ -1,0 +1,264 @@
+{% extends 'parent_template/parent_template.html' %}
+
+{% load static %}
+
+{% block 门店考试-active %}
+    active
+{% endblock %}
+
+{% block 查看答卷-active %}
+active
+{% endblock %}
+
+{% block collapse3 %}
+collapse
+{% endblock %}
+{% block collapse1 %}
+collapse
+{% endblock %}
+{% block collapse2 %}
+collapse
+{% endblock %}
+{% block collapse4 %}
+
+{% endblock %}
+{% block collapse6 %}
+collapse
+{% endblock %}
+{% block collapse7 %}
+collapse
+{% endblock %}
+{% block collapse8 %}
+collapse
+{% endblock %}
+{% block collapse9 %}
+collapse
+{% endblock %}
+{% block collapse11 %}
+collapse
+{% endblock %}
+{% block collapse12 %}
+collapse
+{% endblock %}
+
+{% block body %}
+    <div class="dashboard-ecommerce">
+        <div class="container-fluid dashboard-content ">
+            <!-- ============================================================== -->
+            <!-- pageheader  -->
+            <!-- ============================================================== -->
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="page-header">
+                        <h2 class="pageheader-title">查看答卷</h2>
+                        <div class="page-breadcrumb">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="#" class="breadcrumb-link">门店考试</a>
+                                    </li>
+                                    <li class="breadcrumb-item" aria-current="page">查看答卷
+                                    </li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <h5>
+                <a href="{% url 'exam:show_exam' %}" style="width: 150px;height: 30px;display: inline-block;text-align: center;line-height: 30px;background-color: rgb(51, 122, 183);color: white;border: 1px solid grey;">查看答卷</a>
+            </h5>
+            <div class="ecommerce-widget" id="div01" style="display: block">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="row">
+                        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-12">
+                            <div class="card">
+                                <h5 class="card-header">试卷目录</h5>
+                                <div class="card-body">
+                                    <table class="table">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col">试卷</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for examnames in examname %}
+                                            <tr>
+                                                <td>
+                                                    <a href="{% url 'exam:show_exam' %}?examid={{ examnames.id }}">{{ examnames.name }}</a>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                                <nav aria-label="Page navigation">
+                                    <div class="pagination">
+                                        <ul class="pagination">
+                                            <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
+                                            <li>当前页数：{{ examname.number }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
+                                            {% if examname.has_previous %}
+                                                <li>
+                                                    <a href="{% url 'exam:show_exam' %}?exampage={{ examname.previous_page_number }}"
+                                                       aria-label="Previous">
+                                                        <span aria-hidden="true">&laquo;&nbsp;&nbsp;</span></a>
+                                                </li>
+                                            {% endif %}
+
+                                            {% for num in examname.paginator.page_range %}
+                                                {% if num == examname.number|add:-1 or num == examname.number|add:-2 or num == examname.number|add:-3 or num == examname.number or num == examname.number|add:1 or num == examname.number|add:2 or num == examname.number|add:3 %}
+                                                    {% if num == examname.number %}
+                                                        <li><a href="">{{ num }}&nbsp;&nbsp;</a></li>
+                                                    {% else %}
+                                                        <li>
+                                                            <a href="{% url 'exam:show_exam' %}?exampage={{ num }}">{{ num }}&nbsp;&nbsp;</a>
+                                                        </li>
+                                                    {% endif %}
+                                                {% endif %}
+                                            {% endfor %}
+
+                                            {% if account.has_next %}
+                                                <li>
+                                                    <a href="{% url 'exam:show_exam' %}?exampage={{ examname.next_page_number }}"
+                                                       aria-label="Next">
+                                                        <span aria-hidden="true">&raquo;&nbsp;&nbsp;</span></a></li>
+                                            {% endif %}
+                                        </ul>
+                                    </div>
+                                </nav>
+                                <div aria-label="Page navigation" style="margin-left: 29px;margin-top: -13px;">
+                                    <span>跳转至</span>
+                                    <input type="text" style="width: 30px;" class="jump">
+                                    <input type="hidden" value="{{ info.paginator.num_pages }}" class="hidden_val">
+                                    <span>页</span>
+                                    <input type="button" value="GO" onclick="jump_to()">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-8 col-lg-6 col-md-6 col-sm-12 col-12">
+                            <div class="card">
+                                <h5 class="card-header">答题结果</h5>
+                                <div class="card-body">
+                                    <table class="table">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col">姓名</th>
+                                            <th scope="col">成绩</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for answername in answernames %}
+                                            <tr>
+                                                <td>
+                                                    <a href="{% url 'exam:show_topic' %}?id={{ answername.id }}">{{ answername.name }}</a>
+                                                </td>
+                                                <td>
+                                                    <a href="{% url 'exam:show_topic' %}?id={{ answername.id }}">{{ answername.exam_grade }}</a>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                                <nav aria-label="Page navigation">
+                                    <div class="pagination">
+                                        <ul class="pagination">
+                                            <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
+                                            <li>当前页数：{{ answernames.number }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
+                                            {% if answernames.has_previous %}
+                                                <li>
+                                                    <a href="{% url 'exam:show_exam' %}?examnamepage={{ answernames.previous_page_number }}"
+                                                       aria-label="Previous">
+                                                        <span aria-hidden="true">&laquo;&nbsp;&nbsp;</span></a>
+                                                </li>
+                                            {% endif %}
+
+                                            {% for num in answernames.paginator.page_range %}
+                                                {% if num == answernames.number|add:-1 or num == answernames.number|add:-2 or num == answernames.number|add:-3 or num == answernames.number or num == answernames.number|add:1 or num == answernames.number|add:2 or num == answernames.number|add:3 %}
+                                                    {% if num == answernames.number %}
+                                                        <li><a href="">{{ num }}&nbsp;&nbsp;</a></li>
+                                                    {% else %}
+                                                        <li>
+                                                            <a href="{% url 'exam:show_exam' %}?examnamepage={{ num }}&examid={{ id }}">{{ num }}&nbsp;&nbsp;</a>
+                                                        </li>
+                                                    {% endif %}
+                                                {% endif %}
+                                            {% endfor %}
+
+                                            {% if account.has_next %}
+                                                <li>
+                                                    <a href="{% url 'exam:show_exam' %}?examnamepage={{ answernames.next_page_number }}&examid={{ id }}"
+                                                       aria-label="Next">
+                                                        <span aria-hidden="true">&raquo;&nbsp;&nbsp;</span></a></li>
+                                            {% endif %}
+                                        </ul>
+                                    </div>
+                                </nav>
+                                <div aria-label="Page navigation" style="margin-left: 29px;margin-top: -13px;">
+                                    <span>跳转至</span>
+                                    <input type="text" style="width: 30px;" class="jump1">
+                                    <input type="hidden" value="{{ info.paginator.num_pages }}" class="hidden_val1">
+                                    <span>页</span>
+                                    <input type="button" value="GO" onclick="jump_to1()">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function submits() {
+            var name = $('#name').val();
+            var remark = $('#remark').val();
+            var superior = $('#superior').val();
+
+            if (name === '') {
+                alert('请输入试卷名');
+                return false;
+            }
+            if (remark === '') {
+                alert('请输入试卷说明');
+                return false;
+            }
+            if (superior === '') {
+                alert('请输入所属公司');
+                return false;
+            }
+            $('form').submit();
+        }
+
+        function jump_to() {
+            var href = $('.jump').val()
+            var num_pages = $('.hidden_val').val()
+            if (href === "" || href == null) {
+                alert('请输入正确的页码！')
+                return false
+            } else if (parseInt(href) > parseInt(num_pages)) {
+                location.href = '{% url 'exam:show_exam' %}?exampage=' + num_pages
+            } else if (num_pages === '') {
+                location.href = '{% url 'exam:show_exam' %}?exampage=' + 1
+            } else {
+                location.href = '{% url 'exam:show_exam' %}?exampage=' + href
+            }
+        }
+
+        function jump_to1() {
+            var href = $('.jump1').val()
+            var num_pages = $('.hidden_val1').val()
+            if (href === "" || href == null) {
+                alert('请输入正确的页码！')
+                return false
+            } else if (parseInt(href) > parseInt(num_pages)) {
+                location.href = '{% url 'exam:show_exam' %}?examnamepage=' + num_pages
+            } else if (num_pages === '') {
+                location.href = '{% url 'exam:show_exam' %}?examnamepage=' + 1
+            } else {
+                location.href = '{% url 'exam:show_exam' %}?examnamepage=' + href
+            }
+        }
+    </script>
+{% endblock %}
+

@@ -1,0 +1,203 @@
+{% extends 'parent_template/account_template.html' %}
+{% load static %}
+{% block 首付款账号-active %}
+active
+{% endblock %}
+
+{% block body1 %}
+    <div class="dashboard-ecommerce">
+        <div class="container-fluid dashboard-content ">
+            <!-- ============================================================== -->
+            <!-- pageheader  -->
+            <!-- ============================================================== -->
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="page-header">
+                        <h2 class="pageheader-title">收付款账号</h2>
+                        <div class="page-breadcrumb">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item">账号管理
+                                    </li>
+                                    <li class="breadcrumb-item active" aria-current="page">收付款账号
+                                    </li>
+                                    <li class="breadcrumb-item active" aria-current="page">添加门店账号
+                                    </li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <h5>
+                <a href="{% url 'certificate:m_account' %}"><span style="width: 100px;height: 30px;display: inline-block;text-align: center;line-height: 30px;">门店账号</span></a>
+                <a href="{% url 'certificate:add_account' %}"><span style="width: 100px;height: 30px;display: inline-block;text-align: center;line-height: 30px;background-color: rgb(51, 122, 183);color: white;border: 1px solid grey;">添加门店账号</span></a>
+            </h5>
+            <div class="ecommerce-widget" id="div01" style="display: block">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="row">
+                        <div class="col-xl-8 col-lg-6 col-md-6 col-sm-12 col-12" style="margin: 0 auto">
+                            <div class="card">
+                                <h5 class="card-header">添加门店账号</h5>
+                                <div class="card-body">
+                                    {% if info != '无' %}
+                                        <form action="{% url 'certificate:add_account' %}" method="post">
+                                            <div class="form-group row">
+                                                <input required type="text" class="form-control" name="id" id="id"
+                                                       style="display: none"
+                                                       value="{{ info.id }}">
+                                                <label class="col-12 col-sm-3 col-form-label text-sm-right">账&nbsp;&nbsp;&nbsp;&nbsp;号</label>
+                                                <div class="col-12 col-sm-8 col-lg-6">
+                                                    <input required type="text" class="form-control" name="account"
+                                                           id="account"
+                                                           value="{{ info.account }}">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-12 col-sm-3 col-form-label text-sm-right">用&nbsp;&nbsp;户&nbsp;&nbsp;名</label>
+                                                <div class="col-12 col-sm-8 col-lg-6">
+                                                    <input required type="text" class="form-control" name="name"
+                                                           id="name"
+                                                           value="{{ info.name }}">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-12 col-sm-3 col-form-label text-sm-right">门&nbsp;&nbsp;&nbsp;&nbsp;店</label>
+                                                <div class="col-12 col-sm-8 col-lg-6">
+                                                    <select class="custom-select d-block w-100" id="shopname"
+                                                            name="shopname">
+                                                        <option>请选择门店</option>
+
+                                                        {% for shopname in ShopNames %}
+                                                            {% if shopname.shopname == info.shopname %}
+                                                                <option selected="selected">{{ shopname.shopname }}</option>
+                                                            {% else %}
+                                                                <option>{{ shopname.shopname }}</option>
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-sm-3 col-form-label text-sm-right">账&nbsp;&nbsp;号&nbsp;&nbsp;类&nbsp;&nbsp;型</label>
+                                                <div class="col-12 col-sm-8 col-lg-6">
+                                                    <label class="custom-control custom-radio custom-control-inline">
+                                                        <input required type="radio" name="types" id="option1"
+                                                               readonly="readonly"
+                                                               {% if info.types == '支出' %}checked{% endif %}
+                                                               class="custom-control-input" value="支出"><span
+                                                            class="custom-control-label">支出</span>
+                                                    </label>
+                                                    <label class="custom-control custom-radio custom-control-inline">
+                                                        <input required type="radio" name="types" id="option2"
+                                                               class="custom-control-input" value="收款"
+                                                               readonly="readonly"
+                                                               {% if info.types == '收款' %}checked{% endif %}>
+                                                        <span class="custom-control-label">收款</span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-sm-3 col-form-label text-sm-right">是&nbsp;&nbsp;否&nbsp;&nbsp;使&nbsp;&nbsp;用</label>
+                                                <div class="col-12 col-sm-8 col-lg-6">
+                                                    <label class="custom-control custom-radio custom-control-inline">
+                                                        <input type="radio" name="isuse" id="isuse1"
+                                                               class="custom-control-input" value="1" {% if info.isuse == 1 %}checked{% endif %}><span
+                                                            class="custom-control-label">使用</span>
+                                                    </label>
+                                                    <label class="custom-control custom-radio custom-control-inline">
+                                                        <input type="radio" name="isuse" id="isuse2"
+                                                               class="custom-control-input" value="0" {% if info.isuse == 0 %}checked{% endif %}><span
+                                                            class="custom-control-label">禁用</span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row text-right">
+                                                <div class="col col-sm-10 col-lg-9 offset-sm-1 offset-lg-0">
+                                                    <button type="submit"
+                                                            style="width:140px;height:36px;line-height:18px;font-size:18px; color:#2ea8e5;padding-bottom:4px">
+                                                        修改
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    {% else %}
+                                        <form action="{% url 'certificate:add_account' %}" method="post">
+                                            <div class="form-group row">
+                                                <label class="col-12 col-sm-3 col-form-label text-sm-right">账&nbsp;&nbsp;&nbsp;&nbsp;号</label>
+                                                <div class="col-12 col-sm-8 col-lg-6">
+                                                    <input required type="text" class="form-control" name="account"
+                                                           id="account">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-12 col-sm-3 col-form-label text-sm-right">用&nbsp;&nbsp;户&nbsp;&nbsp;名</label>
+                                                <div class="col-12 col-sm-8 col-lg-6">
+                                                    <input required type="text" class="form-control" name="name" id="name">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-12 col-sm-3 col-form-label text-sm-right">门&nbsp;&nbsp;&nbsp;&nbsp;店</label>
+                                                <div class="col-12 col-sm-8 col-lg-6">
+                                                    <select class="custom-select d-block w-100" id="shopname"
+                                                            name="shopname">
+                                                        <option>请选择门店</option>
+
+                                                        {% for shopname in ShopNames %}
+                                                            <option>{{ shopname.shopname }}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-sm-3 col-form-label text-sm-right">账&nbsp;&nbsp;号&nbsp;&nbsp;类&nbsp;&nbsp;型</label>
+                                                <div class="col-12 col-sm-8 col-lg-6">
+                                                    <label class="custom-control custom-radio custom-control-inline">
+                                                        <input type="radio" name="types" id="option1"
+                                                               class="custom-control-input" value="支出"><span
+                                                            class="custom-control-label">支出</span>
+                                                    </label>
+                                                    <label class="custom-control custom-radio custom-control-inline">
+                                                        <input type="radio" name="types" id="option2"
+                                                               class="custom-control-input" value="收款"><span
+                                                            class="custom-control-label">收款</span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-sm-3 col-form-label text-sm-right">是&nbsp;&nbsp;否&nbsp;&nbsp;使&nbsp;&nbsp;用</label>
+                                                <div class="col-12 col-sm-8 col-lg-6">
+                                                    <label class="custom-control custom-radio custom-control-inline">
+                                                        <input type="radio" name="isuse" id="isuse1"
+                                                               class="custom-control-input" value="1"><span
+                                                            class="custom-control-label">使用</span>
+                                                    </label>
+                                                    <label class="custom-control custom-radio custom-control-inline">
+                                                        <input type="radio" name="isuse" id="isuse2"
+                                                               class="custom-control-input" value="0"><span
+                                                            class="custom-control-label">禁用</span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row text-right">
+                                                <div class="col col-sm-10 col-lg-9 offset-sm-1 offset-lg-0">
+                                                    <button type="submit"
+                                                            style="width:140px;height:36px;line-height:18px;font-size:18px; color:#2ea8e5;padding-bottom:4px">
+                                                        提交
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    {% endif %}
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

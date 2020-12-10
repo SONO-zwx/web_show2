@@ -1,0 +1,642 @@
+{% load static %}
+{% load templatetag %}
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}">
+    <link href="{% static 'assets/vendor/fonts/circular-std/style.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'assets/libs/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/vendor/fonts/fontawesome/css/fontawesome-all.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/vendor/charts/chartist-bundle/chartist.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/vendor/charts/morris-bundle/morris.css' %}">
+    <link rel="stylesheet"
+          href="{% static 'assets/vendor/fonts/material-design-iconic-font/css/materialdesignicons.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/vendor/charts/c3charts/c3.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/vendor/fonts/flag-icon-css/flag-icon.min.css' %}">
+    {% block styles %}
+
+    {% endblock %}
+    <title>SONO AUTO CARE</title>
+</head>
+
+<body>
+<div class="dashboard-ecommerce">
+    <div class="container-fluid dashboard-content ">
+
+        <div class="ecommerce-widget" id="div01" style="display: block">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                <div class="row">
+                    {% if receipts %}
+                        <div class="col-xl-8 col-lg-6 col-md-6 col-sm-12 col-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <table style="width: 100%" border="1" cellspacing="1" cellpadding="2">
+                                        <tr>
+                                            <td colspan="8">
+                                                <h3 style="text-align: center">单据凭证</h3>
+                                            </td>
+                                        </tr>
+                                        <tr style="height: 40px">
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                门&nbsp;&nbsp;店
+                                            </td>
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                {{ receipts.shopname|default:"" }}
+                                            </td>
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                类&nbsp;&nbsp;型
+                                            </td>
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                {{ receipts.types|default:"" }}
+                                            </td>
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                提&nbsp;交&nbsp;方&nbsp;式
+                                            </td>
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                {{ receipts.yuzhi|default:"" }}
+                                            </td>
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                当&nbsp;前&nbsp;状&nbsp;态
+                                            </td>
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                {{ receipts.paymenttyoe|default:"" }}
+                                            </td>
+                                        </tr>
+                                        <tr style="height: 40px">
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                经&nbsp;办&nbsp;人
+                                            </td>
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                {{ receipts.responsibleperson|default:"" }}
+                                            </td>
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                创&nbsp;建&nbsp;日&nbsp;期
+                                            </td>
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                {{ receipts.dates|date:"Y-m-d" }}
+                                            </td>
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                收&nbsp;款&nbsp;账&nbsp;号&nbsp;信&nbsp;息
+                                            </td>
+                                            <td class="text-sm-center" style="width: 12.5%" colspan="2">
+                                                {{ receipts.paymentaccout.name|default:"" }}<br>{{ receipts.paymentaccout.account|default:"" }}
+                                            </td>
+                                            <td>
+                                                <label class="custom-control custom-checkbox" id="itiszi">
+                                                    <input type="checkbox" class="custom-control-input" name="iszi"
+                                                           disabled
+                                                           id="iszi" {% if receipts.iszi == '1' %}
+                                                           checked {% endif %}><span
+                                                        class="custom-control-label">资料补充</span>
+                                                </label>
+                                            </td>
+
+                                        </tr>
+                                        <tr>
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                明&nbsp;&nbsp;细
+                                            </td>
+                                            <td class="text-sm-left" colspan="5">
+                                                <table style="width: 100%" border="1" cellspacing="1"
+                                                       cellpadding="2">
+                                                    <tr style="height: 40px">
+                                                        <td class="text-sm-center" style="width: 15%">
+                                                            类&nbsp;&nbsp;型
+                                                        </td>
+                                                        <td class="text-sm-center" style="width: 20%">
+                                                            项&nbsp;目&nbsp;名&nbsp;称
+                                                        </td>
+                                                        <td class="text-sm-center" style="width: 50%">
+                                                            备&nbsp;&nbsp;注
+                                                        </td>
+                                                        <td class="text-sm-center" style="width: 15%">
+                                                            金&nbsp;&nbsp;额
+                                                        </td>
+                                                    </tr>
+
+                                                    {% for dealpro in receipts.dealproject %}
+                                                        <tr style="height: 40px">
+                                                            <td class="text-sm-center">{{ dealpro.types }}</td>
+                                                            <td class="text-sm-center">{{ dealpro.projectname }}</td>
+                                                            <td>{{ dealpro.remark }}</td>
+                                                            <td class="text-sm-center">￥{{ dealpro.price }}</td>
+                                                        </tr>
+                                                    {% endfor %}
+
+                                                </table>
+                                            </td>
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                总&nbsp;金&nbsp;额
+                                            </td>
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                ￥{{ receipts.allprice|default:"" }}
+                                            </td>
+                                        </tr>
+                                        <tr style="height: 120px">
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                凭&nbsp;证&nbsp;图&nbsp;片
+                                            </td>
+                                            <td colspan="7">
+                                                {% for photo in receipts.photos %}
+                                                    {% if photo.onloadinfo != 5 %}
+                                                        <img src="{{ photo.img_url.url }}" alt="" style="height: 100px"
+                                                             id="myImg{{ photo.id }}" height="100"
+                                                             onclick="bigimg(this.id)">
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </td>
+                                        </tr>
+                                        <tr style="height: 120px">
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                发&nbsp;票&nbsp;图&nbsp;片
+                                            </td>
+                                            <td colspan="7">
+                                                {% for photo in receipts.photos %}
+                                                    {% if photo.onloadinfo == 5 %}
+                                                        <img src="{{ photo.img_url.url }}" alt="" style="height: 100px"
+                                                             id="myImg{{ photo.id }}" height="100"
+                                                             onclick="bigimg(this.id)">
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </td>
+                                        </tr>
+                                        <tr style="height: 40px">
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                提&nbsp;交&nbsp;备&nbsp;注
+                                            </td>
+                                            <td colspan="7">
+                                                {{ receipts.remark|default:"" }}
+                                            </td>
+                                        </tr>
+                                        {% for foo in receipts.remarks %}
+                                            <tr style="height: 80px">
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    审&nbsp;批&nbsp;人
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    {{ foo.name }}
+                                                </td>
+                                                <td class="text-sm-center">审&nbsp;批&nbsp;结&nbsp;果</td>
+                                                <td>
+                                                    {{ foo.status }}
+
+                                                </td>
+                                                <td class="text-sm-center">审&nbsp;批&nbsp;备&nbsp;注</td>
+                                                <td colspan="3">
+                                                    {{ foo.limits }}
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+
+                                        <tr style="height: 80px">
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                财&nbsp;&nbsp;务
+                                            </td>
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                {{ receipts.finance|default:"" }}
+
+                                            </td>
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                结&nbsp;算&nbsp;方&nbsp;式
+                                            </td>
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                {{ receipts.jietype|default:"" }}
+
+                                            </td>
+                                            <td class="text-sm-center" style="width: 12.5%" id="">
+                                                公&nbsp;司&nbsp;账&nbsp;号
+                                            </td>
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                {{ receipts.zhichupaymentaccout.name|default:"" }}
+                                                --- {{ receipts.zhichupaymentaccout.account|default:"" }}
+                                            </td>
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                结&nbsp;算&nbsp;日&nbsp;期
+                                            </td>
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                {{ receipts.zhidates|date:'Y-m-d' }}
+                                            </td>
+                                        </tr>
+
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                    {% if zhireceipts %}
+                        <div class="col-xl-8 col-lg-6 col-md-6 col-sm-12 col-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <table style="width: 100%" border="1" cellspacing="1" cellpadding="2">
+                                        <tr style="height: 40px">
+                                            <td colspan="4">
+                                                <h3 style="text-align: center; line-height: 40px;">收入凭证</h3>
+                                            </td>
+                                        </tr>
+                                        <tr style="height: 40px">
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                所在门店
+                                            </td>
+                                            <td class="text-sm-center" style="width: 37.5%">
+                                                <span class="form-control" name="shopname"
+                                                      id="shopname">{{ zhireceipts.shopname }}</span>
+                                            </td>
+
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                创&nbsp;建&nbsp;日&nbsp;期
+                                            </td>
+                                            <td class="text-sm-center" style="width: 37.5%">
+                                                <span class="form-control" name="dates"
+                                                      id="dates">{{ zhireceipts.dates }}</span>
+                                            </td>
+                                        </tr>
+                                        <tr style="height: 40px">
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                收款账户
+                                            </td>
+                                            <td class="text-sm-center" style="width: 37.5%">
+                                                <span name="payment_account" id="payment_account"
+                                                      class="form-control">{{ zhireceipts.payment_account }}</span>
+                                            </td>
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                收款方式
+                                            </td>
+                                            <td style="width: 37.5%;text-align: center">
+                                                <span class="form-control" name="payment_term"
+                                                      id="payment_term">{{ zhireceipts.payment_term }}</span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                明细
+                                            </td>
+                                            <td class="text-sm-left" colspan="4">
+                                                <table style="width: 100%" border="1" cellspacing="1"
+                                                       cellpadding="2" id="dealproject">
+                                                    <thead>
+                                                    <tr style="height: 40px">
+                                                        <td class="text-sm-center" style="width: 10%">
+                                                            项&nbsp;目&nbsp;名&nbsp;称
+                                                        </td>
+                                                        <td class="text-sm-center" style="width: 25%">
+                                                            说明
+                                                        </td>
+                                                        <td class="text-sm-center" style="width: 5%">
+                                                            金&nbsp;&nbsp;额
+                                                        </td>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    {% for foo in zhireceipts.dealproject %}
+                                                        <tr>
+                                                            <td>{{ foo.project_name }}</td>
+                                                            <td>{{ foo.explains }}</td>
+                                                            <td>{{ foo.amount }}</td>
+                                                        </tr>
+                                                    {% endfor %}
+
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                        <tr style="height: 40px;">
+                                            <td class="text-sm-center" style="width: 12.5%" colspan="2">
+                                                应收金额
+                                            </td>
+                                            <td class="text-sm-center" style="width: 12.5%" id="allprice"
+                                                colspan="2">
+                                                ￥{{ zhireceipts.allprice }}
+                                            </td>
+                                        </tr>
+                                        <tr style="height: 120px">
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                凭&nbsp;证&nbsp;图&nbsp;片
+                                            </td>
+                                            <td colspan="3">
+                                                <div id="result" name="result"></div>
+                                                {% for photo in zhireceipts.photos %}
+                                                    <img src="{{ photo.img_url.url }}" alt="" style="height: 100px"
+                                                         id="myImg{{ photo.id }}" height="100"
+                                                         onclick="bigimg(this.id)">
+                                                {% endfor %}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                提&nbsp;交&nbsp;备&nbsp;注
+                                            </td>
+                                            <td colspan="3">
+                                                <span class="form-control"
+                                                      name="submitremark" id="submitremark"
+                                                      style="width: 100%; height: 80px">{{ zhireceipts.submitremark }}</span>
+                                            </td>
+                                        </tr>
+                                        {% for foo in zhireceipts.approverinfo %}
+                                            <tr>
+                                                <td colspan="4">
+                                                    <table style="width: 100%; " border="1" cellspacing="0"
+                                                           cellpadding="0">
+                                                        <tr style="height: 80px">
+                                                            <td class="text-sm-center" style="width: 12.5%">
+                                                                审&nbsp;批&nbsp;人
+                                                            </td>
+                                                            <td class="text-sm-center" style="width: 12.5%">
+                                                                {{ foo.name }}
+                                                            </td>
+                                                            <td class="text-sm-center" style="width: 12.5%">审&nbsp;批&nbsp;结&nbsp;果</td>
+                                                            <td style="width: 12.5%">
+                                                                {{ foo.status }}
+
+                                                            </td>
+                                                            <td class="text-sm-center" style="width: 12.5%">审&nbsp;批&nbsp;备&nbsp;注</td>
+                                                            <td colspan="3" style="width: 47.5%">
+                                                                {{ foo.limits }}
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+
+
+                                        <tr>
+                                            <td colspan="4">
+                                                <table style="width: 100%; " border="1" cellspacing="0"
+                                                       cellpadding="0">
+
+                                                    {% csrf_token %}
+                                                    <tr style="height: 80px">
+                                                        <td class="text-sm-center" style="width: 12.5%">
+                                                            审&nbsp;核&nbsp;人
+                                                        </td>
+                                                        <td class="text-sm-center" style="width: 12.5%">
+                                                            {{ zhireceipts.finance|default:'' }}
+                                                        </td>
+                                                        <td class="text-sm-center" style="width: 25%">审&nbsp;核&nbsp;备&nbsp;注</td>
+                                                        <td class="text-sm-center" style="width: 50%">
+                                                            {{ zhireceipts.remarks|default:'' }}
+                                                        </td>
+                                                    </tr>
+
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    {% if tuireceipts %}
+                        <div class="col-xl-8 col-lg-6 col-md-6" style="margin: 0 auto">
+                            <div class="card">
+                                <div class="card-body">
+
+                                    <input type="text" style="display: none" id="allpriceinfo" name="allpriceinfo"
+                                           value="">
+
+                                    <table style="width: 100%" border="1" cellspacing="1" cellpadding="2">
+                                        <tr style="height: 40px">
+                                            <td colspan="8">
+                                                <h3 style="text-align: center; line-height: 40px;">产品退货</h3>
+                                            </td>
+                                        </tr>
+                                        <tr style="height: 40px">
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                门&nbsp;&nbsp;店
+                                            </td>
+                                            <td class="text-sm-center" style="width: 12.5%" colspan="1">
+                                                <span name="shopname" id="shopname"
+                                                      class="form-control">{{ tuireceipts.shopname }}</span>
+                                            </td>
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                收货人
+                                            </td>
+                                            <td class="text-sm-center" style="width: 12.5%" colspan="1">
+                                                <span name="consignee" id="consignee"
+                                                      class="form-control">{{ tuireceipts.consignee }}</span>
+                                            </td>
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                退货类型
+                                            </td>
+                                            <td class="text-sm-center" style="width: 12.5%" colspan="1">
+                                                <span name="back_goods_type" id="back_goods_type"
+                                                      class="form-control">{{ tuireceipts.order_type }}</span>
+                                            </td>
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                创建日期
+                                            </td>
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                <span class="form-control"
+                                                      name="dates" id="dates">{{ tuireceipts.dates }}</span>
+                                            </td>
+                                        </tr>
+                                        <tr style="height: 40px">
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                经&nbsp;办&nbsp;人
+                                            </td>
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                <span class="form-control"
+                                                      name="operator"
+                                                      id="operator">{{ tuireceipts.operator }}</span>
+                                            </td>
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                承运公司
+                                            </td>
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                <span class="form-control"
+                                                      name="company"
+                                                      id="company">{{ tuireceipts.company }}</span>
+                                            </td>
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                承运人
+                                            </td>
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                <span name="people" id="people"
+                                                      class="form-control">{{ tuireceipts.people }}</span>
+                                            </td>
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                承运车牌号
+                                            </td>
+                                            <td class="text-sm-center">
+                                                <span name="license_plate " id="license_plate"
+                                                      class="form-control">{{ tuireceipts.license_plate }}</span>
+                                            </td>
+
+                                        </tr>
+                                        <tr>
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                明细
+                                            </td>
+                                            <td class="text-sm-left" colspan="8">
+                                                <table style="width: 100%" border="1" cellspacing="1"
+                                                       cellpadding="2" id="dealproject">
+                                                    <thead>
+                                                    <tr style="height: 40px">
+                                                        <td class="text-sm-center" style="width: 30%">
+                                                            订单号
+                                                        </td>
+                                                        <td class="text-sm-center" style="width: 10%">
+                                                            产品名称
+                                                        </td>
+                                                        <td class="text-sm-center" style="width: 10%">
+                                                            数量
+                                                        </td>
+                                                        <td class="text-sm-center" style="width: 10%">
+                                                            金额
+                                                        </td>
+                                                        <td class="text-sm-center" style="width: 30%">
+                                                            退货原因
+                                                        </td>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    {% for foo in tuireceipts.dealproject %}
+                                                        <tr>
+                                                            <td>{{ foo.order_num }}</td>
+                                                            <td>{{ foo.product_name }}</td>
+                                                            <td>{{ foo.count }}</td>
+                                                            <td>{{ foo.amount }}</td>
+                                                            <td>{{ foo.amount }}</td>
+                                                        </tr>
+                                                    {% endfor %}
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-sm-center" style="width: 12.5%;height: 40px;"
+                                                colspan="4">
+                                                总&nbsp;金&nbsp;额
+                                            </td>
+                                            <td class="text-sm-center" style="width: 12.5%;height: 40px;"
+                                                id="allprice"
+                                                colspan="4">
+                                                ￥{{ tuireceipts.allprice }}
+                                            </td>
+                                        </tr>
+
+                                        <tr style="height: 120px">
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                凭&nbsp;证&nbsp;图&nbsp;片
+                                            </td>
+                                            <td colspan="7">
+                                                {% for photo in tuireceipts.photos %}
+                                                    <img src="{{ photo.img_url.url }}" alt="" style="height: 100px"
+                                                         id="myImg{{ photo.id }}" height="100"
+                                                         onclick="bigimg(this.id)">
+                                                {% endfor %}
+                                                <div id="result" name="result"></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                提&nbsp;交&nbsp;备&nbsp;注
+                                            </td>
+                                            <td colspan="7">
+                                                <span class="form-control"
+                                                      name="submitremark" id="submitremark"
+                                                      style="width: 100%; height: 80px">{{ tuireceipts.submitremark }}</span>
+                                            </td>
+                                        </tr>
+                                        {% for foo in tuireceipts.approverinfo %}
+                                            <tr style="height: 80px">
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    审&nbsp;批&nbsp;人
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    {{ foo.name }}
+                                                </td>
+                                                <td class="text-sm-center">审&nbsp;批&nbsp;结&nbsp;果</td>
+                                                <td>
+                                                    {{ foo.status }}
+
+                                                </td>
+                                                <td class="text-sm-center">审&nbsp;批&nbsp;备&nbsp;注</td>
+                                                <td colspan="3">
+                                                    {{ foo.limits }}
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+
+                                        <tr style="height: 80px">
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                审&nbsp;核&nbsp;人
+                                            </td>
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                {{ receipts.finance|default:'' }}
+                                            </td>
+                                            <td class="text-sm-center" style="width: 25%">审&nbsp;核&nbsp;备&nbsp;注
+                                            </td>
+                                            <td class="text-sm-center" style="width: 50%">
+                                                {{ receipts.remarks|default:'' }}
+
+                                            </td>
+                                        </tr>
+
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    <!-- 弹窗 -->
+                    <div id="myModal" class="modal" style="width: 100%; height: 100%">
+                        <!-- 弹窗内容 -->
+                        <div style="position: relative;width: 95%;height: 95%;border: 1px solid #000;">
+                            <img class="modal-content" id="img01"
+                                 style="position: absolute;width: 500px;left: 0;right: 0;top: 0;bottom: 0;margin: auto;">
+                            <div>
+                                <div style="margin: 0 auto; width: 205px;">
+                                    <div style="position: fixed;bottom: 40px;">
+                                        <button type="button" class="btn btn-outline-light"
+                                                id="fangda">
+                                            <span class="fa fa-search-plus"></span>
+                                        </button>
+                                        <button type="button" class="btn btn-outline-light"
+                                                id="suoxiao">
+                                            <span class="fas fa-search-minus"></span>
+                                        </button>
+                                        <button type="button" class="btn btn-outline-light"
+                                                id="zuozhuan">
+                                            <span class="fas fa-undo"></span>
+                                        </button>
+                                        <button type="button" class="btn btn-outline-light"
+                                                id="youzhuan">
+                                            <span class="fas fa-redo"></span>
+                                        </button>
+                                        <button type="button" class="btn btn-outline-light"
+                                                id="youzhuan"
+                                                onclick="document.getElementById('myModal').style.display='none'">
+                                            <span class="fa fa-power-off"></span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="{% static 'img/js/myjs.js' %}"></script>
+
+
+<script src="{% static 'assets/vendor/jquery/jquery-3.3.1.min.js' %}"></script>
+<!-- bootstap bundle js -->
+<script src="{% static 'assets/vendor/bootstrap/js/bootstrap.bundle.js' %}"></script>
+<!-- slimscroll js -->
+<script src="{% static 'assets/vendor/slimscroll/jquery.slimscroll.js' %}"></script>
+
+</body>
+
+</html>
+
+

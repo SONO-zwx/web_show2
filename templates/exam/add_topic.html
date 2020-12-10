@@ -1,0 +1,279 @@
+{% extends 'parent_template/parent_template.html' %}
+
+{% load static %}
+
+{% block 门店考试-active %}
+    active
+{% endblock %}
+
+{% block collapse3 %}
+collapse
+{% endblock %}
+{% block collapse1 %}
+collapse
+{% endblock %}
+{% block collapse2 %}
+collapse
+{% endblock %}
+{% block collapse4 %}
+
+{% endblock %}
+{% block collapse6 %}
+collapse
+{% endblock %}
+{% block collapse7 %}
+collapse
+{% endblock %}
+{% block collapse8 %}
+collapse
+{% endblock %}
+{% block collapse9 %}
+collapse
+{% endblock %}
+{% block collapse11 %}
+collapse
+{% endblock %}
+{% block collapse12 %}
+collapse
+{% endblock %}
+
+{% block body %}
+    <div class="dashboard-ecommerce">
+        <div class="container-fluid dashboard-content ">
+            <!-- ============================================================== -->
+            <!-- pageheader  -->
+            <!-- ============================================================== -->
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="page-header">
+                        <h2 class="pageheader-title">添加试卷</h2>
+                        <div class="page-breadcrumb">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="#" class="breadcrumb-link">门店考试</a>
+                                    </li>
+                                    <li class="breadcrumb-item" aria-current="page">添加试卷
+                                    </li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="ecommerce-widget" id="div01" style="display: block">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="row">
+                        <div class="col-xl-10 col-lg-6 col-md-6" style="margin: 0 auto">
+                            <div class="card">
+                                <h5 class="card-header">添加试题</h5>
+                                <div class="card-body">
+                                    <table style="width: 100%">
+                                        <tr>
+                                            <td class="text-sm-right" style="width: 10%">
+                                                试&nbsp;&nbsp;卷：
+                                            </td>
+                                            <td class="text-sm-left" style="width: 20%">
+                                                {{ info.name }}
+                                            </td>
+                                            <td class="text-sm-right" style="width: 10%">
+                                                试&nbsp;卷&nbsp;说&nbsp;明：
+                                            </td>
+                                            <td class="text-sm-left" style="width: 20%">
+                                                {{ info.remark }}
+                                            </td>
+                                            <td class="text-sm-right" style="width: 10%">
+                                                所&nbsp;属&nbsp;公&nbsp;司：
+                                            </td>
+                                            <td class="text-sm-left" style="width: 30%">
+                                                {{ info.superior }}
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+
+                                <h5 class="card-header">试卷题目</h5>
+                                <div class="card-body">
+                                    <table style="width: 100%">
+                                        {% for foo in examinfo %}
+                                            <tr>
+                                                <td class="text-sm-right" style="width: 5%">
+                                                    编&nbsp;&nbsp;号：
+                                                </td>
+                                                <td class="text-sm-left" style="width: 7.5%">
+                                                    {{ foo.topic_id }}
+                                                </td>
+                                                <td class="text-sm-right" style="width: 5%">
+                                                    题&nbsp;&nbsp;目：
+                                                </td>
+                                                <td class="text-sm-left" style="width: 7.5%">
+                                                    {{ foo.topic_body }}
+                                                </td>
+                                                <td class="text-sm-right" style="width: 10%">
+                                                    选&nbsp;&nbsp;项：
+                                                </td>
+                                                <td class="text-sm-left" style="width: 25%">
+                                                    {% for aoption in foo.option %}
+                                                        {{ aoption.option_id }}、{{ aoption.option_body }}<br>
+                                                    {% endfor %}
+                                                </td>
+                                                <td class="text-sm-right" style="width: 5%">
+                                                    答&nbsp;&nbsp;案：
+                                                </td>
+                                                <td class="text-sm-left" style="width: 5%">
+                                                    {{ foo.topic_answer }}
+                                                </td>
+                                                <td class="text-sm-right" style="width: 5%">
+                                                    分&nbsp;&nbsp;值：
+                                                </td>
+                                                <td class="text-sm-left" style="width: 5%">
+                                                    {{ foo.goal }}
+                                                </td>
+                                                <td class="text-sm-right" style="width: 10%">
+                                                    操&nbsp;&nbsp;作：
+                                                </td>
+                                                <td class="text-sm-left" style="width: 10%">
+                                                    <a href="{% url 'exam:add_topic' %}?id={{ info.id }}&types=删除题目&topicid={{ foo.id }}"><button type="button" onclick="">删除</button></a>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    </table>
+                                </div>
+                                <h5 class="card-header">添加题目</h5>
+                                <div class="card-body">
+                                    {% if types == '添加题目' %}
+                                        <form action="{% url 'exam:add_topic' %}" method="post">
+                                            <div class="form-group row">
+                                                <label class="col-12 col-sm-3 col-form-label text-sm-right">题&nbsp;目&nbsp;编&nbsp;号</label>
+                                                <div class="col-12 col-sm-8 col-lg-6">
+                                                    <input type="text" class="form-control" name="topic_id"
+                                                           id="topic_id" value="{{ topic.topic_id|default:'' }}">
+                                                    <input type="text" class="form-control" name="examid" id="examid"
+                                                           value="{{ info.id|default:'' }}" style="display: none">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-12 col-sm-3 col-form-label text-sm-right">题&nbsp;&nbsp;目</label>
+                                                <div class="col-12 col-sm-8 col-lg-6">
+                                                    <input type="text" class="form-control" name="topic_body"
+                                                           id="topic_body"
+                                                           value="{{ topic.topic_body|default:'' }}">
+                                                    <input type="text" class="form-control" name="id" id="id"
+                                                           value="{{ topic.id|default:'' }}" style="display: none">
+                                                    <input type="text" class="form-control" name="types" id="types"
+                                                           value="{{ types|default:'' }}" style="display: none">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-12 col-sm-3 col-form-label text-sm-right">分&nbsp;&nbsp;值</label>
+                                                <div class="col-12 col-sm-8 col-lg-6">
+                                                    <input type="text" class="form-control"
+                                                           name="goal" id="goal" value="{{ topic.goal|default:'' }}">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-12 col-sm-3 col-form-label text-sm-right">答&nbsp;&nbsp;案</label>
+                                                <div class="col-12 col-sm-8 col-lg-6">
+                                                    <input type="text" class="form-control"
+                                                           name="topic_answer" id="topic_answer"
+                                                           value="{{ topic.topic_answer|default:'' }}">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row text-right">
+                                                <div class="col col-sm-10 col-lg-9 offset-sm-1 offset-lg-0">
+                                                    <button type="button" onclick="submits()"
+                                                            style="width:140px;height:36px;line-height:18px;font-size:18px; color:#2ea8e5;padding-bottom:4px">
+                                                        添加题目
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    {% elif types == '添加选项' %}
+
+                                        <form action="{% url 'exam:add_topic' %}" method="post">
+                                            <div class="form-group row">
+                                                <label class="col-12 col-sm-3 col-form-label text-sm-right">序&nbsp;号&nbsp;</label>
+                                                <div class="col-12 col-sm-8 col-lg-6">
+                                                    <input type="text" class="form-control" name="option_id"
+                                                           id="option_id">
+                                                    <input type="text" class="form-control" name="examid" id="examid"
+                                                           value="{{ info.id|default:'' }}" style="display: none">
+                                                </div>
+
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-12 col-sm-3 col-form-label text-sm-right">选&nbsp;&nbsp;项</label>
+                                                <div class="col-12 col-sm-8 col-lg-6">
+                                                    <input type="text" class="form-control" name="option_body"
+                                                           id="option_body">
+                                                    <input type="text" class="form-control" name="topicid" id="topicid"
+                                                           value="{{ topic.id|default:'' }}" style="display: none">
+                                                </div>
+
+                                            </div>
+                                            <div class="form-group row text-center">
+                                                <div class="col col-sm-10 col-lg-9 offset-sm-1 offset-lg-0">
+                                                    <button type="button" onclick="optionsubmits()"
+                                                            style="width:140px;height:36px;line-height:18px;font-size:18px; color:#2ea8e5;padding-bottom:4px">
+                                                        添加选项
+                                                    </button>
+                                                    <a href="{% url 'exam:add_topic' %}?id={{ info.id }}">
+                                                        <button type="button"
+                                                                style="width:140px;height:36px;line-height:18px;font-size:18px; color:#2ea8e5;padding-bottom:4px">
+                                                            完成
+                                                        </button>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    {% endif %}
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function submits() {
+            var topic_id = $('#topic_id').val();
+            if (topic_id === '') {
+                alert('请输入题号');
+                return false;
+            }
+            var topic_body = $('#topic_body').val();
+            if (topic_body === '') {
+                alert('请输入题目');
+                return false;
+            }
+            var goal = $('#goal').val();
+            if (goal === '') {
+                alert('请输入分值');
+                return false;
+            }
+            var topic_answer = $('#topic_answer').val();
+            if (topic_answer === '') {
+                alert('请输入答案');
+                return false;
+            }
+            $('form').submit();
+        }
+    </script>
+    <script>
+        function optionsubmits() {
+            var option_id = $('#option_id').val();
+            if (option_id === '') {
+                alert('请输入序号');
+                return false;
+            }
+            var option_body = $('#option_body').val();
+            if (option_body === '') {
+                alert('请输入选项');
+                return false;
+            }
+            $('form').submit();
+        }
+    </script>
+{% endblock %}
+

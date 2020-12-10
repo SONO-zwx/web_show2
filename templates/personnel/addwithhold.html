@@ -1,0 +1,417 @@
+{% extends 'parent_template/parent_template.html' %}
+
+{% load static %}
+
+{% block 人事模块-active %}
+    active
+{% endblock %}
+
+{% block 扣款明细-active %}
+    active
+{% endblock %}
+
+{% block collapse3 %}
+    collapse
+{% endblock %}
+{% block collapse1 %}
+    collapse
+{% endblock %}
+{% block collapse2 %}
+    collapse
+{% endblock %}
+{% block collapse4 %}
+    collapse
+{% endblock %}
+{% block collapse6 %}
+    collapse
+{% endblock %}
+{% block collapse7 %}
+
+{% endblock %}
+{% block collapse8 %}
+    collapse
+{% endblock %}
+{% block collapse9 %}
+    collapse
+{% endblock %}
+{% block collapse11 %}
+    collapse
+{% endblock %}
+{% block collapse12 %}
+    collapse
+{% endblock %}
+
+{% block body %}
+    <div class="dashboard-ecommerce">
+        <div class="container-fluid dashboard-content ">
+            <!-- ============================================================== -->
+            <!-- pageheader  -->
+            <!-- ============================================================== -->
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="page-header">
+                        <h2 class="pageheader-title">人事模块</h2>
+                        <div class="page-breadcrumb">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="#" class="breadcrumb-link">人事模块</a>
+                                    </li>
+                                    <li class="breadcrumb-item active" aria-current="page">员工绩效
+                                    </li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <h5>
+                <a href="{% url 'personnel:withhold' %}"><span
+                        style="width: 100px;height: 30px;display: inline-block;text-align: center;line-height: 30px;">未达标明细</span></a>
+                <a href="{% url 'personnel:addwithhold' %}"><span
+                        style="width: 100px;height: 30px;display: inline-block;text-align: center;line-height: 30px;background-color: rgb(51, 122, 183);color: white;border: 1px solid grey;">添加未达标明细</span></a>
+            </h5>
+            <div class="ecommerce-widget" id="div01" style="display: block">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="row">
+                        <div class="col-xl-8 col-lg-6 col-md-6" style="margin: 0 auto">
+                            <div class="card">
+                                <h5 class="card-header">绩效项目</h5>
+                                <form action="{% url 'personnel:addwithhold' %}" method="post"
+                                      enctype='multipart/form-data'>
+                                    {% csrf_token %}
+                                    <div class="card-body">
+                                        {% if withholdinfo %}
+                                            <div class="form-group row">
+                                                <label class="col-12 col-sm-3 col-form-label text-sm-right">门&nbsp;&nbsp;店</label>
+                                                <div class="col-12 col-sm-8 col-lg-6">
+                                                    <input required type="text" class="form-control" name="shopname"
+                                                           id="shopname" readonly
+                                                           value="{{ withholdinfo.shopname }}">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-12 col-sm-3 col-form-label text-sm-right">绩&nbsp;效&nbsp;名&nbsp;称</label>
+                                                <div class="col-12 col-sm-8 col-lg-6">
+
+                                                    <input required type="text" class="form-control" name="project"
+                                                           id="project" readonly
+                                                           value="{{ withholdinfo.project }}">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-12 col-sm-3 col-form-label text-sm-right">员&nbsp;工&nbsp;姓&nbsp;名</label>
+                                                <div class="col-12 col-sm-8 col-lg-6">
+                                                    <input required type="text" class="form-control" name="staffname"
+                                                           id="staffname" readonly
+                                                           value="{{ withholdinfo.staffname }}">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-12 col-sm-3 col-form-label text-sm-right">分&nbsp;数</label>
+                                                <div class="col-12 col-sm-8 col-lg-6">
+                                                    <input required type="text" class="form-control" name="price"
+                                                           id="price" readonly
+                                                           value="{{ withholdinfo.price }}">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row">
+                                                <label class="col-12 col-sm-3 col-form-label text-sm-right">说&nbsp;明&nbsp;备&nbsp;注</label>
+                                                <div class="col-12 col-sm-8 col-lg-6">
+                                                    <input required type="text" class="form-control" name="remark"
+                                                           id="remark" readonly
+                                                           value="{{ withholdinfo.remark }}">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-12 col-sm-3 col-form-label text-sm-right">当&nbsp;前&nbsp;状&nbsp;态</label>
+                                                <div class="col-12 col-sm-8 col-lg-6">
+                                                    <input required type="text" class="form-control" name="status"
+                                                           id="status" readonly
+                                                           value="{{ withholdinfo.status }}">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-12 col-sm-3 col-form-label text-sm-right">创&nbsp;建&nbsp;时&nbsp;间</label>
+                                                <div class="col-12 col-sm-8 col-lg-6">
+                                                    <input required type="date" class="form-control" name="datatimes"
+                                                           id="datatimes" readonly
+                                                           value="{{ withholdinfo.datatimes|date:'Y-m-d' }}">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-12 col-sm-3 col-form-label text-sm-right"></label>
+                                                <div class="col-12 col-sm-8 col-lg-6">
+                                                    {% for photo in withholdinfo.photos %}
+                                                        <img src="{{ photo.img_url.url }}" alt="" style="height: 100px"
+                                                             id="myImg{{ photo.id }}" height="100"
+                                                             onclick="bigimg(this.id)">
+                                                    {% endfor %}
+                                                    <div id="result" name="result"></div>
+                                                </div>
+                                            </div>
+                                        {% else %}
+
+                                            <div class="form-group row">
+                                                <label class="col-12 col-sm-3 col-form-label text-sm-right">门&nbsp;&nbsp;店</label>
+                                                <div class="col-12 col-sm-8 col-lg-6">
+                                                    <select class="custom-select d-block w-100" id="shopname" name="shopname"
+                                                            onchange="chastaff()">
+                                                        <option value="请选择">请选择</option>
+                                                        {% for shopname in ShopNames %}
+                                                            {% if nowshopname == shopname.shopname %}
+                                                                <option selected="selected">{{ shopname.shopname }}</option>
+                                                            {% else %}
+                                                                <option>{{ shopname.shopname }}</option>
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-12 col-sm-3 col-form-label text-sm-right">绩&nbsp;效&nbsp;岗&nbsp;位</label>
+                                                <div class="col-12 col-sm-8 col-lg-6">
+                                                    <select class="form-control" id="post"
+                                                            required="" name="post" onchange="chajixiao()">
+                                                        <option>请选择</option>
+                                                        {% for oneperformance in gangweiinfo %}
+                                                            {% if withholdinfo.project == oneperformance %}
+                                                                <option selected>{{ oneperformance }}</option>
+                                                            {% else %}
+                                                                <option>{{ oneperformance }}</option>
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    </select>
+
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-12 col-sm-3 col-form-label text-sm-right">绩&nbsp;效&nbsp;名&nbsp;称</label>
+                                                <div class="col-12 col-sm-8 col-lg-6">
+                                                    <select class="form-control" id="projectname"
+                                                            required="" name="projectname">
+                                                        <option>请选择</option>
+                                                    </select>
+
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-12 col-sm-3 col-form-label text-sm-right">员&nbsp;工&nbsp;姓&nbsp;名</label>
+                                                <div class="col-12 col-sm-8 col-lg-6">
+                                                    <select class="form-control" id="staffname"
+                                                            required="" name="staffname">
+                                                        <option>请选择</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-12 col-sm-3 col-form-label text-sm-right">分&nbsp;数</label>
+                                                <div class="col-12 col-sm-8 col-lg-6">
+                                                    <input required type="text" class="form-control" name="price"
+                                                           id="price"
+                                                           value="{{ withholdinfo.price }}">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-12 col-sm-3 col-form-label text-sm-right">说&nbsp;明&nbsp;备&nbsp;注</label>
+                                                <div class="col-12 col-sm-8 col-lg-6">
+                                                    <input required type="text" class="form-control" name="remark"
+                                                           id="remark"
+                                                           value="{{ withholdinfo.remark }}">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-12 col-sm-3 col-form-label text-sm-right">当&nbsp;前&nbsp;状&nbsp;态</label>
+                                                <div class="col-12 col-sm-8 col-lg-6">
+                                                    <input required type="text" class="form-control" name="status"
+                                                           id="status" readonly
+                                                           value="填写中">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-12 col-sm-3 col-form-label text-sm-right">扣&nbsp;款&nbsp;时&nbsp;间</label>
+                                                <div class="col-12 col-sm-8 col-lg-6">
+                                                    <input required type="date" class="form-control" name="datatimes"
+                                                           id="datatimes"
+                                                           value="{{ withholdinfo.datatimes|date:'Y-m-d' }}">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-12 col-sm-3 col-form-label text-sm-right">相&nbsp;关&nbsp;照&nbsp;片</label>
+                                                <div class="col-12 col-sm-8 col-lg-6">
+
+                                                    <input type="file" accept="image/png, image/jpg" style="width: 100%"
+                                                           multiple="multiple" onchange="readAsDataURL()"
+                                                           id="receiptsimg" name="receiptsimg">
+
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-12 col-sm-3 col-form-label text-sm-right"></label>
+                                                <div class="col-12 col-sm-8 col-lg-6">
+                                                    {% for photo in withholdinfo.photos %}
+                                                        <img src="{{ photo.img_url.url }}" alt="" style="height: 100px"
+                                                             id="myImg{{ photo.id }}" height="100"
+                                                             onclick="bigimg(this.id)">
+                                                    {% endfor %}
+                                                    <div id="result" name="result"></div>
+                                                </div>
+                                            </div>
+
+                                        {% endif %}
+                                        <div class="form-group row text-right">
+                                            <div class="col col-sm-10 col-lg-9 offset-sm-1 offset-lg-0">
+                                                {% if withholdinfo %}
+                                                    <input required type="text" class="form-control" name="id"
+                                                           id="id" style="display: none"
+                                                           value="{{ withholdinfo.id }}">
+                                                    <button type="button" onclick="submits()"
+                                                            style="width:140px;height:36px;line-height:18px;font-size:18px; color:#2ea8e5;padding-bottom:4px">
+                                                        申诉
+                                                    </button>
+                                                {% else %}
+                                                    <button type="button" onclick="submits()"
+                                                            style="width:140px;height:36px;line-height:18px;font-size:18px; color:#2ea8e5;padding-bottom:4px">
+                                                        添加
+                                                    </button>
+                                                {% endif %}
+
+                                            </div>
+                                        </div>
+                                        <div id="myModal" class="modal">
+                                            <!-- 弹窗内容 -->
+                                            <img class="modal-content" id="img01">
+                                            <div>
+                                                <div style="margin: 0 auto; width: 205px;">
+                                                    <div style="position: fixed;bottom: 40px;">
+                                                        <button type="button" class="btn btn-outline-light"
+                                                                id="fangda">
+                                                            <span class="fa fa-search-plus"></span>
+                                                        </button>
+                                                        <button type="button" class="btn btn-outline-light"
+                                                                id="suoxiao">
+                                                            <span class="fas fa-search-minus"></span>
+                                                        </button>
+                                                        <button type="button" class="btn btn-outline-light"
+                                                                id="zuozhuan">
+                                                            <span class="fas fa-undo"></span>
+                                                        </button>
+                                                        <button type="button" class="btn btn-outline-light"
+                                                                id="youzhuan">
+                                                            <span class="fas fa-redo"></span>
+                                                        </button>
+                                                        <button type="button" class="btn btn-outline-light"
+                                                                id="youzhuan"
+                                                                onclick="document.getElementById('myModal').style.display='none'">
+                                                            <span class="fa fa-power-off"></span>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <script>
+        function submits() {
+            if ($('#shopname').val() === '请选择'){
+                alert('请选择门店');
+                return false
+            }
+            if ($('#post').val() === '请选择'){
+                alert('请选择岗位');
+                return false
+            }
+            if ($('#project').val() === '请选择'){
+                alert('请选择类别');
+                return false
+            }
+            if ($('#projectname').val() === '请选择'){
+                alert('请选择绩效名称');
+                return false
+            }
+            if ($('#staffname').val() === '请选择'){
+                alert('请选择员工姓名');
+                return false
+            }
+            if ($('#price').val() === '请选择') {
+                alert('请添加分数');
+                return false
+            }
+            $('form').submit();
+        }
+
+        function chastaff() {
+            var shopname = $('#shopname').val();
+            $.ajax({
+                type: "post",
+                url: "{% url 'personnel:seestaffs' %}",
+                data: {
+                    'shopname': shopname,
+                    'csrfmiddlewaretoken': '{{ csrf_token }}',
+                },
+                success: function (data) {
+                    var str = "";
+                    var staffname = $('#staffname');
+                    var t = '<option>请选择</option>';
+                    $.each(data.info, function (i, n) {
+                        t = t + '<option style="width: 120px">' + n.name + '</option>'
+                    });
+                    staffname.html(t)
+                }
+            });
+        }
+
+
+        function chajixiao() {
+            var post = $('#post').val();
+            $.ajax({
+                type: "post",
+                url: "{% url 'personnel:seejixiao' %}",
+                data: {
+                    'post': post,
+                    'csrfmiddlewaretoken': '{{ csrf_token }}',
+                },
+                success: function (data) {
+                    var str = "";
+                    var projectname = $('#projectname');
+                    var t = '<option>请选择</option>';
+                    $.each(data.info, function (i, n) {
+                        t = t + '<option style="width: 120px">' + n + '</option>'
+                    });
+                    projectname.html(t)
+                }
+            });
+        }
+
+    </script>
+    <script>
+        function readAsDataURL() {
+            var file = document.getElementById("receiptsimg").files;
+            var result = document.getElementById("result");
+            result.innerHTML = '';
+            for (i = 0; i < file.length; i++) {
+                var reader = new FileReader();
+                reader.index = i;
+                reader.readAsDataURL(file[i], i);
+                reader.onload = function (event) {
+                    result.innerHTML = result.innerHTML + '<img src="' + this.result + '" alt="" style="height: 100px" id="myImg' + this.index + '" onclick="bigimg(\'myImg' + this.index + '\')"/>';
+                }
+            }
+        }
+    </script>
+
+    <link rel="stylesheet" href="{% static 'img/css/myimg.css' %}">
+    <script src="{% static 'img/js/myjs.js' %}"></script>
+{% endblock %}
+

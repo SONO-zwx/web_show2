@@ -1,0 +1,813 @@
+{% extends 'parent_template/parent_template.html' %}
+
+{% load static %}
+{% block 仓储管理-active %}
+active
+{% endblock %}
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'img/css/updateimg.css' %}">
+{% endblock %}
+
+{% block 备货单申请-active %}
+active
+{% endblock %}
+
+{% block collapse3 %}
+collapse
+{% endblock %}
+{% block collapse1 %}
+collapse
+{% endblock %}
+{% block collapse2 %}
+collapse
+{% endblock %}
+{% block collapse4 %}
+collapse
+{% endblock %}
+{% block collapse6 %}
+collapse
+{% endblock %}
+{% block collapse7 %}
+collapse
+{% endblock %}
+{% block collapse8 %}
+collapse
+{% endblock %}
+{% block collapse9 %}
+collapse
+{% endblock %}
+{% block collapse11 %}
+collapse
+{% endblock %}
+{% block collapse12 %}
+collapse
+{% endblock %}
+{% block collapse13 %}
+collapse
+{% endblock %}
+{% block collapse14 %}
+
+{% endblock %}
+
+
+
+{% block body %}
+    <div class="dashboard-ecommerce">
+        <div class="container-fluid dashboard-content ">
+            <!-- ============================================================== -->
+            <!-- pageheader  -->
+            <!-- ============================================================== -->
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="page-header">
+                        <h2 class="pageheader-title">仓储管理</h2>
+                        <div class="page-breadcrumb">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="#" class="breadcrumb-link">仓储管理</a>
+                                    </li>
+                                    <li class="breadcrumb-item active" aria-current="page">仓储管理
+                                    </li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="ecommerce-widget" id="div01" style="display: block">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="row">
+                        <div class="col-xl-8 col-lg-6 col-md-6" style="margin: 0 auto">
+                            <div class="card">
+                                <div class="card-body">
+
+                                    <input type="text" style="display: none" id="allpriceinfo" name="allpriceinfo"
+                                           value="">
+
+                                    <table style="width: 100%" border="1" cellspacing="1" cellpadding="2">
+                                        <tr style="height: 40px">
+                                            <td colspan="8">
+                                                <h3 style="text-align: center; line-height: 20px;margin-top: 8px;">
+                                                    北京索诺汽车服务有限公司</h3>
+                                                <h3 style="text-align: center; line-height: 40px;">备货凭证</h3>
+                                            </td>
+                                        </tr>
+                                        <tr style="height: 40px">
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                门&nbsp;&nbsp;店
+                                            </td>
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                {% if ShopName != '总部' %}
+                                                    <select class="form-control" id="shopname" name="shopname"
+                                                            onchange="getaccount()"
+                                                            required="">
+                                                        <option>请选择</option>
+                                                        <option>{{ ShopName }}</option>
+                                                    </select>
+                                                {% else %}
+                                                    <select class="form-control" id="shopname"
+                                                            required="" name="shopname" onchange="getaccount()">
+                                                        <option>请选择</option>
+                                                        {% for shopname in ShopNames %}
+                                                            {% if nowshopname == shopname.shopname %}
+                                                                <option>{{ shopname.shopname }}</option>
+                                                            {% else %}
+                                                                <option>{{ shopname.shopname }}</option>
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    </select>
+                                                {% endif %}
+
+                                            </td>
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                一级分类
+                                            </td>
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                <select class="form-control" id="one_types"
+                                                        required="" name="one_types" onclick="">
+                                                    <option>请选择</option>
+                                                    {% for limit in limits.onesubmit %}
+                                                        <option>{{ limit }}</option>
+                                                    {% endfor %}
+                                                </select>
+
+                                            </td>
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                二级分类
+                                            </td>
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                <select class="form-control" id="two_types" required="" name="two_types"
+                                                        onchange="okiszi()">
+                                                    <option>请选择</option>
+                                                    <option>申请</option>
+                                                    <option>预支</option>
+                                                    <option>报销</option>
+                                                </select>
+                                            </td>
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                创建日期
+                                            </td>
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                <input type="date" value="2020-07-07" disabled>
+                                            </td>
+                                        </tr>
+                                        <tr style="height: 40px">
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                经&nbsp;办&nbsp;人
+                                            </td>
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                <input required type="text" class="form-control"
+                                                       name="operator"
+                                                       id="operator">
+                                            </td>
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                储存库名
+                                            </td>
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                <input required type="text" class="form-control"
+                                                       name="library_name"
+                                                       id="library_name">
+                                            </td>
+
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                收款人
+                                            </td>
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                <select class="form-control" id="paymentaccout" required=""
+                                                        name="paymentaccout">
+                                                    <option>请选择</option>
+                                                </select>
+                                            </td>
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                联系方式
+                                            </td>
+                                            <td colspan="2">
+                                                <input type="text" class="form-control" name="phone" id="phone">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                明&nbsp;&nbsp;细 <br>
+                                                <button style="width:100px;height:30px;line-height:18px;font-size:18px; color:#2ea8e5;padding-bottom:4px"
+                                                        type="button" onclick="add_input('dealproject')">
+                                                    添加
+                                                </button>
+                                            </td>
+                                            <td class="text-sm-left" colspan="8">
+                                                <table style="width: 100%" border="1" cellspacing="1"
+                                                       cellpadding="2" id="dealproject">
+                                                    <tr style="height: 40px">
+                                                        <td class="text-sm-center" style="width: 10%">
+                                                            类型
+                                                        </td>
+                                                        <td class="text-sm-center" style="width: 15%">
+                                                            产品名称及型号
+                                                        </td>
+                                                        <td class="text-sm-center" style="width: 14%;text-align: center">
+                                                            库存数量
+                                                        </td>
+                                                        <td class="text-sm-center" style="width: 14%">
+                                                            采购数量
+                                                        </td>
+                                                        <td class="text-sm-center" style="width: 14%">
+                                                            单位
+                                                        </td>
+                                                        <td class="text-sm-center" style="width: 10%">
+                                                            采购单价
+                                                        </td>
+                                                        <td class="text-sm-center" style="width: 10%">
+                                                            采购金额
+                                                        </td>
+                                                        <td class="text-sm-center" style="width: 8%">
+                                                            操&nbsp;&nbsp;作
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                        <tr style="height: 45px;">
+                                            <td class="text-sm-center" style="width: 12.5%" colspan="4">
+                                                总&nbsp;金&nbsp;额
+                                            </td>
+                                            <td class="text-sm-center" style="width: 12.5%" id="allprice" colspan="4">
+                                                0.00￥
+                                            </td>
+                                        </tr>
+
+                                        <tr style="height: 120px">
+                                            <form action="{% url 'certificate:addreceiptsimg' %}" method="post"
+                                                  enctype='multipart/form-data'>
+                                                {% csrf_token %}
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    凭&nbsp;证&nbsp;图&nbsp;片<br>
+                                                    <input type="file" accept="image/png, image/jpg" style="width: 100%"
+                                                           multiple="multiple" onchange="readAsDataURL()"
+                                                           id="receiptsimg" name="receiptsimg">
+                                                    <input type="text" name="for_id" id="for_id" style="display: none">
+                                                </td>
+                                                <td colspan="7">
+                                                    <div id="result" name="result"></div>
+                                                </td>
+                                            </form>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                提&nbsp;交&nbsp;备&nbsp;注
+                                            </td>
+                                            <td colspan="7">
+                                                <input type="text" class="form-control"
+                                                       name="remark" id="remark" style="width: 100%; height: 80px">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="8" style="text-align: center; height: 50px">
+                                                <button style="width:140px;height:36px;line-height:18px;font-size:18px; color:#2ea8e5;padding-bottom:4px"
+                                                        type="button" onclick="submitsinfo()">
+                                                    创建单据
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </table>
+
+                                    <!-- 弹窗 -->
+                                    <div id="myModal" class="modal">
+                                        <!-- 弹窗内容 -->
+                                        <img id="img01" style="height: 600px; display: block; margin: auto;">
+                                        <div>
+                                            <div style="margin: 0 auto; width: 205px;">
+                                                <div style="position: fixed;bottom: 40px;">
+                                                    <button type="button" class="btn btn-outline-light"
+                                                            id="fangda">
+                                                        <span class="fa fa-search-plus"></span>
+                                                    </button>
+                                                    <button type="button" class="btn btn-outline-light"
+                                                            id="suoxiao">
+                                                        <span class="fas fa-search-minus"></span>
+                                                    </button>
+                                                    <button type="button" class="btn btn-outline-light"
+                                                            id="zuozhuan">
+                                                        <span class="fas fa-undo"></span>
+                                                    </button>
+                                                    <button type="button" class="btn btn-outline-light"
+                                                            id="youzhuan">
+                                                        <span class="fas fa-redo"></span>
+                                                    </button>
+                                                    <button type="button" class="btn btn-outline-light"
+                                                            id="close"
+                                                            onclick="document.getElementById('myModal').style.display='none'">
+                                                        <span class="fa fa-power-off"></span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function okiszi() {
+            var yuzhi = $('#yuzhi').val();
+            console.log(yuzhi);
+            if (yuzhi === '预支') {
+                var tem = '<input type="checkbox" class="custom-control-input" name="iszi" id="iszi" checked><span class="custom-control-label">资料补充</span>';
+                document.getElementById("itiszi").innerHTML = tem;
+                document.getElementById('iszi').setAttribute('disabled', 'disabled');
+            } else {
+                document.getElementById('iszi').removeAttribute('disabled')
+            }
+
+
+        }
+    </script>
+    <script>
+        function getaccount() {
+            var shopname = $('#shopname').val();
+            $.ajax({
+                type: "post",
+                url: "{% url 'certificate:getaccount' %}",
+                data: {
+                    'shopname': shopname,
+                    'csrfmiddlewaretoken': '{{ csrf_token }}',
+
+                },
+                success: function (data) {
+
+                    var tem = '<option>请选择</option>';
+                    for (i = 0, rows = data.account.length; i < rows; i++) {
+                        tem = tem + '<option value=\'' + data.account[i][0] + '\'>' + data.account[i][1] + '</option>';
+                    }
+                    document.getElementById("paymentaccout").innerHTML = tem;
+                }
+            })
+        }
+    </script>
+    <script>
+        function submitsinfo() {
+            var datas = getTableContent('dealproject');
+            var shopname = $('#shopname').val();
+            var types = $('#types').val();
+            var yuzhi = $('#yuzhi').val();
+            var allpriceinfo = $('#allpriceinfo').val();
+            var paymenttyoe = $('#paymenttyoe').val();
+            var operator = $('#operator').val();
+            var dates = $('#dates').val();
+            var paymentaccout = $('#paymentaccout').val();
+            var remark = $('#remark').val();
+            var library_name = $('#library_name').val();
+            var phone = $('#phone').val();
+            var iszi = $('#iszi').is(':checked');
+
+            if (shopname === '请选择') {
+                alert('请先选择门店');
+                return false;
+            }
+            if (types === '请选择') {
+                alert('请先选择一级分类');
+                return false;
+            }
+            if (yuzhi === '请选择') {
+                alert('请先选择提交方式');
+                return false;
+            }
+            if (operator === '') {
+                alert('请先填写经办人');
+                return false;
+            }
+            if (library_name === '') {
+                alert('请先填写储存库名');
+                return false;
+            }
+            if (dates === '') {
+                alert('请先填写提交日期');
+                return false;
+            }
+            if (paymentaccout === '请选择') {
+                alert('请先选择收款人');
+                return false;
+            }
+            if (phone === '') {
+                alert('请输入联系方式');
+                return false;
+            }
+            if (datas.length === 1) {
+                alert('请先添加明细数据');
+                return false;
+            }
+            var product_name_type = $('#product_name_type');
+            if (product_name_type[0]) {
+                alert('请先完成明细添加');
+                return false;
+            }
+            var receiptsimg = $('#receiptsimg').val();
+            if (iszi === false) {
+                if (receiptsimg === '') {
+                    alert('请先添加图片');
+                    return false;
+                }
+            }
+            var tmp = '';
+            for (i = 1, rows = datas.length; i < rows; i++) {
+                tmp = datas[i][0] + '**-**' + datas[i][1] + '**-**' + datas[i][2] + '**-**' + datas[i][3] + '**--**';
+            }
+
+            $.ajax({
+                type: "post",
+                url: "{% url 'certificate:addreceipts' %}",
+                data: {
+                    'datas': tmp,
+                    'shopname': shopname,
+                    'types': types,
+                    'yuzhi': yuzhi,
+                    'paymenttyoe': paymenttyoe,
+                    'operator': operator,
+                    'dates': dates,
+                    'iszi': iszi,
+                    'paymentaccout': paymentaccout,
+                    'allpriceinfo': allpriceinfo,
+                    'remark': remark
+                },
+                success: function (data) {
+                    alert('单据创建已完成');
+                    var for_id = $('#for_id');
+                    for_id.attr('value', data.id);
+                    $('form').submit()
+                }
+            })
+        }
+    </script>
+    <script>
+        function readAsDataURL() {
+            var file = document.getElementById("receiptsimg").files;
+            var result = document.getElementById("result");
+            result.innerHTML = '';
+            for (i = 0; i < file.length; i++) {
+                var reader = new FileReader();
+                reader.index = i;
+                reader.readAsDataURL(file[i], i);
+                reader.onload = function (event) {
+                    result.innerHTML = result.innerHTML + '<img src="' + this.result + '" alt="" style="height: 100px" id="myImg' + this.index + '" onclick="bigimg(\'myImg' + this.index + '\')"/>';
+                }
+            }
+        }
+    </script>
+    <script src="{% static 'img/js/myjs.js' %}"></script>
+    <script type="text/javascript">
+
+        /**
+         * 遍历表格内容返回数组
+         * @param  Int   id 表格id
+         * @return Array
+         */
+        function getTableContent(id) {
+            var mytable = document.getElementById(id);
+            var data = [];
+            for (var i = 0, rows = mytable.rows.length; i < rows; i++) {
+                for (var j = 0, cells = mytable.rows[i].cells.length; j < cells; j++) {
+                    if (!data[i]) {
+                        data[i] = new Array();
+                    }
+                    data[i][j] = mytable.rows[i].cells[j].innerHTML;
+                }
+            }
+            return data;
+        }
+
+        /**
+         * 显示表格内容
+         * @param  Int   id 表格id
+         */
+        function add_input(id) {
+            var product_name_type = $('#product_name_type');
+            if (product_name_type[0]) {
+                alert('请先完成本次添加');
+                return false;
+            } else {
+                var types = $('#types').val();
+                if (types === '请选择') {
+                    alert('请先选择一级分类');
+                    return false;
+                } else {
+                    $.ajax({
+                        type: "post",
+                        url: "{% url 'certificate:twolimit' %}",
+                        data: {
+                            'types': types,
+                            'csrfmiddlewaretoken': '{{ csrf_token }}',
+                        },
+                        success: function (datainfo) {
+                            var data = getTableContent(id);
+                            var onestyle = $('#types');
+                            onestyle.attr('disabled', 'disabled');
+                            var tmp = '';
+                            tmp += '<tr style="height: 40px">';
+                            tmp += '<td class="text-sm-center" style="width: 10%">';
+                            tmp += data[0][0] + '</td>';
+                            tmp += '<td class="text-sm-center" style="width: 15%">';
+                            tmp += data[0][1] + '</td>';
+                            tmp += '<td class="text-sm-center" style="width: 14%">';
+                            tmp += data[0][2] + '</td>';
+                            tmp += '<td class="text-sm-center" style="width: 14%">';
+                            tmp += data[0][3] + '</td>';
+                            tmp += '<td class="text-sm-center" style="width: 14%">';
+                            tmp += data[0][4] + '</td>';
+                            tmp += '<td class="text-sm-center" style="width: 10%">';
+                            tmp += data[0][5] + '</td>';
+                            tmp += '<td class="text-sm-center" style="width: 10%">';
+                            tmp += data[0][6] + '</td>';
+                            tmp += '<td class="text-sm-center" style="width: 10%">';
+                            tmp += data[0][7] + '</td>';
+                            tmp += '</tr>';
+                            for (i = 1, rows = data.length; i < rows; i++) {
+
+                                tmp += '<tr style="height: 40px">';
+                                tmp += '<td class="text-sm-left" style="width: 10%">';
+                                tmp += data[i][0] + '</td>';
+                                tmp += '<td class="text-sm-left" style="width: 15%">';
+                                tmp += data[i][1] + '</td>';
+                                tmp += '<td class="text-sm-left" style="width: 14%">';
+                                tmp += data[i][2] + '</td>';
+                                tmp += '<td class="text-sm-left" style="width: 14%">';
+                                tmp += data[i][3] + '</td>';
+                                tmp += '<td class="text-sm-left" style="width: 14%">';
+                                tmp += data[i][4] + '</td>';
+                                tmp += '<td class="text-sm-left" style="width: 14%">';
+                                tmp += data[i][5] + '</td>';
+                                tmp += '<td class="text-sm-left" style="width: 10%">';
+                                tmp += data[i][6] + '</td>';
+                                tmp += '<td class="text-sm-left" style="width: 10%">';
+                                tmp += '<button type="button" onclick="delTableContent(\'' + id + '\',' + i + ')">删除</button>' + '</td>';
+                                tmp += '</tr>'
+                            }
+                            tmp = tmp + '                                                     </td>\n' +
+                                '                                                        <td class="text-sm-left">\n' +
+                                '                                                            <input type="text" class="form-control"\n' +
+                                '                                                                   name="back_types"\n' +
+                                '                                                                   id="back_types" value="">\n' +
+                                '                                                        </td>\n' +
+                                                                    '                     <td class="text-sm-left">\n' +
+                                '                                                            <input type="text" class="form-control"\n' +
+                                '                                                                   name="product_name_type"\n' +
+                                '                                                                   id="product_name_type" value="">\n' +
+                                '                                                        </td>\n' +
+                                '                                                        <td class="text-sm-left">\n' +
+                                '                                                            <input type="text" class="form-control"\n' +
+                                '                                                                   name="inventory_quantity" id="inventory_quantity" value="">\n' +
+                                '                                                        </td>\n' +
+                                '                                                        <td class="text-sm-left">\n' +
+                                '                                                            <input type="text" class="form-control"\n' +
+                                '                                                                   name="purchase_quantity" id="purchase_quantity" value="">\n' +
+                                '                                                        </td>\n  ' +
+                                '                                                        <td class="text-sm-left">\n' +
+                                '                                                            <input type="text" class="form-control"\n' +
+                                '                                                                   name="unit" id="unit" value="">\n' +
+                                '                                                        </td>\n  ' +
+                                                                    '                     <td class="text-sm-left">\n' +
+                                '                                                            <input type="text" class="form-control"\n' +
+                                '                                                                   name="unit_price" id="unit_price" value="">\n' +
+                                '                                                        </td>\n  ' +
+                                                                    '                      <td class="text-sm-left">\n' +
+                                '                                                            <input type="text" class="form-control"\n' +
+                                '                                                                   name="purchase_amount" id="purchase_amount" value="">\n' +
+                                '                                                        </td>\n  ' +
+                                '                                                      <td>\n' +
+                                '                                                            <button type="button" onclick="okTableContent(\'dealproject\')" style="margin-left: 15px;">\n' +
+                                '                                                                完成\n' +
+                                '                                                            </button>\n' +
+                                '                                                            <button type="button" onclick="delTableContent(\'' + id + '\',\'' + data.length + '\')" style="margin-left: 15px;">\n' +
+                                '                                                                删除\n' +
+                                '                                                            </button>\n' +
+                                '                                                        </td>' +
+                                '                                                    </tr>';
+
+                            document.getElementById(id).innerHTML = tmp;
+                        }
+                    });
+
+                }
+            }
+        }
+
+        function okTableContent(id) {
+            var data = getTableContent(id);
+            var tmp = '';
+            var product_name_type = $('#product_name_type').val();
+            var inventory_quantity = $('#inventory_quantity').val();
+            var purchase_quantity = $('#purchase_quantity').val();
+            var unit_price = $('#unit_price').val();
+            var back_types = $('#back_types').val();
+            var unit = $('#unit').val();
+            var purchase_amount = $('#purchase_amount').val();
+
+            if (back_types === '') {
+                alert('请输入类型')
+            }
+            if (product_name_type === '') {
+                alert('请输入产品名称及型号');
+                return false;
+            }
+            if (inventory_quantity === '') {
+                alert('请输入库存数量')
+            }
+            if (purchase_quantity === '') {
+                alert('请输入采购数量');
+                return false;
+            }
+            if (unit === '') {
+                alert('请输入单位');
+                return false;
+            }
+            if (unit_price === "" || unit_price == null) {
+                alert('请输入单价');
+                return false;
+            }
+            if (purchase_amount === "" || purchase_amount == null) {
+                alert('请输入采购金额');
+                return false;
+            }
+            if (isNaN(unit_price)) {
+                alert('单价为数字');
+                return false;
+            }
+
+            tmp += '<tr style="height: 40px">';
+            tmp += '<td class="text-sm-left" style="width: 10%">';
+            tmp += data[0][0] + '</td>';
+            tmp += '<td class="text-sm-left" style="width: 15%">';
+            tmp += data[0][1] + '</td>';
+            tmp += '<td class="text-sm-left" style="width: 14%">';
+            tmp += data[0][2] + '</td>';
+            tmp += '<td class="text-sm-left" style="width: 14%">';
+            tmp += data[0][3] + '</td>';
+            tmp += '<td class="text-sm-left" style="width: 14%">';
+            tmp += data[0][4] + '</td>';
+            tmp += '<td class="text-sm-left" style="width: 10%">';
+            tmp += data[0][5] + '</td>';
+            tmp += '<td class="text-sm-left" style="width: 10%">';
+            tmp += data[0][6] + '</td>';
+            tmp += '<td class="text-sm-left" style="width: 10%">';
+            tmp += data[0][7] + '</td>';
+            tmp += '</tr>';
+            for (i = 1, rows = data.length; i < rows - 1; i++) {
+                tmp += '<tr style="height: 40px">';
+                tmp += '<td class="text-sm-left" style="width: 10%">';
+                tmp += data[i][0] + '</td>';
+                tmp += '<td class="text-sm-left" style="width: 15%">';
+                tmp += data[i][1] + '</td>';
+                tmp += '<td class="text-sm-left" style="width: 14%">';
+                tmp += data[i][2] + '</td>';
+                tmp += '<td class="text-sm-left" style="width: 14%">';
+                tmp += data[i][3] + '</td>';
+                tmp += '<td class="text-sm-left" style="width: 14%">';
+                tmp += data[i][4] + '</td>';
+                tmp += '<td class="text-sm-left" style="width: 10%">';
+                tmp += data[i][5] + '</td>';
+                tmp += '<td class="text-sm-left" style="width: 10%">';
+                tmp += data[i][6] + '</td>';
+                tmp += '<td class="text-sm-left" style="width: 10%">';
+                tmp += '<button type="button" onclick="delTableContent(\'' + id + '\',' + i + ')">删除</button>' + '</td>';
+                tmp += '</tr>'
+            }
+            var num = data.length - 1;
+            tmp = tmp + '<tr style="height: 40px">' +
+                        '<td class="text-sm-left" style="width: 10%">' + back_types + '</td>';
+            tmp = tmp + '<td class="text-sm-left" style="width: 15%">' + product_name_type + '</td>';
+            tmp = tmp + '<td class="text-sm-left" style="width: 14%">' + inventory_quantity + '</td>';
+            tmp = tmp + '<td class="text-sm-left" style="width: 14%">' + purchase_quantity + '</td>';
+            tmp = tmp + '<td class="text-sm-left" style="width: 14%">' + unit + '</td>';
+            tmp = tmp + '<td class="text-sm-left" style="width: 10%">' + unit_price + '</td>';
+            tmp = tmp + '<td class="text-sm-left" style="width: 10%">' + purchase_amount + '</td>';
+            tmp = tmp + '<td class="text-sm-left" style="width: 10%">' + '<button type="button" onclick="delTableContent(\'' + id + '\',' + num + ')">删除</button>' + '</td>' + '</tr>';
+
+            document.getElementById(id).innerHTML = tmp;
+
+            var allprice = $('#allprice');
+            var allpriceinfo = (parseFloat(allprice.text().replace('￥', '')) + parseFloat(purchase_amount)).toFixed(2);
+            document.getElementById('allprice').innerHTML = allpriceinfo.toString() + '￥';
+            var allprices = $('#allpriceinfo');
+            allprices.attr('value', allpriceinfo)
+        }
+
+        function delTableContent(id, table_id) {
+            var product_name_type = $('#product_name_type');
+            var data = getTableContent(id);
+            var tmp = '';
+            tmp += '<tr style="height: 40px">';
+            tmp += '<td class="text-sm-left" style="width: 10%">';
+            tmp += data[0][0] + '</td>';
+            tmp += '<td class="text-sm-left" style="width: 15%">';
+            tmp += data[0][1] + '</td>';
+            tmp += '<td class="text-sm-left" style="width: 14%">';
+            tmp += data[0][2] + '</td>';
+            tmp += '<td class="text-sm-left" style="width: 14%">';
+            tmp += data[0][3] + '</td>';
+            tmp += '<td class="text-sm-left" style="width: 14%">';
+            tmp += data[0][4] + '</td>';
+            tmp += '<td class="text-sm-left" style="width: 10%">';
+            tmp += data[0][5] + '</td>';
+            tmp += '<td class="text-sm-left" style="width: 10%">';
+            tmp += data[0][6] + '</td>';
+            tmp += '<td class="text-sm-left" style="width: 10%">';
+            tmp += data[0][7] + '</td>';
+            tmp += '</tr>';
+            var allpriceinfo = '';
+            if (product_name_type[0]) {
+                for (i = 1, rows = data.length; i < rows - 1; i++) {
+                    if (i === table_id) {
+                        allpriceinfo = data[i][3];
+                        continue
+                    }
+                    tmp += '<tr style="height: 40px">';
+                    tmp += '<td class="text-sm-left" style="width: 10%">';
+                    tmp += data[i][0] + '</td>';
+                    tmp += '<td class="text-sm-left" style="width: 15%">';
+                    tmp += data[i][1] + '</td>';
+                    tmp += '<td class="text-sm-left" style="width: 14%">';
+                    tmp += data[i][2] + '</td>';
+                    tmp += '<td class="text-sm-left" style="width: 14%">';
+                    tmp += data[i][3] + '</td>';
+                    tmp += '<td class="text-sm-left" style="width: 14%">';
+                    tmp += data[i][4] + '</td>';
+                    tmp += '<td class="text-sm-left" style="width: 10%">';
+                    tmp += data[i][5] + '</td>';
+                    tmp += '<td class="text-sm-left" style="width: 10%">';
+                    tmp += data[i][6] + '</td>';
+                    tmp += '<td class="text-sm-left" style="width: 10%">';
+                    tmp += '<button type="button" onclick="delTableContent(\'' + id + '\',' + i + ')">删除</button>' + '</td>';
+                    tmp += '</tr>'
+                }
+
+                if ((data.length - 1).toString() !== table_id.toString()) {
+                    tmp += '<tr style="height: 40px">';
+                    tmp += '<td class="text-sm-left" style="width: 10%">';
+                    tmp += data[data.length - 1][0] + '</td>';
+                    tmp += '<td class="text-sm-left" style="width: 15%">';
+                    tmp += data[data.length - 1][1] + '</td>';
+                    tmp += '<td class="text-sm-left" style="width: 14%">';
+                    tmp += data[data.length - 1][2] + '</td>';
+                    tmp += '<td class="text-sm-left" style="width: 14%">';
+                    tmp += data[data.length - 1][3] + '</td>';
+                    tmp += '<td class="text-sm-left" style="width: 14%">';
+                    tmp += data[data.length - 1][4] + '</td>';
+                    tmp += '<td class="text-sm-left" style="width: 10%">';
+                    tmp += data[data.length - 1][5] + '</td>';
+                    tmp += '<td class="text-sm-left" style="width: 10%">';
+                    tmp += data[data.length - 1][6] + '</td>';
+                    tmp += '<td class="text-sm-left" style="width: 10%">';
+                    tmp += '                                                            <button type="button" onclick="okTableContent(\'dealproject\')">\n' +
+                        '                                                                完成\n' +
+                        '                                                            </button>\n' +
+                        '                                                            <button type="button" onclick="delTableContent(\'' + id + '\',\'' + (data.length - 2) + '\')">\n' +
+                        '                                                                删除\n' +
+                        '                                                            </button>\n';
+                    tmp += '</tr>'
+                }
+
+            } else {
+
+                for (i = 1, rows = data.length; i < rows; i++) {
+                    if (i === table_id) {
+                        allpriceinfo = data[i][3];
+                        continue
+                    }
+                    tmp += '<tr style="height: 40px">';
+                    tmp += '<td class="text-sm-left" style="width: 10%">';
+                    tmp += data[i][0] + '</td>';
+                    tmp += '<td class="text-sm-left" style="width: 15%">';
+                    tmp += data[i][1] + '</td>';
+                    tmp += '<td class="text-sm-left" style="width: 14%">';
+                    tmp += data[i][2] + '</td>';
+                    tmp += '<td class="text-sm-left" style="width: 14%">';
+                    tmp += data[i][3] + '</td>';
+                    tmp += '<td class="text-sm-left" style="width: 14%">';
+                    tmp += data[i][4] + '</td>';
+                    tmp += '<td class="text-sm-left" style="width: 10%">';
+                    tmp += data[i][5] + '</td>';
+                    tmp += '<td class="text-sm-left" style="width: 10%">';
+                    tmp += data[i][6] + '</td>';
+                    tmp += '<td class="text-sm-left" style="width: 10%">';
+                    tmp += '<button type="button" onclick="delTableContent(\'' + id + '\',' + i + ')">删除</button>' + '</td>';
+                    tmp += '</tr>'
+                }
+            }
+
+            document.getElementById(id).innerHTML = tmp;
+            var allprice = $('#allprice');
+            if (allpriceinfo) {
+            } else {
+                allpriceinfo = 0;
+            }
+            allpriceinfo = (parseFloat(allprice.text().replace('￥', '')) - parseFloat(allpriceinfo)).toFixed(2);
+            document.getElementById('allprice').innerHTML = allpriceinfo.toString() + '￥';
+            var allprices = $('#allpriceinfo');
+            allprices.attr('value', allpriceinfo)
+        }
+
+    </script>
+
+{% endblock %}
+

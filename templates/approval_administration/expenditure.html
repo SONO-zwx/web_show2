@@ -1,0 +1,428 @@
+{% extends 'parent_template/approval_administration_template.html' %}
+
+{% block 支出-1-active %}
+    active
+{% endblock %}
+{% load templatetag %}
+{% load static %}
+{% block body1 %}
+    <div class="dashboard-ecommerce">
+        <div class="container-fluid dashboard-content ">
+            <!-- ============================================================== -->
+            <!-- pageheader  -->
+            <!-- ============================================================== -->
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="page-header">
+                        <h2 class="pageheader-title">审批管理</h2>
+                        <div class="page-breadcrumb">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="#" class="breadcrumb-link">单据管理</a>
+                                    </li>
+                                    <li class="breadcrumb-item active" aria-current="page">支出
+                                    </li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% if categorys %}
+                <h5>以下单据还无人审批请联系相关人员添加审批人：</h5>
+                <h6 style="color: red">{% for receipt in categorys %}
+                {{ receipt.1 }} --- {{ receipt.2 }}；
+                {% endfor %}
+                </h6>
+            {% endif %}
+
+            <div class="ecommerce-widget" id="div01" style="display: block">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="row">
+                        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-12">
+                            <div class="card">
+                                <h5 class="card-header">支出凭证审批目录</h5>
+                                <div class="card-body">
+                                    <table class="table">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col" style="width: 10%">时间</th>
+                                            <th scope="col" style="width: 10%">一级目录</th>
+                                            <th scope="col" style="width: 10%">门店</th>
+                                            <th scope="col" style="width: 10%">经办人</th>
+                                            <th scope="col" style="width: 10%">二级目录</th>
+                                            <th scope="col" style="width: 10%">总金额</th>
+                                            <th scope="col" style="width: 10%">当前状态</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for foo in info %}
+                                            <tr>
+                                                <td>
+                                                    <a href="{% url 'approval_administration:expenditure' %}?onereceiptsid={{ foo.id }}">{{ foo.dates|date:'Y-m-d' }}</a>
+                                                </td>
+                                                <td>
+                                                    <a href="{% url 'approval_administration:expenditure' %}?onereceiptsid={{ foo.id }}">{{ foo.types }}</a>
+                                                </td>
+                                                <td>
+                                                    <a href="{% url 'approval_administration:expenditure' %}?onereceiptsid={{ foo.id }}">{{ foo.shopname }}</a>
+                                                </td>
+                                                <td>
+                                                    <a href="{% url 'approval_administration:expenditure' %}?onereceiptsid={{ foo.id }}">{{ foo.responsibleperson }}</a>
+                                                </td>
+                                                <td>
+                                                    <a href="{% url 'approval_administration:expenditure' %}?onereceiptsid={{ foo.id }}">{{ foo.ertwo }}</a>
+                                                </td>
+                                                <td>
+                                                    <a href="{% url 'approval_administration:expenditure' %}?onereceiptsid={{ foo.id }}">{{ foo.allprice|qianfenwei }}</a>
+                                                </td>
+                                                <td>
+                                                    <a href="{% url 'approval_administration:expenditure' %}?onereceiptsid={{ foo.id }}">{{ foo.paymenttyoe }}</a>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                                <nav aria-label="Page navigation">
+                                    <div class="pagination">
+                                        <ul class="pagination">
+                                            <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
+                                            <li>当前页数：{{ info.number }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
+                                            {% if info.has_previous %}
+                                                <li>
+                                                    <a href="{% url 'approval_administration:expenditure' %}?onereceiptspage={{ info.previous_page_number }}"
+                                                       aria-label="Previous">
+                                                        <span aria-hidden="true">&laquo;&nbsp;&nbsp;</span></a>
+                                                </li>
+                                            {% endif %}
+
+                                            {% for num in info.paginator.page_range %}
+                                                {% if num == info.number|add:-1 or num == info.number|add:-2 or num == info.number|add:-3 or num == info.number or num == info.number|add:1 or num == info.number|add:2 or num == info.number|add:3 %}
+                                                    {% if num == info.number %}
+                                                        <li><a href="">{{ num }}&nbsp;&nbsp;</a></li>
+                                                    {% else %}
+                                                        <li>
+                                                            <a href="{% url 'approval_administration:expenditure' %}?onereceiptspage={{ num }}">{{ num }}&nbsp;&nbsp;</a>
+                                                        </li>
+                                                    {% endif %}
+                                                {% endif %}
+                                            {% endfor %}
+
+                                            {% if info.has_next %}
+                                                <li>
+                                                    <a href="{% url 'approval_administration:expenditure' %}?onereceiptspage={{ info.next_page_number }}"
+                                                       aria-label="Next">
+                                                        <span aria-hidden="true">&raquo;&nbsp;&nbsp;</span></a></li>
+                                            {% endif %}
+                                        </ul>
+                                    </div>
+                                </nav>
+                                <div aria-label="Page navigation" style="margin-left: 29px;margin-top: -13px;">
+                                    <span>跳转至</span>
+                                    <input type="text" style="width: 30px;" class="jump">
+                                    <input type="hidden" value="{{ info.paginator.num_pages }}" class="hidden_val">
+                                    <span>页</span>
+                                    <input type="button" value="GO" onclick="jump_to()">
+                                </div>
+                            </div>
+                        </div>
+                        {% if receipts %}
+                            <div class="col-xl-8 col-lg-6 col-md-6 col-sm-12 col-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <table style="width: 100%" border="1" cellspacing="1" cellpadding="2">
+                                            <tr>
+                                                <td colspan="8">
+                                                    <h3 style="text-align: center">单据凭证</h3>
+                                                </td>
+                                            </tr>
+                                            <tr style="height: 40px">
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    门&nbsp;&nbsp;店
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    {{ receipts.shopname|default:"" }}
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    类&nbsp;&nbsp;型
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    {{ receipts.types|default:"" }}
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    提&nbsp;交&nbsp;方&nbsp;式
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    {{ receipts.yuzhi|default:"" }}
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    当&nbsp;前&nbsp;状&nbsp;态
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    {{ receipts.paymenttyoe|default:"" }}
+                                                </td>
+                                            </tr>
+                                            <tr style="height: 40px">
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    经&nbsp;办&nbsp;人
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    {{ receipts.responsibleperson|default:"" }}
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    创&nbsp;建&nbsp;日&nbsp;期
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    {{ receipts.dates|date:"Y-m-d" }}
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    收&nbsp;款&nbsp;账&nbsp;号&nbsp;信&nbsp;息
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%" colspan="2">
+                                                    {{ receipts.paymentaccout.name|default:"" }}<br>{{ receipts.paymentaccout.account|default:"" }}
+                                                </td>
+                                                <td>
+                                                    <label class="custom-control custom-checkbox" id="itiszi">
+                                                        <input type="checkbox" class="custom-control-input" name="iszi"
+                                                               disabled
+                                                               id="iszi" {% if receipts.iszi == '1' %}
+                                                               checked {% endif %}><span class="custom-control-label">资料补充</span>
+                                                    </label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    明&nbsp;&nbsp;细
+                                                </td>
+                                                <td class="text-sm-left" colspan="5">
+                                                    <table style="width: 100%" border="1" cellspacing="1"
+                                                           cellpadding="2">
+                                                        <tr style="height: 40px">
+                                                            <td class="text-sm-center" style="width: 15%">
+                                                                类&nbsp;&nbsp;型
+                                                            </td>
+                                                            <td class="text-sm-center" style="width: 20%">
+                                                                项&nbsp;目&nbsp;名&nbsp;称
+                                                            </td>
+                                                            <td class="text-sm-center" style="width: 50%">
+                                                                备&nbsp;&nbsp;注
+                                                            </td>
+                                                            <td class="text-sm-center" style="width: 15%">
+                                                                金&nbsp;&nbsp;额
+                                                            </td>
+                                                        </tr>
+
+                                                        {% for dealpro in receipts.dealproject %}
+                                                            <tr style="height: 40px">
+                                                                <td class="text-sm-center">{{ dealpro.types }}</td>
+                                                                <td class="text-sm-center">{{ dealpro.projectname }}</td>
+                                                                <td>{{ dealpro.remark }}</td>
+                                                                <td class="text-sm-center">￥{{ dealpro.price }}</td>
+                                                            </tr>
+                                                        {% endfor %}
+
+                                                    </table>
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    总&nbsp;金&nbsp;额
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    ￥{{ receipts.allprice|qianfenwei }}
+                                                </td>
+                                            </tr>
+                                            <tr style="height: 120px">
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    凭&nbsp;证&nbsp;图&nbsp;片
+                                                </td>
+                                                <td colspan="7">
+                                                    {% for photo in receipts.photos %}
+                                                        {% if photo.onloadinfo != 5 %}
+                                                            <img src="{{ photo.img_url.url }}" alt="" style="height: 100px"
+                                                             id="myImg{{ photo.id }}" height="100"
+                                                             onclick="bigimg(this.id)">
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                </td>
+                                            </tr>
+                                            <tr style="height: 120px">
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    发&nbsp;票&nbsp;图&nbsp;片
+                                                </td>
+                                                <td colspan="7">
+                                                    {% for photo in receipts.photos %}
+                                                              {% if photo.onloadinfo == 5 %}
+                                                            <img src="{{ photo.img_url.url }}" alt="" style="height: 100px"
+                                                             id="myImg{{ photo.id }}" height="100"
+                                                             onclick="bigimg(this.id)">
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                </td>
+                                            </tr>
+                                            <tr style="height: 40px">
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    提&nbsp;交&nbsp;备&nbsp;注
+                                                </td>
+                                                <td colspan="7">
+                                                    {{ receipts.remark|default:"" }}
+                                                </td>
+                                            </tr>
+                                            {% for foo in receipts.remarks %}
+                                                <tr style="height: 80px">
+                                                    <td class="text-sm-center" style="width: 12.5%">
+                                                        审&nbsp;批&nbsp;人
+                                                    </td>
+                                                    <td class="text-sm-center" style="width: 12.5%">
+                                                        {{ foo.name }}
+                                                    </td>
+                                                    <td class="text-sm-center">审&nbsp;批&nbsp;结&nbsp;果</td>
+                                                    <td>
+                                                        {{ foo.status }}
+
+                                                    </td>
+                                                    <td class="text-sm-center">审&nbsp;批&nbsp;备&nbsp;注</td>
+                                                    <td colspan="3">
+                                                        {{ foo.limits }}
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+
+                                            <form action="{% url 'approval_administration:expenditure' %}"
+                                                  method="post">
+                                                {% csrf_token %}
+                                                <tr style="height: 80px">
+                                                    <td class="text-sm-center" style="width: 12.5%">
+                                                        审&nbsp;批&nbsp;人
+                                                    </td>
+                                                    <td class="text-sm-center" style="width: 12.5%">
+                                                        <input type="text" id="generalmanager" name="generalmanager"
+                                                               class="form-control"
+                                                               value="{{ userinfo.name }}" readonly>
+                                                        <input type="text" id="userid" name="userid"
+                                                               class="form-control"
+                                                               value="{{ userinfo.id }}" style="display: none">
+                                                        <input type="text" id="receiptsid" name="receiptsid"
+                                                               value="{{ receipts.id }}" style="display: none">
+                                                    </td>
+                                                    <td class="text-sm-center">审&nbsp;批&nbsp;结&nbsp;果</td>
+                                                    <td>
+                                                        <select class="form-control" id="paymenttyoe"
+                                                                required="" name="paymenttyoe" onclick="">
+                                                            <option>请选择</option>
+                                                            <option>通过审批</option>
+                                                            <option>驳回</option>
+                                                        </select>
+
+                                                    </td>
+                                                    <td class="text-sm-center">审&nbsp;批&nbsp;备&nbsp;注</td>
+                                                    <td colspan="3">
+                                                        <input type="text" id="remarks" name="remarks" value=""
+                                                               class="form-control">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="8" style="text-align: center; height: 50px">
+                                                        <button style="width:140px;height:36px;line-height:18px;font-size:18px; color:#2ea8e5;padding-bottom:4px"
+                                                                type="button" onclick="submitsinfo()">
+                                                            提交审批
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            </form>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                        <!-- 弹窗 -->
+                        <div id="myModal" class="modal" style="width: 100%; height: 100%">
+                            <!-- 弹窗内容 -->
+                            <div style="position: relative;width: 95%;height: 95%;border: 1px solid #000;">
+                                <img class="modal-content" id="img01"
+                                     style="position: absolute;width: 500px;left: 0;right: 0;top: 0;bottom: 0;margin: auto;">
+                                <div>
+                                    <div style="margin: 0 auto; width: 205px;">
+                                        <div style="position: fixed;bottom: 40px;">
+                                            <button type="button" class="btn btn-outline-light"
+                                                    id="fangda">
+                                                <span class="fa fa-search-plus"></span>
+                                            </button>
+                                            <button type="button" class="btn btn-outline-light"
+                                                    id="suoxiao">
+                                                <span class="fas fa-search-minus"></span>
+                                            </button>
+                                            <button type="button" class="btn btn-outline-light"
+                                                    id="zuozhuan">
+                                                <span class="fas fa-undo"></span>
+                                            </button>
+                                            <button type="button" class="btn btn-outline-light"
+                                                    id="youzhuan">
+                                                <span class="fas fa-redo"></span>
+                                            </button>
+                                            <button type="button" class="btn btn-outline-light"
+                                                    id="youzhuan"
+                                                    onclick="document.getElementById('myModal').style.display='none'">
+                                                <span class="fa fa-power-off"></span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function submitsinfo() {
+            var paymenttyoe = $('#paymenttyoe').val();
+            if (paymenttyoe === '请选择') {
+                alert('提交审批结果需要先选择审批结果');
+                return false;
+            }
+            if (paymenttyoe === '驳回') {
+                var remarks = $('#remarks').val();
+                if (remarks === '') {
+                    alert('驳回需要先填写审批备注');
+                    return false;
+                }
+            }
+            $('form').submit()
+        }
+    </script>
+    <script>
+        function readAsDataURL() {
+            var file = document.getElementById("receiptsimg").files;
+            var result = document.getElementById("result");
+            result.innerHTML = '';
+            for (i = 0; i < file.length; i++) {
+                var reader = new FileReader();
+                reader.index = i;
+                reader.readAsDataURL(file[i], i);
+                reader.onload = function (event) {
+                    result.innerHTML = result.innerHTML + '<img src="' + this.result + '" alt="" style="height: 100px" id="myImg' + this.index + '" onclick="bigimg(\'myImg' + this.index + '\')"/>';
+                }
+            }
+        }
+
+        function jump_to() {
+            var href = $('.jump').val()
+            var num_pages = $('.hidden_val').val()
+            if (href === "" || href == null) {
+                alert('请输入正确的页码！')
+                return false
+            } else if (parseInt(href) > parseInt(num_pages)) {
+                location.href = '{% url 'approval_administration:expenditure' %}?onereceiptspage=' + num_pages
+            } else if (num_pages === '') {
+                location.href = '{% url 'approval_administration:expenditure' %}?onereceiptspage=' + 1
+            } else {
+                location.href = '{% url 'approval_administration:expenditure' %}?onereceiptspage=' + href
+            }
+        }
+    </script>
+    <script src="{% static 'img/js/myjs.js' %}"></script>
+
+{% endblock %}
+

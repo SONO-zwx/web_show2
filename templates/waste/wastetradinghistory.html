@@ -1,0 +1,242 @@
+{% extends 'parent_template/parent_template.html' %}
+
+{% load static %}
+
+{% block 危废模块-active %}
+    active
+{% endblock %}
+
+{% block collapse3 %}
+collapse
+{% endblock %}
+{% block collapse1 %}
+collapse
+{% endblock %}
+{% block collapse2 %}
+collapse
+{% endblock %}
+{% block collapse4 %}
+collapse
+{% endblock %}
+{% block collapse6 %}
+collapse
+{% endblock %}
+{% block collapse7 %}
+collapse
+{% endblock %}
+{% block collapse8 %}
+
+{% endblock %}
+{% block collapse9 %}
+collapse
+{% endblock %}
+{% block collapse11 %}
+collapse
+{% endblock %}
+{% block collapse12 %}
+collapse
+{% endblock %}
+
+{% block body %}
+    <div class="dashboard-ecommerce">
+        <div class="container-fluid dashboard-content ">
+            <!-- ============================================================== -->
+            <!-- pageheader  -->
+            <!-- ============================================================== -->
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="page-header">
+                        <h2 class="pageheader-title">危废模块</h2>
+                        <div class="page-breadcrumb">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="#" class="breadcrumb-link">危废模块</a>
+                                    </li>
+                                    <li class="breadcrumb-item active" aria-current="page">危废交易历史
+                                    </li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <h5>
+
+            </h5>
+            <div class="ecommerce-widget">
+
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="row">
+                        <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
+                            <div class="card">
+                                <div class="form-group row">
+                                    <label class="col-12 col-sm-3 col-form-label text-sm-right">开始日期</label>
+                                    <div class="col-12 col-sm-8 col-lg-6"><input type="date" class="form-control"
+                                                                                 name="starttime" id="starttime"
+                                                                                 value="{{ starttime }}">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
+                            <div class="card">
+                                <div class="form-group row">
+                                    <label class="col-12 col-sm-3 col-form-label text-sm-right">截止日期</label>
+                                    <div class="col-12 col-sm-8 col-lg-6"><input type="date" class="form-control"
+                                                                                 name="endtime" id="endtime"
+                                                                                 value="{{ endtime }}">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
+                            <div class="card">
+                                <h5 class="card-header">商品类别 <a href="" id="abiaoqian" style="display: none">商品查询链接</a>
+                                </h5>
+                                <div class="card-body">
+                                    <table class="table">
+                                        <tbody>
+                                        {% for wasteinfo in project_list %}
+                                            <tr>
+                                                <td>
+                                                    <a onclick="searchinfo('{{ wasteinfo }}', 1)"
+                                                       style="cursor:pointer">{{ wasteinfo }}</a>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <nav aria-label="Page navigation">
+                                    <div class="pagination">
+                                        <ul class="pagination">
+                                            <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
+                                            <li>当前页数：{{ project_list.number }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
+                                            {% if project_list.has_previous %}
+                                                <li>
+                                                    <a style="cursor:pointer"
+                                                       href="{% url 'waste:wasteinfo' %}?project_listpage={{ project_list.previous_page_number }}"
+                                                       aria-label="Previous">
+                                                        <span aria-hidden="true">&laquo;&nbsp;&nbsp;</span></a></li>
+                                            {% endif %}
+
+                                            {% for num in project_list.paginator.page_range %}
+                                                {% if num == project_list.number|add:-1 or num == project_list.number|add:-2 or num == project_list.number|add:-3 or num == project_list.number or num == project_list.number|add:1 or num == project_list.number|add:2 or num == project_list.number|add:3 %}
+                                                    {% if num == project_list.number %}
+                                                        <li><a href="">{{ num }}&nbsp;&nbsp;</a></li>
+                                                    {% else %}
+                                                        <li>
+                                                            <a style="cursor:pointer"
+                                                               href="{% url 'waste:wasteinfo' %}?project_listpage={{ num }}">{{ num }}&nbsp;&nbsp;</a>
+                                                        </li>
+                                                    {% endif %}
+                                                {% endif %}
+                                            {% endfor %}
+
+                                            {% if project_list.has_next %}
+                                                <li>
+                                                    <a style="cursor:pointer"
+                                                       href="{% url 'waste:wasteinfo' %}?project_listpage={{ project_list.next_page_number }}"
+                                                       aria-label="Next">
+                                                        <span aria-hidden="true">&raquo;&nbsp;&nbsp;</span></a></li>
+                                            {% endif %}
+                                        </ul>
+                                    </div>
+                                </nav>
+
+                            </div>
+                        </div>
+                        <div class="col-xl-8 col-lg-6 col-md-6 col-sm-12 col-12">
+                            <div class="card">
+                                <h5 class="card-header">详情页面</h5>
+                                <div class="card-body">
+
+                                    <table class="table">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col">类别</th>
+                                            <th scope="col">{{ commendnumber_sql.name }}</th>
+                                            <th scope="col">数量</th>
+                                            <th scope="col">{{ commendnumber_sql.number }}</th>
+                                        </tr>
+                                        <tr>
+                                            <th scope="col">订单编号</th>
+                                            <th scope="col">产品代码</th>
+                                            <th scope="col">产品名称</th>
+                                            <th scope="col">数量</th>
+                                            <th scope="col">单位</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for wasteinfo in info %}
+                                            <tr>
+                                                <td>{{ wasteinfo.OrderNumber }}</td>
+                                                <td>{{ wasteinfo.ProductCode }}</td>
+                                                <td>{{ wasteinfo.ProductName }}</td>
+                                                <td>{{ wasteinfo.Number }}</td>
+                                                <td>{{ wasteinfo.Unit }}</td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <nav aria-label="Page navigation">
+                                    <div class="pagination">
+                                        <ul class="pagination">
+                                            <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
+                                            <li>当前页数：{{ info.number }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
+                                            {% if info.has_previous %}
+                                                <li>
+                                                    <a onclick="searchinfo('{{ commendnumber_sql.name }}', '{{ info.previous_page_number }}')"
+                                                       aria-label="Previous">
+                                                        <span aria-hidden="true">&laquo;&nbsp;&nbsp;</span></a></li>
+                                            {% endif %}
+
+                                            {% for num in info.paginator.page_range %}
+                                                {% if num == info.number|add:-1 or num == info.number|add:-2 or num == info.number|add:-3 or num == info.number or num == info.number|add:1 or num == info.number|add:2 or num == info.number|add:3 %}
+                                                    {% if num == info.number %}
+                                                        <li><a href="">{{ num }}&nbsp;&nbsp;</a></li>
+                                                    {% else %}
+                                                        <li>
+                                                            <a onclick="searchinfo('{{ commendnumber_sql.name }}', '{{ num }}')">{{ num }}&nbsp;&nbsp;</a>
+                                                        </li>
+                                                    {% endif %}
+                                                {% endif %}
+                                            {% endfor %}
+
+                                            {% if info.has_next %}
+                                                <li>
+                                                    <a onclick="searchinfo('{{ commendnumber_sql.name }}', '{{ info.next_page_number }}')"
+                                                       aria-label="Next">
+                                                        <span aria-hidden="true">&raquo;&nbsp;&nbsp;</span></a></li>
+                                            {% endif %}
+                                        </ul>
+                                    </div>
+                                </nav>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <script>
+        function searchinfo(project, infopage) {
+            var starttime = $('#starttime').val();
+            var endtime = $('#endtime').val();
+            var url = window.location.href;
+            var arrUrl = url.split("?");
+            var a = $('#abiaoqian');
+            a.attr('href', arrUrl[0] + '?starttime=' + starttime + '&endtime=' + endtime + '&project=' + project + '&infopage=' + infopage);
+            document.getElementById("abiaoqian").click();
+
+        }
+    </script>
+{% endblock %}
+

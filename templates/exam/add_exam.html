@@ -1,0 +1,236 @@
+{% extends 'parent_template/parent_template.html' %}
+
+{% load static %}
+
+{% block 门店考试-active %}
+    active
+{% endblock %}
+{% block 添加试卷-active %}
+active
+{% endblock %}
+
+{% block collapse3 %}
+collapse
+{% endblock %}
+{% block collapse1 %}
+collapse
+{% endblock %}
+{% block collapse2 %}
+collapse
+{% endblock %}
+{% block collapse4 %}
+
+{% endblock %}
+{% block collapse6 %}
+collapse
+{% endblock %}
+{% block collapse7 %}
+collapse
+{% endblock %}
+{% block collapse8 %}
+collapse
+{% endblock %}
+{% block collapse9 %}
+collapse
+{% endblock %}
+{% block collapse11 %}
+collapse
+{% endblock %}
+{% block collapse12 %}
+collapse
+{% endblock %}
+
+
+{% block body %}
+    <div class="dashboard-ecommerce">
+        <div class="container-fluid dashboard-content ">
+            <!-- ============================================================== -->
+            <!-- pageheader  -->
+            <!-- ============================================================== -->
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="page-header">
+                        <h2 class="pageheader-title">添加试卷</h2>
+                        <div class="page-breadcrumb">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="#" class="breadcrumb-link">门店考试</a>
+                                    </li>
+                                    <li class="breadcrumb-item" aria-current="page">添加试卷
+                                    </li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <h5>
+                <a href="{% url 'exam:add_exam' %}" style="width: 150px;height: 30px;display: inline-block;text-align: center;line-height: 30px;background-color: rgb(51, 122, 183);color: white;border: 1px solid grey;">添加试卷</a>
+            </h5>
+            <div class="ecommerce-widget" id="div01" style="display: block">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="row">
+                        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-12">
+                            <div class="card">
+                                <h5 class="card-header">试卷目录</h5>
+                                <div class="card-body">
+                                    <table class="table">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col">试卷</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for examnames in examname %}
+                                            <tr>
+                                                <td>
+                                                    <a href="{% url 'exam:add_exam' %}?examid={{ examnames.id }}">{{ examnames.name }}</a>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                                <nav aria-label="Page navigation">
+                                    <div class="pagination">
+                                        <ul class="pagination">
+                                            <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
+                                            <li>当前页数：{{ examname.number }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
+                                            {% if examname.has_previous %}
+                                                <li>
+                                                    <a href="{% url 'exam:add_exam' %}?exampage={{ examname.previous_page_number }}"
+                                                       aria-label="Previous">
+                                                        <span aria-hidden="true">&laquo;&nbsp;&nbsp;</span></a>
+                                                </li>
+                                            {% endif %}
+
+                                            {% for num in examname.paginator.page_range %}
+                                                {% if num == examname.number|add:-1 or num == examname.number|add:-2 or num == examname.number|add:-3 or num == examname.number or num == examname.number|add:1 or num == examname.number|add:2 or num == examname.number|add:3 %}
+                                                    {% if num == examname.number %}
+                                                        <li><a href="">{{ num }}&nbsp;&nbsp;</a></li>
+                                                    {% else %}
+                                                        <li>
+                                                            <a href="{% url 'exam:add_exam' %}?exampage={{ num }}">{{ num }}&nbsp;&nbsp;</a>
+                                                        </li>
+                                                    {% endif %}
+                                                {% endif %}
+                                            {% endfor %}
+
+                                            {% if account.has_next %}
+                                                <li>
+                                                    <a href="{% url 'exam:add_exam' %}?exampage={{ examname.next_page_number }}"
+                                                       aria-label="Next">
+                                                        <span aria-hidden="true">&raquo;&nbsp;&nbsp;</span></a></li>
+                                            {% endif %}
+                                        </ul>
+                                    </div>
+                                </nav>
+                                <div aria-label="Page navigation" style="margin-left: 29px;margin-top: -13px;">
+    <span>跳转至</span>
+    <input type="text" style="width: 30px;" class="jump">
+    <input type="hidden" value="{{ info.paginator.num_pages }}" class="hidden_val">
+    <span>页</span>
+    <input type="button" value="GO" onclick="jump_to()">
+</div>
+                            </div>
+                        </div>
+                        <div class="col-xl-8 col-lg-6 col-md-6 col-sm-12 col-12">
+                            <div class="card">
+                                <h5 class="card-header">详情页面</h5>
+                                <div class="card-body">
+                                    <form action="{% url 'exam:add_exam' %}" method="post">
+                                        <div class="form-group row">
+                                            <label class="col-12 col-sm-3 col-form-label text-sm-right">试&nbsp;&nbsp;卷&nbsp;&nbsp;名</label>
+                                            <div class="col-12 col-sm-8 col-lg-6">
+                                                <input type="text" class="form-control" name="name" id="name"
+                                                       value="{{ info.name|default:'' }}">
+                                                <input type="text" class="form-control" name="type" id="type"
+                                                       value="{{ id|default:'' }}" style="display: none">
+                                                <input type="text" class="form-control" name="id" id="id"
+                                                       value="{{ info.id|default:'' }}" style="display: none">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-12 col-sm-3 col-form-label text-sm-right">试&nbsp;&nbsp;卷&nbsp;&nbsp;说&nbsp;&nbsp;明</label>
+                                            <div class="col-12 col-sm-8 col-lg-6">
+                                                <input type="text" class="form-control" name="remark" id="remark"
+                                                       value="{{ info.remark|default:'' }}">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-12 col-sm-3 col-form-label text-sm-right">所&nbsp;&nbsp;属&nbsp;&nbsp;公&nbsp;&nbsp;司</label>
+                                            <div class="col-12 col-sm-8 col-lg-6">
+                                                <input readonly="readonly" type="text" class="form-control"
+                                                       name="superior" id="superior" value="{{ superior }}">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row text-right">
+                                            <div class="col col-sm-10 col-lg-9 offset-sm-1 offset-lg-0">
+                                                {% if id == '修改' %}
+                                                    <button type="button" onclick="submits()"
+                                                            style="width:140px;height:36px;line-height:18px;font-size:18px; color:#2ea8e5;padding-bottom:4px">
+                                                        修改
+                                                    </button>
+                                                    <a href="{% url 'exam:add_topic' %}?id={{ info.id }}">
+                                                        <button type="button"
+                                                                style="width:140px;height:36px;line-height:18px;font-size:18px; color:#2ea8e5;padding-bottom:4px">
+                                                            添加题目
+                                                        </button>
+                                                    </a>
+                                                {% elif id == '添加' %}
+                                                    <button type="button" onclick="submits()"
+                                                            style="width:140px;height:36px;line-height:18px;font-size:18px; color:#2ea8e5;padding-bottom:4px">
+                                                        添加
+                                                    </button>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function submits() {
+            var name = $('#name').val();
+            var remark = $('#remark').val();
+            var superior = $('#superior').val();
+
+            if (name === '') {
+                alert('请输入试卷名');
+                return false;
+            }
+            if (remark === '') {
+                alert('请输入试卷说明');
+                return false;
+            }
+            if (superior === '') {
+                alert('请输入所属公司');
+                return false;
+            }
+            $('form').submit();
+        }
+
+        function jump_to() {
+        var href = $('.jump').val()
+        var num_pages = $('.hidden_val').val()
+        if (href === "" || href == null) {
+            alert('请输入正确的页码！')
+            return false
+        } else if (parseInt(href) > parseInt(num_pages)) {
+            location.href = '{% url 'exam:add_exam' %}?exampage=' + num_pages
+        } else if(num_pages === ''){
+            location.href = '{% url 'exam:add_exam' %}?exampage=' + 1
+        }else {
+            location.href = '{% url 'exam:add_exam' %}?exampage=' + href
+        }
+    }
+
+    </script>
+{% endblock %}
+

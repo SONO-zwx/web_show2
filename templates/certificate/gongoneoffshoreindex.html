@@ -1,0 +1,477 @@
+{% extends 'parent_template/gongcertificate.html' %}
+
+{% load static %}
+{% load templatetag %}
+
+{% block 历史单据-11-active %}
+    active
+{% endblock %}
+
+{% block body %}
+    <div class="dashboard-ecommerce">
+        <div class="container-fluid dashboard-content ">
+            <!-- ============================================================== -->
+            <!-- pageheader  -->
+            <!-- ============================================================== -->
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="page-header">
+                        <h2 class="pageheader-title">门店外采单据</h2>
+                        <div class="page-breadcrumb">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="#" class="breadcrumb-link">外采单据</a>
+                                    </li>
+                                    <li class="breadcrumb-item active" aria-current="page">历史单据
+                                    </li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <h5>
+                <a href="{% url 'certificate:gongoffshorereceiptshistory' %}"><span
+                        style="width: 100px;height: 30px;display: inline-block;text-align: center;line-height: 30px;">当天单据</span></a>
+                <a href="{% url 'certificate:gongoneoffshorereceiptshistory' %}"><span
+                        style="width: 100px;height: 30px;display: inline-block;text-align: center;line-height: 30px;background-color: rgb(51, 122, 183);color: white;border: 1px solid grey;">全部单据</span></a>
+                <a href="{% url 'certificate:No_right' %}"><span
+                        style="width: 100px;height: 30px;display: inline-block;text-align: center;line-height: 30px;">对账订单</span></a>
+            </h5>
+            <div class="row">
+                <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
+                    <div class="card" style="height: 40px;width: 253px;">
+                        <div class="form-group row" style="width: 362px;">
+                            <label class="col-12 col-sm-3 col-form-label text-sm-right"
+                                   style="line-height: 5px;">&emsp;开始日期</label>
+                            <div class="col-12 col-sm-8 col-lg-6" style="margin-top: -10px">
+                                <input type="date" class="form-control" name="starttime" id="starttime"
+                                       value="{{ search_info.starttime }}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card" style="height: 40px;width: 250px;margin-left: -124px;">
+                    <div class="form-group" style="width: 250px;">
+                        <span style="margin-left: 12px;margin-top: 10px;display: inline-block;font-size: 15px;">截止日期</span>
+                        <div style="margin-top: -30px;margin-left: 80px;width: 155px;">
+                            <input type="date" class="form-control" name="endtime" id="endtime"
+                                   value="{{ search_info.endtime }}">
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <select name="shopname" id="shopname" class="form-control text-sm-center"
+                            style="width: 120px;margin-left: 10px;">
+                        <option>请选择门店</option>
+                        {% for shopname in ShopNames %}
+                            {% if search_info.shopname == shopname.shopname %}
+                                <option selected="selected">{{ shopname.shopname }}</option>
+                            {% else %}
+                                <option>{{ shopname.shopname }}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                    <select name="gongaccount" id="gongaccount" class="form-control text-sm-center"
+                            style="width: 120px;margin-left: 137px;margin-top: -38px;">
+                        <option>请选择公司</option>
+                        {% for foo in gongaccount %}
+                            <option value="{{ foo.id }}"
+                                    {% if foo.id == search_info.gongaccount %}selected{% endif %}>{{ foo.effect }}</option>
+                        {% endfor %}
+
+                    </select>
+                </div>
+                <div style="margin-left: 10px;">
+                    <button type="button" class="btn btn-success" style="width: 70px;height: 37px;"
+                            onclick="search_info()">确认
+                    </button>&emsp;
+                </div>
+            </div>
+
+            <div class="ecommerce-widget" id="div01" style="display: block">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="row">
+                        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-12">
+                            <div class="card">
+                                <h5 class="card-header">全部外采单据</h5>
+                                <div class="card-body">
+                                    <table class="table">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col" style="width: 20%">创建时间</th>
+                                            <th scope="col" style="width: 20%">车辆品牌</th>
+                                            <th scope="col" style="width: 20%">车型</th>
+                                            <th scope="col" style="width: 20%">需求描述</th>
+                                            <th scope="col" style="width: 20%">当前状态</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for offshore in offshores %}
+                                            <tr>
+                                                <td>
+                                                    <a href="{% url 'certificate:gongoneoffshorereceiptshistory' %}?offshoreid={{ offshore.id }}&offshorepage={{ offshores.number }}&shopname={{ search_info.shopname }}&starttime={{ search_info.starttime }}&endtime={{ search_info.endtime }}&gongaccount={{ search_info.gongaccount }}">{{ offshore.tijiaodata|date:'Y-m-d' }}</a>
+                                                </td>
+                                                <td>
+                                                    <a href="{% url 'certificate:gongoneoffshorereceiptshistory' %}?offshoreid={{ offshore.id }}&offshorepage={{ offshores.number }}&shopname={{ search_info.shopname }}&starttime={{ search_info.starttime }}&endtime={{ search_info.endtime }}&gongaccount={{ search_info.gongaccount }}">{{ offshore.brand|default:'' }}</a>
+                                                </td>
+                                                <td>
+                                                    <a href="{% url 'certificate:gongoneoffshorereceiptshistory' %}?offshoreid={{ offshore.id }}&offshorepage={{ offshores.number }}&shopname={{ search_info.shopname }}&starttime={{ search_info.starttime }}&endtime={{ search_info.endtime }}&gongaccount={{ search_info.gongaccount }}">{{ offshore.motorcycle|default:'' }}</a>
+                                                </td>
+                                                <td>
+                                                    <a href="{% url 'certificate:gongoneoffshorereceiptshistory' %}?offshoreid={{ offshore.id }}&offshorepage={{ offshores.number }}&shopname={{ search_info.shopname }}&starttime={{ search_info.starttime }}&endtime={{ search_info.endtime }}&gongaccount={{ search_info.gongaccount }}">{{ offshore.model|default:'' }}</a>
+                                                </td>
+                                                <td>
+                                                    <a href="{% url 'certificate:gongoneoffshorereceiptshistory' %}?offshoreid={{ offshore.id }}&offshorepage={{ offshores.number }}&shopname={{ search_info.shopname }}&starttime={{ search_info.starttime }}&endtime={{ search_info.endtime }}&gongaccount={{ search_info.gongaccount }}">{{ offshore.status|default:'' }}</a>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                    <table class="table" id="tableExcel" style="display: none ">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col" style="width: 20%">创建时间</th>
+                                            <th scope="col" style="width: 20%">车辆品牌</th>
+                                            <th scope="col" style="width: 20%">车型</th>
+                                            <th scope="col" style="width: 20%">需求描述</th>
+                                            <th scope="col" style="width: 20%">当前状态</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for offshore in alloffshores %}
+                                            <tr>
+                                                <td>
+                                                    <a href="{% url 'certificate:gongoneoffshorereceiptshistory' %}?offshoreid={{ offshore.id }}&shopname={{ search_info.shopname }}&starttime={{ search_info.starttime }}&endtime={{ search_info.endtime }}&gongaccount={{ search_info.gongaccount }}">{{ offshore.tijiaodata|date:'Y-m-d' }}</a>
+                                                </td>
+                                                <td>
+                                                    <a href="{% url 'certificate:gongoneoffshorereceiptshistory' %}?offshoreid={{ offshore.id }}&shopname={{ search_info.shopname }}&starttime={{ search_info.starttime }}&endtime={{ search_info.endtime }}&gongaccount={{ search_info.gongaccount }}">{{ offshore.brand|default:'' }}</a>
+                                                </td>
+                                                <td>
+                                                    <a href="{% url 'certificate:gongoneoffshorereceiptshistory' %}?offshoreid={{ offshore.id }}&shopname={{ search_info.shopname }}&starttime={{ search_info.starttime }}&endtime={{ search_info.endtime }}&gongaccount={{ search_info.gongaccount }}">{{ offshore.motorcycle|default:'' }}</a>
+                                                </td>
+                                                <td>
+                                                    <a href="{% url 'certificate:gongoneoffshorereceiptshistory' %}?offshoreid={{ offshore.id }}&shopname={{ search_info.shopname }}&starttime={{ search_info.starttime }}&endtime={{ search_info.endtime }}&gongaccount={{ search_info.gongaccount }}">{{ offshore.model|default:'' }}</a>
+                                                </td>
+                                                <td>
+                                                    <a href="{% url 'certificate:gongoneoffshorereceiptshistory' %}?offshoreid={{ offshore.id }}&shopname={{ search_info.shopname }}&starttime={{ search_info.starttime }}&endtime={{ search_info.endtime }}&gongaccount={{ search_info.gongaccount }}">{{ offshore.status|default:'' }}</a>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <nav aria-label="Page navigation">
+                                    <div class="pagination">
+                                        <ul class="pagination">
+                                            <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
+                                            <li>当前页数：{{ offshores.number }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
+                                            {% if offshores.has_previous %}
+                                                <li>
+                                                    <a href="{% url 'certificate:gongoneoffshorereceiptshistory' %}?offshorepage={{ offshores.previous_page_number }}&shopname={{ search_info.shopname }}&starttime={{ search_info.starttime }}&endtime={{ search_info.endtime }}&gongaccount={{ search_info.gongaccount }}"
+                                                       aria-label="Previous"><span aria-hidden="true">&laquo;&nbsp;&nbsp;</span></a>
+                                                </li>
+                                            {% endif %}
+
+                                            {% for num in offshores.paginator.page_range %}
+                                                {% if num == offshores.number|add:-1 or num == offshores.number|add:-2 or num == offshores.number|add:-3 or num == offshores.number or num == offshores.number|add:1 or num == offshores.number|add:2 or num == offshores.number|add:3 %}
+                                                    {% if num == offshores.number %}
+                                                        <li><a href="">{{ num }}&nbsp;&nbsp;</a></li>
+                                                    {% else %}
+                                                        <li>
+                                                            <a href="{% url 'certificate:gongoneoffshorereceiptshistory' %}?offshorepage={{ num }}&shopname={{ search_info.shopname }}&starttime={{ search_info.starttime }}&endtime={{ search_info.endtime }}&gongaccount={{ search_info.gongaccount }}">{{ num }}&nbsp;&nbsp;</a>
+                                                        </li>
+                                                    {% endif %}
+                                                {% endif %}
+                                            {% endfor %}
+
+                                            {% if offshores.has_next %}
+                                                <li>
+                                                    <a href="{% url 'certificate:gongoneoffshorereceiptshistory' %}?offshorepage={{ offshores.next_page_number }}&shopname={{ search_info.shopname }}&starttime={{ search_info.starttime }}&endtime={{ search_info.endtime }}&gongaccount={{ search_info.gongaccount }}"
+                                                       aria-label="Next">
+                                                        <span aria-hidden="true">&raquo;&nbsp;&nbsp;</span></a></li>
+                                            {% endif %}
+                                        </ul>
+                                    </div>
+                                </nav>
+                                <div aria-label="Page navigation" style="margin-left: 29px;margin-top: -13px;">
+                                    <span>跳转至</span>
+                                    <input type="text" style="width: 30px;" class="jump">
+                                    <input type="hidden" value="{{ info.paginator.num_pages }}" class="hidden_val">
+                                    <span>页</span>
+                                    <input type="button" value="GO" onclick="jump_to()">
+                                </div>
+                            </div>
+                        </div>
+                        {% if offshoreinfo %}
+                        <div class="col-xl-8 col-lg-6 col-md-6" style="margin: 0 auto">
+                            <div class="card">
+                                <div class="card-body">
+                                    <table style="width: 100%" border="1" cellspacing="1" cellpadding="2">
+                                        <tr>
+                                            <td colspan="8">
+                                                <h3 style="text-align: center">外采单据凭证</h3>
+                                            </td>
+                                        </tr>
+                                        <tr style="height: 60px">
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                门&nbsp;&nbsp;店
+                                            </td>
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                {{ offshoreinfo.shopname|default:"" }}
+                                            </td>
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                当&nbsp;前&nbsp;状&nbsp;态
+                                            </td>
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                {{ offshoreinfo.status|default:"" }}
+                                            </td>
+                                            <td class="text-sm-center" style="width: 12.5%" rowspan="2">
+                                                车&nbsp;辆&nbsp;信&nbsp;息&nbsp;图&nbsp;片
+                                            </td>
+                                            <td colspan="3" rowspan="2">
+                                                {% for photo in offshoreinfo.Carinfoimg %}
+                                                    <img src="{{ photo.img_url.url }}" alt="" style="height: 100px"
+                                                         id="myImgcarinfo{{ photo.id }}" height="100"
+                                                         onclick="bigimg(this.id)">
+                                                {% endfor %}
+                                            </td>
+                                        </tr>
+                                        <tr style="height: 60px">
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                供&nbsp;货&nbsp;商
+                                            </td>
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                {{ offshoreinfo.gongaccount|default:"" }}
+                                            </td>
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                车&nbsp;辆&nbsp;品&nbsp;牌
+                                            </td>
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                {{ offshoreinfo.brand|default:"" }}
+                                            </td>
+                                        </tr>
+                                        <tr style="height: 60px">
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                车&nbsp;&nbsp;型
+                                            </td>
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                {{ offshoreinfo.motorcycle|default:"" }}
+                                            </td>
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                车&nbsp;架&nbsp;号
+                                            </td>
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                {{ offshoreinfo.forid|default:"" }}
+                                            </td>
+                                            <td class="text-sm-center" style="width: 12.5%" rowspan="2">
+                                                车&nbsp;架&nbsp;号&nbsp;照&nbsp;片
+                                            </td>
+                                            <td colspan="3" rowspan="2">
+                                                {% for photo in offshoreinfo.Vinimg %}
+                                                    <img src="{{ photo.img_url.url }}" alt="" style="height: 100px"
+                                                         id="myImgvininfo{{ photo.id }}" height="100"
+                                                         onclick="bigimg(this.id)">
+                                                {% endfor %}
+                                            </td>
+                                        </tr>
+                                        <tr style="height: 60px">
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                需&nbsp;求&nbsp;描&nbsp;述
+                                            </td>
+                                            <td class="text-sm-center" style="width: 12.5%" colspan="3">
+                                                {{ offshoreinfo.model|default:"" }}
+                                            </td>
+                                        </tr>
+                                        <tr style="height: 120px">
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                相&nbsp;关&nbsp;视&nbsp;频
+                                            </td>
+                                            <td colspan="7">
+                                                {% for foo in offshoreinfo.Kindsimg %}
+                                                    <video width="320" height="180" controls>
+                                                        <source src="{{ foo.img_url.url }}" type="video/mp4">
+                                                    </video>
+                                                {% endfor %}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                货&nbsp;品&nbsp;明&nbsp;细
+                                            </td>
+                                            <td class="text-sm-left" colspan="7">
+                                                <table style="width: 100%" border="1" cellspacing="1"
+                                                       cellpadding="2">
+                                                    <tr style="height: 40px">
+                                                        <td class="text-sm-center" style="width: 15%">
+                                                            商&nbsp;品&nbsp;品&nbsp;牌
+                                                        </td>
+                                                        <td class="text-sm-center" style="width: 15%">
+                                                            产&nbsp;品&nbsp;名&nbsp;称
+                                                        </td>
+                                                        <td class="text-sm-center" style="width: 15%">
+                                                            型&nbsp;&nbsp;号
+                                                        </td>
+                                                        <td class="text-sm-center" style="width: 15%">
+                                                            数&nbsp;&nbsp;量
+                                                        </td>
+                                                        <td class="text-sm-center" style="width: 15%">
+                                                            单&nbsp;&nbsp;价
+                                                        </td>
+                                                        <td class="text-sm-center" style="width: 15%">
+                                                            合&nbsp;&nbsp;计
+                                                        </td>
+                                                        <td class="text-sm-center" style="width: 15%">
+                                                            状&nbsp;&nbsp;态
+                                                        </td>
+                                                    </tr>
+
+                                                    {% for dealpro in offshoreinfo.offshoredealproject %}
+                                                        <tr style="height: 40px">
+                                                            <td class="text-sm-center" style="width: 15%">
+                                                                {{ dealpro.brand }}
+                                                            </td>
+                                                            <td class="text-sm-center" style="width: 15%">
+                                                                {{ dealpro.productname }}
+                                                            </td>
+                                                            <td class="text-sm-center" style="width: 15%">
+                                                                {{ dealpro.model }}
+                                                            </td>
+                                                            <td class="text-sm-center" style="width: 15%">
+                                                                {{ dealpro.number }}
+                                                            </td>
+                                                            <td class="text-sm-center" style="width: 15%">
+                                                                {{ dealpro.unit }}
+                                                            </td>
+                                                            <td class="text-sm-center" style="width: 15%">
+                                                                {{ dealpro.unit|mul:dealpro.number }}
+                                                            </td>
+                                                            <td class="text-sm-center" style="width: 15%">
+                                                                {{ dealpro.status }}
+                                                            </td>
+
+                                                        </tr>
+                                                    {% endfor %}
+
+                                                </table>
+                                            </td>
+                                        </tr>
+                                        <tr style="height: 60px" >
+                                            <td class="text-sm-center" style="width: 12.5%" colspan="1">
+                                                垫&nbsp;付&nbsp;运&nbsp;费
+                                            </td>
+                                            <td class="text-sm-center" style="width: 12.5%" colspan="2">
+                                                ￥{{ offshoreinfo.yunfei|default:"" }}
+                                            </td>
+                                            <td class="text-sm-center" style="width: 12.5%" colspan="1">
+                                                合&nbsp;&nbsp;计
+                                            </td>
+                                            <td class="text-sm-center" style="width: 12.5%" colspan="2">
+                                                ￥{{ offshoreinfo.allprice|default:"" }}
+                                            </td>
+                                        </tr>
+                                    </table>
+
+                                    <!-- 弹窗 -->
+                                    <div id="myModal" class="modal">
+                                        <!-- 弹窗内容 -->
+                                        <img class="modal-content" id="img01">
+                                        <div>
+                                            <div style="margin: 0 auto; width: 205px;">
+                                                <div style="position: fixed;bottom: 40px;">
+                                                    <button type="button" class="btn btn-outline-light"
+                                                            id="fangda">
+                                                        <span class="fa fa-search-plus"></span>
+                                                    </button>
+                                                    <button type="button" class="btn btn-outline-light"
+                                                            id="suoxiao">
+                                                        <span class="fas fa-search-minus"></span>
+                                                    </button>
+                                                    <button type="button" class="btn btn-outline-light"
+                                                            id="zuozhuan">
+                                                        <span class="fas fa-undo"></span>
+                                                    </button>
+                                                    <button type="button" class="btn btn-outline-light"
+                                                            id="youzhuan">
+                                                        <span class="fas fa-redo"></span>
+                                                    </button>
+                                                    <button type="button" class="btn btn-outline-light"
+                                                            id="youzhuan"
+                                                            onclick="document.getElementById('myModal').style.display='none'">
+                                                        <span class="fa fa-power-off"></span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <script>
+        function search_info() {
+            var shopname = $('#shopname').val();
+            var gongaccount = $('#gongaccount').val();
+            var starttime = $('#starttime').val();
+            var endtime = $('#endtime').val();
+            if (starttime > endtime) {
+                alert('开始时间应早于截止时间');
+                return false;
+            }
+            location.href = '{% url 'certificate:gongoneoffshorereceiptshistory' %}?shopname=' + shopname + '&starttime=' + starttime + '&endtime=' + endtime + '&gongaccount=' + gongaccount
+        }
+    </script>
+    <script>
+        function ok_sub() {
+            var starttime = $('#starttime').val();
+            if (starttime === '') {
+                alert('请选择开始日期');
+                return false;
+            }
+            var endtime = $('#endtime').val();
+            if (endtime === '') {
+                alert('请选择结束日期');
+                return false;
+            }
+            if (endtime < starttime) {
+                alert('请确认结束日期大于开始日期');
+                return false;
+            }
+            location.href = '{% url 'certificate:gongoneoffshorereceiptshistory' %}?starttime=' + starttime + '&endtime=' + endtime;
+
+        }
+    </script>
+
+    <link rel="stylesheet" href="{% static 'img/css/myimg.css' %}">
+    <script src="{% static 'img/js/myjs.js' %}"></script>
+    <script>
+        function jump_to() {
+            var shopname = $('#shopname').val();
+            var gongaccount = $('#gongaccount').val();
+            var starttime = $('#starttime').val();
+            var endtime = $('#endtime').val();
+            var href = $('.jump').val();
+            var num_pages = $('.hidden_val').val();
+            if (href === "" || href == null) {
+                alert('请输入正确的页码！');
+                alert(num_pages);
+                return false
+            } else if (parseInt(href) > parseInt(num_pages)) {
+                location.href = '{% url 'certificate:gongoneoffshorereceiptshistory' %}?offshorepage=' + num_pages + '&shopname=' + shopname + '&starttime=' + starttime + '&endtime=' + endtime + '&gongaccount=' + gongaccount
+            } else if (num_pages === '') {
+                location.href = '{% url 'certificate:gongoneoffshorereceiptshistory' %}?offshorepage=' + 1 + '&shopname=' + shopname + '&starttime=' + starttime + '&endtime=' + endtime + '&gongaccount=' + gongaccount
+            } else {
+                location.href = '{% url 'certificate:gongoneoffshorereceiptshistory' %}?offshorepage=' + href + '&shopname=' + shopname + '&starttime=' + starttime + '&endtime=' + endtime + '&gongaccount=' + gongaccount
+            }
+        }
+    </script>
+
+{% endblock %}
+

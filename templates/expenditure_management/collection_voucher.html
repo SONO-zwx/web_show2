@@ -1,0 +1,572 @@
+{% extends 'parent_template/parent_template.html' %}
+
+{% load static %}
+{% block 单据管理-active %}
+    active
+{% endblock %}
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'img/css/updateimg.css' %}">
+{% endblock %}
+{% block 收入凭证-active %}
+    active
+{% endblock %}
+
+{% block collapse3 %}
+    collapse
+{% endblock %}
+{% block collapse1 %}
+    collapse
+{% endblock %}
+{% block collapse2 %}
+    collapse
+{% endblock %}
+{% block collapse4 %}
+    collapse
+{% endblock %}
+{% block collapse6 %}
+    collapse
+{% endblock %}
+{% block collapse7 %}
+    collapse
+{% endblock %}
+{% block collapse8 %}
+    collapse
+{% endblock %}
+{% block collapse9 %}
+
+{% endblock %}
+{% block collapse11 %}
+    collapse
+{% endblock %}
+{% block collapse12 %}
+    collapse
+{% endblock %}
+
+
+
+{% block body %}
+    <div class="dashboard-ecommerce">
+        <div class="container-fluid dashboard-content ">
+            <!-- ============================================================== -->
+            <!-- pageheader  -->
+            <!-- ============================================================== -->
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="page-header">
+                        <h2 class="pageheader-title">门店单据</h2>
+                        <div class="page-breadcrumb">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="#" class="breadcrumb-link">非外采单据</a>
+                                    </li>
+                                    <li class="breadcrumb-item active" aria-current="page">创建单据
+                                    </li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="ecommerce-widget" id="div01" style="display: block">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="row">
+                        <div class="col-xl-8 col-lg-6 col-md-6" style="margin: 0 auto">
+                            <div class="card">
+                                <div class="card-body">
+
+                                    <input type="text" style="display: none" id="allpriceinfo" name="allpriceinfo"
+                                           value="">
+
+                                    <table style="width: 100%" border="1" cellspacing="1" cellpadding="2">
+                                        <tr style="height: 40px">
+                                            <td colspan="4">
+                                                <h3 style="text-align: center; line-height: 40px;">收入凭证</h3>
+                                            </td>
+                                        </tr>
+                                        <tr style="height: 40px">
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                门店
+                                            </td>
+                                            <td class="text-sm-center" style="width: 37.5%">
+                                                <select class="form-control" id="shopname" name="shopname">
+                                                    {% for shopname in ShopNames %}
+                                                        {% if nowshopname == shopname.shopname %}
+                                                            <option selected="selected">{{ shopname.shopname }}</option>
+                                                        {% else %}
+                                                            <option>{{ shopname.shopname }}</option>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                </select>
+                                            </td>
+
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                创&nbsp;建&nbsp;日&nbsp;期
+                                            </td>
+                                            <td class="text-sm-center" style="width: 37.5%">
+                                                <input type="date" class="form-control" name="dates"
+                                                       id="dates" value="{% now "Y-m-d" %}" disabled>
+                                            </td>
+                                        </tr>
+                                        <tr style="height: 40px">
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                收款账户
+                                            </td>
+                                            <td class="text-sm-center" style="width: 37.5%">
+                                                <select name="payment_account" id="payment_account"
+                                                        class="form-control">
+                                                    <option>请选择</option>
+                                                    {% for v in info %}
+                                                        <option value="{{ v.id }}">{{ v.shopname }} --- {{ v.account }}
+                                                            --- {{ v.name }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </td>
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                收款方式
+                                            </td>
+                                            <td style="width: 37.5%;">
+                                                <input type="text" class="form-control" name="payment_term"
+                                                       id="payment_term">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                添加明细 <br>
+                                                <button style="width:100px;height:30px;line-height:18px;font-size:18px; color:#2ea8e5;padding-bottom:4px"
+                                                        type="button" onclick="add_input('dealproject')">
+                                                    添加
+                                                </button>
+                                            </td>
+                                            <td class="text-sm-left" colspan="4">
+                                                <table style="width: 100%" border="1" cellspacing="1"
+                                                       cellpadding="2" id="dealproject">
+                                                    <tr style="height: 40px">
+                                                        <td class="text-sm-center" style="width: 10%">
+                                                            项&nbsp;目&nbsp;名&nbsp;称
+                                                        </td>
+                                                        <td class="text-sm-center" style="width: 15%">
+                                                            说明
+                                                        </td>
+                                                        <td class="text-sm-center" style="width: 5%">
+                                                            金&nbsp;&nbsp;额
+                                                        </td>
+                                                        <td class="text-sm-center" style="width: 5%">
+                                                            操&nbsp;&nbsp;作
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        <tr style="height: 40px;">
+                                            <td class="text-sm-center" style="width: 12.5%" colspan="2">
+                                                应收金额
+                                            </td>
+                                            <td class="text-sm-center" style="width: 12.5%" id="allprice" colspan="2">
+                                                ￥0.00
+                                            </td>
+                                        </tr>
+
+                                        </tr>
+
+                                        <tr style="height: 120px">
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                凭&nbsp;证&nbsp;图&nbsp;片<br>
+                                                <button style="width:100px;height:30px;line-height:18px;font-size:18px; color:#2ea8e5;padding-bottom:4px;"
+                                                        type="button" onclick="onclickonload()">
+                                                    上传文件<input type="file"
+                                                               style="width:0;height:0; display: none"
+                                                               multiple="multiple" onchange="readAsDataURL()"
+                                                               id="receiptsimg" name="receiptsimg">
+                                                </button>
+                                                <button style="width:100px;height:30px;line-height:18px;font-size:18px; color:#2ea8e5;padding-bottom:4px;"
+                                                        type="button" onclick="cleatimg()">
+                                                    清空图片
+                                                </button>
+                                            </td>
+                                            <td colspan="7">
+                                                <div id="result" name="result"></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                提&nbsp;交&nbsp;备&nbsp;注
+                                            </td>
+                                            <td colspan="3">
+                                                <input type="text" class="form-control"
+                                                       name="submitremark" id="submitremark"
+                                                       style="width: 100%; height: 80px">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="8" style="text-align: center; height: 50px">
+                                                <button style="width:140px;height:36px;line-height:18px;font-size:18px; color:#2ea8e5;padding-bottom:4px"
+                                                        id="Submit"
+                                                        type="button" onclick="submitsinfo()">
+                                                    创建单据
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </table>
+
+                                    <!-- 弹窗 -->
+                                    <div id="myModal" class="modal">
+                                        <!-- 弹窗内容 -->
+                                        <img id="img01" style="height: 600px; display: block; margin: auto;">
+                                        <div>
+                                            <div style="margin: 0 auto; width: 205px;">
+                                                <div style="position: fixed;bottom: 40px;">
+                                                    <button type="button" class="btn btn-outline-light"
+                                                            id="fangda">
+                                                        <span class="fa fa-search-plus"></span>
+                                                    </button>
+                                                    <button type="button" class="btn btn-outline-light"
+                                                            id="suoxiao">
+                                                        <span class="fas fa-search-minus"></span>
+                                                    </button>
+                                                    <button type="button" class="btn btn-outline-light"
+                                                            id="zuozhuan">
+                                                        <span class="fas fa-undo"></span>
+                                                    </button>
+                                                    <button type="button" class="btn btn-outline-light"
+                                                            id="youzhuan">
+                                                        <span class="fas fa-redo"></span>
+                                                    </button>
+                                                    <button type="button" class="btn btn-outline-light"
+                                                            id="close"
+                                                            onclick="document.getElementById('myModal').style.display='none'">
+                                                        <span class="fa fa-power-off"></span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function onclickonload() {
+            document.getElementById('receiptsimg').click()
+        }
+
+        function cleatimg() {
+            var result = document.getElementById("result");
+            result.innerHTML = '';
+            var imgresult = document.getElementById('receiptsimg');
+            imgresult.value = null;
+        }
+    </script>
+    <script>
+        function submitsinfo() {
+            document.getElementById("Submit").setAttribute("disabled", "disabled");
+
+            var datas = getTableContent('dealproject');
+            var payment_account = $('#payment_account').val();
+            var payment_term = $('#payment_term').val();
+            var allprice = $("#allpriceinfo").val();
+            var submitremark = $("#submitremark").val();
+            var dates = $("#dates").val();
+            var myImg = $('.myImg');
+            var img_list = new Array();
+
+            for (i = 0; i < myImg.length; i++) {
+                img_list.push(myImg[i].src);
+            }
+
+            if (payment_account === '请选择') {
+                alert('请先选择收款账号');
+                document.getElementById("Submit").removeAttribute("disabled");
+
+                return false;
+            }
+            if (payment_term === '') {
+                alert('请先添加收款方式');
+                document.getElementById("Submit").removeAttribute("disabled");
+
+                return false;
+            }
+            if (datas.length === 1) {
+                alert('请先添加明细数据');
+                document.getElementById("Submit").removeAttribute("disabled");
+
+                return false;
+            }
+            var tmp = '';
+            for (i = 1, rows = datas.length; i < rows; i++) {
+                tmp = tmp + datas[i][0] + '**-**' + datas[i][1] + '**-**' + datas[i][2] + '**--**';
+            }
+            var shopname = $('#shopname').val();
+
+            $.ajax({
+                type: "post",
+                url: "{% url 'expenditure_management:collection_voucher' %}",
+                data: {
+                    'datas': tmp,
+                    'shopname': shopname,
+                    'payment_account': payment_account,
+                    'payment_term': payment_term,
+                    'allprice': allprice,
+                    'submitremark': submitremark,
+                    'dates': dates,
+                    'myImg': JSON.stringify(img_list),
+                },
+                success: function (data) {
+                    alert('单据创建已完成');
+                    location.href = '{% url 'expenditure_management:collection_voucher' %}'
+                }
+            })
+        }
+    </script>
+    <script>
+        function readAsDataURL() {
+            var file = document.getElementById("receiptsimg").files;
+            var result = document.getElementById("result");
+            for (i = 0; i < file.length; i++) {
+                var reader = new FileReader();
+                reader.index = new Date().toString() + i;
+                reader.readAsDataURL(file[i], i);
+                reader.onload = function (event) {
+                    result.innerHTML = result.innerHTML + '<img src="' + this.result + '" alt="" class="myImg" style="height: 100px; width:100px" id="myImg' + this.index + '" onclick="bigimg(\'myImg' + this.index + '\')"/>';
+                }
+            }
+        }
+    </script>
+    <script src="{% static 'img/js/myjs.js' %}"></script>
+    <script type="text/javascript">
+
+        /**
+         * 遍历表格内容返回数组
+         * @param  Int   id 表格id
+         * @return Array
+         */
+        function getTableContent(id) {
+            var mytable = document.getElementById(id);
+            var data = [];
+            for (var i = 0, rows = mytable.rows.length; i < rows; i++) {
+                for (var j = 0, cells = mytable.rows[i].cells.length; j < cells; j++) {
+                    if (!data[i]) {
+                        data[i] = new Array();
+                    }
+                    data[i][j] = mytable.rows[i].cells[j].innerHTML;
+                }
+            }
+            return data;
+        }
+
+        /**
+         * 显示表格内容
+         * @param  Int   id 表格id
+         */
+        function add_input(id) {
+            var project_name = $('#project_name');
+            if (project_name[0]) {
+                alert('请先完成本次添加');
+                return false;
+            } else {
+                var data = getTableContent(id);
+                var tmp = '';
+                tmp += '<tr style="height: 40px">';
+                tmp += '<td class="text-sm-center" style="width: 10%">';
+                tmp += data[0][0] + '</td>';
+                tmp += '<td class="text-sm-center" style="width: 15%">';
+                tmp += data[0][1] + '</td>';
+                tmp += '<td class="text-sm-center" style="width: 5%">';
+                tmp += data[0][2] + '</td>';
+                tmp += '<td class="text-sm-center" style="width: 5%">';
+                tmp += data[0][3] + '</td>';
+                tmp += '</tr>';
+                for (i = 1, rows = data.length; i < rows; i++) {
+
+                    tmp += '<tr style="height: 40px">';
+                    tmp += '<td class="text-sm-left" style="width: 10%">';
+                    tmp += data[i][0] + '</td>';
+                    tmp += '<td class="text-sm-left" style="width: 15%">';
+                    tmp += data[i][1] + '</td>';
+                    tmp += '<td class="text-sm-left" style="width: 5%">';
+                    tmp += data[i][2] + '</td>';
+                    tmp += '<td class="text-sm-left" style="width: 5%">';
+                    tmp += '<button type="button" onclick="delTableContent(\'' + id + '\',' + i + ')">删除</button>' + '</td>';
+                    tmp += '</tr>'
+                }
+
+                tmp = tmp +
+                    '</select>                                                        </td>\n' +
+                    '                                                        <td class="text-sm-left">\n' +
+                    '                                                            <input type="text" class="form-control"\n' +
+                    '                                                                   name="project_name"\n' +
+                    '                                                                   id="project_name" value="">\n' +
+                    '                                                        </td>\n' +
+                    '                                                        <td class="text-sm-left">\n' +
+                    '                                                            <input type="text" class="form-control"\n' +
+                    '                                                                   name="explains" id="explains" value="">\n' +
+                    '                                                        </td>\n' +
+                    '                                                        <td class="text-sm-left">\n' +
+                    '                                                            <input type="text" class="form-control"\n' +
+                    '                                                                   name="amount" id="amount" value="">\n' +
+                    '                                                        </td>\n                                                        <td>\n' +
+                    '                                                            <button type="button" onclick="okTableContent(\'dealproject\')">\n' +
+                    '                                                                完成\n' +
+                    '                                                            </button>\n' +
+                    '                                                            <button type="button" onclick="delTableContent(\'' + id + '\',\'' + data.length + '\')">\n' +
+                    '                                                                删除\n' +
+                    '                                                            </button>\n' +
+                    '                                                        </td>' +
+                    '                                                    </tr>';
+
+                document.getElementById(id).innerHTML = tmp;
+            }
+
+
+        }
+
+        function okTableContent(id) {
+            var data = getTableContent(id);
+            var tmp = '';
+            var project_name = $('#project_name').val();
+            var explains = $('#explains').val();
+            var amount = $('#amount').val();
+
+            if (project_name === '') {
+                alert('请输入项目名称');
+                return false;
+            }
+            if (explains === "" || explains == null) {
+                alert('请输入说明');
+                return false;
+            }
+            if (amount === "" || amount == null) {
+                alert('请输入金额');
+                return false;
+            }
+            if (isNaN(amount)) {
+                alert('金额为数字');
+                return false;
+            }
+
+            tmp += '<tr style="height: 40px">';
+            tmp += '<td class="text-sm-left" style="width: 10%">';
+            tmp += data[0][0] + '</td>';
+            tmp += '<td class="text-sm-left" style="width: 15%">';
+            tmp += data[0][1] + '</td>';
+            tmp += '<td class="text-sm-left" style="width: 5%">';
+            tmp += data[0][2] + '</td>';
+            tmp += '<td class="text-sm-left" style="width: 5%">';
+            tmp += data[0][3] + '</td>';
+            tmp += '</tr>';
+            for (i = 1, rows = data.length; i < rows - 1; i++) {
+                tmp += '<tr style="height: 40px">';
+                tmp += '<td class="text-sm-left" style="width: 10%">';
+                tmp += data[i][0] + '</td>';
+                tmp += '<td class="text-sm-left" style="width: 15%">';
+                tmp += data[i][1] + '</td>';
+                tmp += '<td class="text-sm-left" style="width: 5%">';
+                tmp += data[i][2] + '</td>';
+                tmp += '<td class="text-sm-left" style="width: 5%">';
+                tmp += '<button type="button" onclick="delTableContent(\'' + id + '\',' + i + ')">删除</button>' + '</td>';
+                tmp += '</tr>'
+            }
+            var num = data.length - 1;
+            tmp = tmp + '<tr style="height: 40px">' + '<td class="text-sm-left" style="width: 10%">' + project_name + '</td>';
+            tmp = tmp + '<td class="text-sm-left" style="width: 15%">' + explains + '</td>';
+            tmp = tmp + '<td class="text-sm-left" style="width: 5%">' + amount + '</td>';
+            tmp = tmp + '<td class="text-sm-left" style="width: 5%">' + '<button type="button" onclick="delTableContent(\'' + id + '\',' + num + ')">删除</button>' + '</td>' + '</tr>';
+
+            document.getElementById(id).innerHTML = tmp;
+
+            var allprice = $('#allprice');
+            var allpriceinfo = (parseFloat(allprice.text().replace('￥', '')) + parseFloat(amount)).toFixed(2);
+            document.getElementById('allprice').innerHTML = '￥' + allpriceinfo.toString();
+            var allprices = $('#allpriceinfo');
+            allprices.attr('value', allpriceinfo)
+        }
+
+        function delTableContent(id, table_id) {
+            var project_name = $('#project_name');
+            var data = getTableContent(id);
+            var tmp = '';
+            tmp += '<tr style="height: 40px">';
+            tmp += '<td class="text-sm-left" style="width: 10%">';
+            tmp += data[0][0] + '</td>';
+            tmp += '<td class="text-sm-left" style="width: 15%">';
+            tmp += data[0][1] + '</td>';
+            tmp += '<td class="text-sm-left" style="width: 5%">';
+            tmp += data[0][2] + '</td>';
+            tmp += '<td class="text-sm-left" style="width: 5%">';
+            tmp += data[0][3] + '</td>';
+            tmp += '</tr>';
+            var allpriceinfo = '';
+            if (project_name[0]) {
+                for (i = 1, rows = data.length; i < rows - 1; i++) {
+                    if (i === table_id) {
+                        allpriceinfo = data[i][2];
+                        continue
+                    }
+                    tmp += '<tr style="height: 40px">';
+                    tmp += '<td class="text-sm-left" style="width: 10%">';
+                    tmp += data[i][0] + '</td>';
+                    tmp += '<td class="text-sm-left" style="width: 15%">';
+                    tmp += data[i][1] + '</td>';
+                    tmp += '<td class="text-sm-left" style="width: 5%">';
+                    tmp += data[i][2] + '</td>';
+                    tmp += '<td class="text-sm-left" style="width: 5%">';
+                    tmp += '<button type="button" onclick="delTableContent(\'' + id + '\',' + i + ')">删除</button>' + '</td>';
+                    tmp += '</tr>'
+                }
+
+                if ((data.length - 1).toString() !== table_id.toString()) {
+                    tmp += '<tr style="height: 40px">';
+                    tmp += '<td class="text-sm-left" style="width: 10%">';
+                    tmp += data[data.length - 1][0] + '</td>';
+                    tmp += '<td class="text-sm-left" style="width: 15%">';
+                    tmp += data[data.length - 1][1] + '</td>';
+                    tmp += '<td class="text-sm-left" style="width: 5%">';
+                    tmp += data[data.length - 1][2] + '</td>';
+                    tmp += '<td class="text-sm-left" style="width: 5%">';
+                    tmp += '                                                            <button type="button" onclick="okTableContent(\'dealproject\')">\n' +
+                        '                                                                完成\n' +
+                        '                                                            </button>\n' +
+                        '                                                            <button type="button" onclick="delTableContent(\'' + id + '\',\'' + (data.length - 2) + '\')">\n' +
+                        '                                                                删除\n' +
+                        '                                                            </button>\n';
+                    tmp += '</tr>'
+                }
+
+            } else {
+
+                for (i = 1, rows = data.length; i < rows; i++) {
+                    if (i === table_id) {
+                        allpriceinfo = data[i][2];
+                        continue
+                    }
+                    tmp += '<tr style="height: 40px">';
+                    tmp += '<td class="text-sm-left" style="width: 10%">';
+                    tmp += data[i][0] + '</td>';
+                    tmp += '<td class="text-sm-left" style="width: 15%">';
+                    tmp += data[i][1] + '</td>';
+                    tmp += '<td class="text-sm-left" style="width: 5%">';
+                    tmp += data[i][2] + '</td>';
+                    tmp += '<td class="text-sm-left" style="width: 5%">';
+                    tmp += '<button type="button" onclick="delTableContent(\'' + id + '\',' + i + ')">删除</button>' + '</td>';
+                    tmp += '</tr>'
+                }
+            }
+
+            document.getElementById(id).innerHTML = tmp;
+            var allprice = $('#allprice');
+            if (allpriceinfo) {
+            } else {
+                allpriceinfo = 0;
+            }
+            allpriceinfo = (parseFloat(allprice.text().replace('￥', '')) - parseFloat(allpriceinfo)).toFixed(2);
+            document.getElementById('allprice').innerHTML = '￥' + allpriceinfo.toString();
+            var allprices = $('#allpriceinfo');
+            allprices.attr('value', allpriceinfo)
+        }
+
+    </script>
+
+{% endblock %}
+

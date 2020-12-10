@@ -1,0 +1,789 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}">
+    <link href="{% static 'assets/vendor/fonts/circular-std/style.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'assets/libs/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/vendor/fonts/fontawesome/css/fontawesome-all.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/vendor/charts/chartist-bundle/chartist.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/vendor/charts/morris-bundle/morris.css' %}">
+    <link rel="stylesheet"
+          href="{% static 'assets/vendor/fonts/material-design-iconic-font/css/materialdesignicons.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/vendor/charts/c3charts/c3.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/vendor/fonts/flag-icon-css/flag-icon.min.css' %}">
+    {% block styles %}
+
+    {% endblock %}
+    <title>SONO AUTO CARE</title>
+</head>
+
+<body>
+<div class="dashboard-main-wrapper">
+    <div class="dashboard-header">
+        <nav class="navbar navbar-expand-lg bg-white fixed-top">
+            <a class="navbar-brand" href=""><img class="logo-img" src="{% static 'assets/images/logo.png' %}"
+                                                 alt="logo"></a>
+            <a class="navbar-brand" href="http://283a52v103.qicp.vip:45284/">外采录入</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span>菜单</span>
+            </button>
+            <div class="collapse navbar-collapse " id="navbarSupportedContent">
+                <ul class="navbar-nav ml-auto navbar-right-top">
+                    <li class="nav-item">
+                        {% if ShopName != '总部' %}
+                            <div id="custom-search" class="top-search-bar">
+                                <select class="custom-select d-block w-100" id="state" required="">
+                                    <option>{{ ShopName }}</option>
+                                </select>
+                            </div>
+                        {% else %}
+                            <div id="custom-search" class="top-search-bar">
+                                <select class="custom-select d-block w-100" id="state" required=""
+                                        onchange="nowshopname()">
+                                    {% for shopname in ShopNames %}
+                                        {% if nowshopname == shopname.shopname %}
+                                            <option selected="selected">{{ shopname.shopname }}</option>
+                                        {% else %}
+                                            <option>{{ shopname.shopname }}</option>
+                                        {% endif %}
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        {% endif %}
+                    </li>
+                    <li class="nav-item dropdown nav-user">
+                        <a class="nav-link nav-user-img" href="#" id="navbarDropdownMenuLink2" data-toggle="dropdown"
+                           aria-haspopup="true" aria-expanded="false">{{ name }}</a>
+                        <div class="dropdown-menu dropdown-menu-right nav-user-dropdown"
+                             aria-labelledby="navbarDropdownMenuLink2">
+                            <div class="nav-user-info">
+                                <h5 class="mb-0 text-white nav-user-name">{{ name }}</h5>
+                                <span class="status"></span><span class="ml-2">{{ ShopName }}</span>
+                            </div>
+                            <a class="dropdown-item" href="{% url 'index:update_pwd' %}"><i class="fas fa-cog mr-2"></i>修改密码</a>
+                            <a class="dropdown-item" href="{% url 'index:exit_log' %}"><i
+                                    class="fas fa-power-off mr-2"></i>退出登录</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+    <div class="nav-left-sidebar sidebar-dark">
+        <div class="menu-list">
+            <nav class="navbar navbar-expand-lg navbar-light">
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav flex-column">
+                        <li class="nav-divider">
+                            菜单
+                        </li>
+                        {% if 'collect:week_collect' in limits or 'collect:day_collect' in limits or  'collect:technician_data' in limits or 'collect:product_data' in limits %}
+                            <li class="nav-item">
+                                <a class="nav-link {% block 运营状况-active %}{% endblock %}" href="#"
+                                   data-toggle="collapse" aria-expanded="false"
+                                   data-target="#submenu-1" aria-controls="submenu-1"><i class="fas fa-th-list"></i>运营状况
+                                </a>
+                                <div id="submenu-1" class="{% block collapse1 %}{% endblock %}submenu" style="">
+                                    <ul class="nav flex-column">
+                                        {% if 'collect:week_collect' in limits %}
+                                            <li class="nav-item">
+                                                <a class="nav-link{% block 周汇总-active %}{% endblock %}" href="{% url 'collect:week_collect' %}">周汇总</a>
+                                            </li>
+                                        {% endif %}
+                                        {% if 'collect:day_collect' in limits %}
+                                            <li class="nav-item">
+                                                <a class="nav-link{% block 日汇总-active %}{% endblock %}" href="{% url 'collect:day_collect' %}">日汇总</a>
+                                            </li>
+                                        {% endif %}
+                                        {% if 'collect:month_collect' in limits %}
+                                            <li class="nav-item">
+                                                <a class="nav-link{% block 月报表-active %}
+                                        {% endblock %}" href="{% url 'collect:month_collect' %}">资金流动月报表</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link{% block 月报表分摊-active %}
+                                        {% endblock %}" href="{% url 'collect:fenmonth_collect' %}">经营管理月报表</a>
+                                            </li>
+                                        {% endif %}
+                                        {% if 'collect:month_collect' in limits %}
+                                            <li class="nav-item">
+                                                <a class="nav-link{% block 年报表-active %}
+                                        {% endblock %}" href="{% url 'collect:year_collect' %}">资金流动年报表</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link{% block 年报表分摊-active %}
+                                        {% endblock %}" href="{% url 'collect:fenyear_collect' %}">经营管理年报表</a>
+                                            </li>
+                                        {% endif %}
+                                        {% if 'collect:technician_data' in limits %}
+                                            <li class="nav-item">
+                                                <a class="nav-link{% block 技师数据-active %}
+                                        {% endblock %}" href="{% url 'collect:technician_data' %}">技师数据</a>
+                                            </li>
+                                        {% endif %}
+
+                                        {% if 'collect:product_data' in limits %}
+                                            <li class="nav-item">
+                                                <a class="nav-link{% block 产品数据-active %}
+                                        {% endblock %}" href="{% url 'collect:product_data' %}">产品数据</a>
+                                            </li>
+                                        {% endif %}
+
+                                    </ul>
+                                </div>
+                            </li>
+                        {% endif %}
+                        {% if 'expenditure_management:bill_list' in limits or  'expenditure_management:fourreceipts' in limits or 'expenditure_management:addreceipts' in limits or 'expenditure_management:back_goods' in limits or 'expenditure_management:invoice_apply' in limits or 'expenditure_management:collection_voucher' in limits %}
+
+                            <li class="nav-item">
+                                <a class="nav-link {% block 单据管理-active %}{% endblock %}" href="#"
+                                   data-toggle="collapse"
+                                   aria-expanded="false" data-target="#submenu-9" aria-controls="submenu-9"><i
+                                        class="fas fa-th-list"></i>单据管理</a>
+                                <div id="submenu-9" class="{% block collapse9 %}{% endblock %} submenu" style="">
+                                    <ul class="nav flex-column">
+                                        {% if 'expenditure_management:addreceipts' in limits or 'expenditure_management:back_goods' in limits or 'expenditure_management:invoice_apply' in limits or 'expenditure_management:collection_voucher' in limits %}
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="#" data-toggle="collapse"
+                                                   aria-expanded="false"
+                                                   data-target="#submenu-9-2" aria-controls="submenu-9-2">创建单据</a>
+                                                <div id="submenu-9-2"
+                                                     class="{% block collapse9-2 %}{% endblock %}submenu"
+                                                     style="">
+                                                    <ul class="nav flex-column">
+                                                        {% if 'expenditure_management:addreceipts' in limits %}
+                                                            <li class="nav-item">
+                                                                <a class="nav-link{% block 支出-active %}{% endblock %}"
+                                                                   href="{% url 'expenditure_management:addreceipts' %}">支出</a>
+                                                            </li>
+                                                        {% endif %}
+                                                        {% if 'expenditure_management:back_goods' in limits %}
+                                                            <li class="nav-item">
+                                                                <a class="nav-link{% block 途虎退货-active %}{% endblock %}"
+                                                                   href="{% url 'expenditure_management:back_goods' %}">退货管理</a>
+                                                            </li>
+                                                        {% endif %}
+
+                                                        {% if 'expenditure_management:invoice_apply' in limits %}
+                                                            <li class="nav-item">
+                                                                <a class="nav-link{% block 发票申请-active %}
+                                        {% endblock %}"
+                                                                   href="{% url 'expenditure_management:invoice_apply' %}">发票申请</a>
+                                                            </li>
+                                                        {% endif %}
+
+                                                        {% if 'expenditure_management:collection_voucher' in limits %}
+                                                            <li class="nav-item">
+                                                                <a class="nav-link{% block 收入凭证-active %}
+                                        {% endblock %}"
+                                                                   href="{% url 'expenditure_management:collection_voucher' %}">收入凭证</a>
+                                                            </li>
+                                                        {% endif %}
+
+                                                    </ul>
+                                                </div>
+                                            </li>
+                                        {% endif %}
+
+                                        {% if 'expenditure_management:fourreceipts' in limits %}
+                                            <li class="nav-item">
+                                                <a class="nav-link{% block 资料填充-active %}
+                                        {% endblock %}" href="{% url 'expenditure_management:fourreceipts' %}">资料填充</a>
+                                            </li>
+                                        {% endif %}
+
+                                        {% if 'expenditure_management:bill_list' in limits %}
+                                            <li class="nav-item">
+                                                <a class="nav-link{% block 单据列表-active %}
+                                        {% endblock %}" href="{% url 'expenditure_management:bill_list' %}">单据列表</a>
+                                            </li>
+                                        {% endif %}
+
+                                    </ul>
+                                </div>
+                            </li>
+                        {% endif %}
+                        {% if 'approval_administration:receiptclass' in limits or 'approval_administration:shourureceiptclass' in limits or 'approval_administration:tuihuoreceiptclass' in limits or 'approval_administration:expenditure' in limits or 'approval_administration:collection_voucher' in limits or 'approval_administration:back_goods' in limits %}
+
+                            <li class="nav-item">
+                                <a class="nav-link {% block 审批管理-active %}{% endblock %}" href="#"
+                                   data-toggle="collapse"
+                                   aria-expanded="false" data-target="#submenu-11" aria-controls="submenu-11"><i
+                                        class="fas fa-th-list"></i>审批管理</a>
+                                <div id="submenu-11" class="{% block collapse11 %}{% endblock %}submenu" style="">
+                                    <ul class="nav flex-column">
+                                        {% if 'approval_administration:receiptclass' in limits or 'approval_administration:shourureceiptclass' in limits or 'approval_administration:tuihuoreceiptclass' in limits %}
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="#" data-toggle="collapse"
+                                                   aria-expanded="false"
+                                                   data-target="#submenu-11-2" aria-controls="submenu-11-2">审批权限设置</a>
+                                                <div id="submenu-11-2"
+                                                     class="{% block collapse11-2 %}{% endblock %}submenu"
+                                                     style="">
+                                                    <ul class="nav flex-column">
+                                                        {% if 'approval_administration:receiptclass' in limits %}
+                                                            <li class="nav-item">
+                                                                <a class="nav-link{% block 支出单据审批权限-active %}
+                                        {% endblock %}"
+                                                                   href="{% url 'approval_administration:receiptclass' %}">支出单据审批权限</a>
+                                                            </li>
+                                                        {% endif %}
+
+                                                        {% if 'approval_administration:shourureceiptclass' in limits %}
+                                                            <li class="nav-item">
+                                                                <a class="nav-link{% block 收入单据审批权限-active %}
+                                        {% endblock %}"
+                                                                   href="{% url 'approval_administration:shourureceiptclass' %}">收入单据审批权限</a>
+                                                            </li>
+                                                        {% endif %}
+
+                                                        {% if 'approval_administration:tuihuoreceiptclass' in limits %}
+                                                            <li class="nav-item">
+                                                                <a class="nav-link{% block 退货单据审批权限-active %}{% endblock %}" href="{% url 'approval_administration:tuihuoreceiptclass' %}">退货单据审批权限</a>
+                                                            </li>
+                                                        {% endif %}
+
+                                                    </ul>
+                                                </div>
+                                            </li>
+                                        {% endif %}
+                                        {% if 'approval_administration:expenditure' in limits or 'approval_administration:collection_voucher' in limits or 'approval_administration:back_goods' in limits %}
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="#" data-toggle="collapse"
+                                                   aria-expanded="false"
+                                                   data-target="#submenu-11-3" aria-controls="submenu-11-3">单据审批</a>
+                                                <div id="submenu-11-3"
+                                                     class="{% block collapse11-3 %}{% endblock %}submenu"
+                                                     style="">
+                                                    <ul class="nav flex-column">
+                                                        {% if 'approval_administration:expenditure' in limits %}
+                                                            <li class="nav-item">
+                                                                <a class="nav-link{% block 支出-1-active %}
+                                        {% endblock %}" href="{% url 'approval_administration:expenditure' %}">支出单据</a>
+                                                            </li>
+                                                        {% endif %}
+
+                                                        {% if 'approval_administration:back_goods' in limits %}
+                                                            <li class="nav-item">
+                                                                <a class="nav-link"
+                                                                   href="{% url 'approval_administration:back_goods' %}">产品退货</a>
+                                                            </li>
+                                                        {% endif %}
+
+                                                        {% if 'approval_administration:collection_voucher' in limits %}
+                                                            <li class="nav-item">
+                                                                <a class="nav-link{% block 收入凭证-1-active %}
+                                        {% endblock %}"
+                                                                   href="{% url 'approval_administration:collection_voucher' %}">收入凭证</a>
+                                                            </li>
+                                                        {% endif %}
+
+                                                    </ul>
+                                                </div>
+                                            </li>
+                                        {% endif %}
+                                    </ul>
+                                </div>
+                            </li>
+                        {% endif %}
+                        {% if 'financial_management:expenditure' in limits or 'financial_management:collection_voucher' in limits or 'financial_management:fivereceipts' in limits or 'financial_management:no_right' in limits or 'financial_management:back_goods' in limits or 'financial_management:back_goods' in limits or 'financial_management:already_inoviced' in limits %}
+                            <li class="nav-item">
+                                <a class="nav-link {% block 财务管理-active %}{% endblock %}" href="#"
+                                   data-toggle="collapse"
+                                   aria-expanded="false" data-target="#submenu-12" aria-controls="submenu-12"><i
+                                        class="fas fa-th-list"></i>财务管理</a>
+                                <div id="submenu-12" class="{% block collapse12 %}{% endblock %}submenu" style="">
+                                    <ul class="nav flex-column">
+                                        {% if 'financial_management:expenditure' in limits or 'financial_management:collection_voucher' in limits %}
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="#" data-toggle="collapse"
+                                                   aria-expanded="false"
+                                                   data-target="#submenu-12-1" aria-controls="submenu-12-1">财务处理</a>
+                                                <div id="submenu-12-1"
+                                                     class="{% block collapse12-1 %}{% endblock %} submenu"
+                                                     style="">
+                                                    <ul class="nav flex-column">
+                                                        {% if 'financial_management:expenditure' in limits %}
+                                                            <li class="nav-item">
+                                                                <a class="nav-link
+                                                                    {% block 财务处理-支出单据-active %}{% endblock %}"
+                                                                   href="{% url 'financial_management:expenditure' %}">支出单据</a>
+                                                            </li>
+                                                        {% endif %}
+
+                                                        {% if 'financial_management:collection_voucher' in limits %}
+                                                            <li class="nav-item">
+                                                                <a class="nav-link
+                                                                    {% block 财务处理-收入凭证-active %}{% endblock %}"
+                                                                   href="{% url 'financial_management:collection_voucher' %}">收入凭证</a>
+                                                            </li>
+                                                        {% endif %}
+
+                                                    </ul>
+                                                </div>
+                                            </li>
+                                        {% endif %}
+                                        {% if 'financial_management:fivereceipts' in limits %}
+                                            <li class="nav-item">
+                                                <a class="nav-link{% block 资料审批-active %}
+                                        {% endblock %}" href="{% url 'financial_management:fivereceipts' %}">资料审批</a>
+                                            </li>
+                                        {% endif %}
+                                        {% if 'financial_management:no_right' in limits or 'financial_management:back_goods' in limits %}
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="#" data-toggle="collapse"
+                                                   aria-expanded="false"
+                                                   data-target="#submenu-12-2" aria-controls="submenu-12-2">对账管理</a>
+                                                <div id="submenu-12-2"
+                                                     class="{% block collapse12-2 %}{% endblock %}submenu"
+                                                     style="">
+                                                    <ul class="nav flex-column">
+                                                        {% if 'financial_management:no_right' in limits %}
+                                                            <li class="nav-item">
+                                                                <a class="nav-link
+                                                                        {% block 未对账订单-active %}{% endblock %}"
+                                                                   href="{% url 'financial_management:no_right' %}">未对账订单</a>
+                                                            </li>
+                                                        {% endif %}
+
+                                                        {% if 'financial_management:back_goods' in limits %}
+                                                            <li class="nav-item">
+                                                                <a class="nav-link{% block 产品退货-active %}{% endblock %}"
+                                                                   href="{% url 'financial_management:back_goods' %}">产品退货</a>
+                                                            </li>
+                                                        {% endif %}
+
+                                                    </ul>
+                                                </div>
+                                            </li>
+                                        {% endif %}
+                                        {% if 'financial_management:back_goods' in limits or 'financial_management:already_inoviced' in limits %}
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="#" data-toggle="collapse"
+                                                   aria-expanded="false"
+                                                   data-target="#submenu-12-3" aria-controls="submenu-12-3">发票管理</a>
+                                                <div id="submenu-12-3"
+                                                     class="{% block collapse12-3 %}{% endblock %}submenu"
+                                                     style="">
+                                                    <ul class="nav flex-column">
+                                                        {% if 'financial_management:to_be_invoiced' in limits %}
+                                                            <li class="nav-item">
+                                                                <a class="nav-link{% block 已开发票申请-active %}
+                                        {% endblock %}"
+                                                                   href="{% url 'financial_management:to_be_invoiced' %}">已开发票列表</a>
+                                                            </li>
+                                                        {% endif %}
+
+                                                        {% if 'financial_management:already_inoviced' in limits %}
+                                                            <li class="nav-item">
+                                                                <a class="nav-link{% block 待开发票列表-active %}
+                                        {% endblock %}"
+                                                                   href="{% url 'financial_management:already_inoviced' %}">待开发票申请</a>
+                                                            </li>
+                                                        {% endif %}
+
+                                                    </ul>
+                                                </div>
+                                            </li>
+                                        {% endif %}
+                                    </ul>
+                                </div>
+                            </li>
+                        {% endif %}
+
+                        {#                        <li class="nav-item">#}
+                        {#                            <a class="nav-link {% block 门店单据-active %}{% endblock %}" href="#"#}
+                        {#                               data-toggle="collapse" aria-expanded="false"#}
+                        {#                               data-target="#submenu-2" aria-controls="submenu-2"><i class="fas fa-th-list"></i>日常单据#}
+                        {#                            </a>#}
+                        {#                            <div id="submenu-2" class="{% block collapse2 %}{% endblock %}submenu" style="">#}
+                        {#                                <ul class="nav flex-column">#}
+                        {#                                    <li class="nav-item">#}
+                        {#                                        <a class="nav-link{% block 历史单据-active %}#}
+                        {#                                        {% endblock %}" href="{% url 'certificate:tworeceiptshistory' %}">历史单据</a>#}
+                        {#                                    </li>#}
+                        {#                                    <li class="nav-item">#}
+                        {#                                        <a class="nav-link{% block 创建单据-active %}#}
+                        {#                                        {% endblock %}" href="{% url 'certificate:addreceipts' %}">创建单据</a>#}
+                        {#                                    </li>#}
+                        {#                                    <li class="nav-item">#}
+                        {#                                        <a class="nav-link{% block 一级审批-active %}#}
+                        {#                                        {% endblock %}" href="{% url 'certificate:onereceipts' %}">一级审批</a>#}
+                        {#                                    </li>#}
+                        {#                                    <li class="nav-item">#}
+                        {#                                        <a class="nav-link{% block 二级审批-active %}#}
+                        {#                                        {% endblock %}" href="{% url 'certificate:tworeceipts' %}">二级审批</a>#}
+                        {#                                    </li>#}
+                        {#                                    <li class="nav-item">#}
+                        {#                                        <a class="nav-link{% block 财务处理-active %}#}
+                        {#                                        {% endblock %}" href="{% url 'certificate:threereceipts' %}">财务处理</a>#}
+                        {#                                    </li>#}
+                        {#                                    <li class="nav-item">#}
+                        {#                                        <a class="nav-link" href="{% url 'certificate:fourreceipts' %}">资料填充</a>#}
+                        {#                                    </li>#}
+                        {##}
+                        {#                                    <li class="nav-item">#}
+                        {#                                        <a class="nav-link{% block 单据权限管理-active %}#}
+                        {#                                        {% endblock %}" href="{% url 'certificate:receiptlimits' %}">单据权限管理</a>#}
+                        {#                                    </li>#}
+                        {#                                    <li class="nav-item">#}
+                        {#                                        <a class="nav-link{% block 单据类别-active %}#}
+                        {#                                        {% endblock %}" href="{% url 'certificate:receiptclass' %}">单据类别</a>#}
+                        {#                                    </li>#}
+                        {#                                </ul>#}
+                        {#                            </div>#}
+                        {#                        </li>#}
+                        {% if 'certificate:offshorereceiptshistory' in limits or 'certificate:offshoreaddreceipts' in limits %}
+
+                            <li class="nav-item">
+                                <a class="nav-link {% block 外采单据-active %}{% endblock %}" href="#"
+                                   data-toggle="collapse" aria-expanded="false"
+                                   data-target="#submenu-6" aria-controls="submenu-6"><i class="fas fa-th-list"></i>供应商管理
+                                </a>
+                                <div id="submenu-6" class="{% block collapse6 %}{% endblock %}submenu" style="">
+                                    <ul class="nav flex-column">
+                                        {% if 'certificate:offshorereceiptshistory' in limits %}
+                                            <li class="nav-item">
+                                                <a class="nav-link{% block 历史单据-1-active %}
+                                        {% endblock %}"
+                                                   href="{% url 'certificate:offshorereceiptshistory' %}">历史单据</a>
+                                            </li>
+                                        {% endif %}
+
+                                        {% if 'certificate:offshoreaddreceipts' in limits %}
+                                            <li class="nav-item">
+                                                <a class="nav-link{% block 门店外采需求单-active %}
+                                        {% endblock %}"
+                                                   href="{% url 'certificate:addoffshoreaddreceipts' %}">门店外采需求单</a>
+                                            </li>
+                                        {% endif %}
+
+                                    </ul>
+                                </div>
+                            </li>
+                        {% endif %}
+                        {% if 'account:addaccount' in limits or 'certificate:m_account' in limits or 'certificate:m_gongaccount' in limits %}
+                            <li class="nav-item">
+                                <a class="nav-link {% block 账号管理-active %}{% endblock %}" href="#"
+                                   data-toggle="collapse" aria-expanded="false"
+                                   data-target="#submenu-3" aria-controls="submenu-3"><i class="fas fa-th-list"></i>账号管理
+                                </a>
+                                <div id="submenu-3" class="{% block collapse3 %}{% endblock %}submenu" style="">
+                                    <ul class="nav flex-column">
+                                        {% if 'account:addaccount' in limits %}
+                                            <li class="nav-item">
+                                                <a class="nav-link{% block 用户账号-active %}
+                                        {% endblock %}" href="{% url 'account:addaccount' %}">用户账号</a>
+                                            </li>
+                                        {% endif %}
+
+                                        {% if 'certificate:m_account' in limits %}
+                                            <li class="nav-item">
+                                                <a class="nav-link{% block 首付款账号-active %}
+                                        {% endblock %}" href="{% url 'certificate:m_account' %}">收付款账号</a>
+                                            </li>
+                                        {% endif %}
+
+                                        {% if 'certificate:m_gongaccount' in limits %}
+                                            <li class="nav-item">
+                                                <a class="nav-link{% block 供应商账号-active %}
+                                        {% endblock %}" href="{% url 'certificate:m_gongaccount' %}">供应商账号</a>
+                                            </li>
+                                        {% endif %}
+
+                                    </ul>
+                                </div>
+                            </li>
+                        {% endif %}
+                        {% if 'personnel:shenwithhold' in limits or 'personnel:personnel' in limits or 'personnel:performance' in limits or 'personnel:withhold' in limits or 'testsinfo:testinfo' in limits or 'personnel:koukuanshensu' in limits %}
+                            <li class="nav-item">
+                                <a class="nav-link {% block 人事模块-active %}{% endblock %}" href="#"
+                                   data-toggle="collapse" aria-expanded="false"
+                                   data-target="#submenu-7" aria-controls="submenu-7"><i class="fas fa-th-list"></i>人事模块
+                                </a>
+                                <div id="submenu-7" class="{% block collapse7 %}{% endblock %}submenu" style="">
+                                    <ul class="nav flex-column">
+                                        {% if 'personnel:personnel' in limits %}
+                                            <li class="nav-item">
+                                                <a class="nav-link{% block 门店员工信息-active %}
+                                        {% endblock %}" href="{% url 'personnel:personnel' %}">门店员工信息</a>
+                                            </li>
+                                        {% endif %}
+
+                                        {% if 'personnel:performance' in limits %}
+                                            <li class="nav-item">
+                                                <a class="nav-link{% block 绩效项目-active %}
+                                        {% endblock %}" href="{% url 'personnel:performance' %}">绩效项目</a>
+                                            </li>
+                                        {% endif %}
+
+                                        {% if 'personnel:withhold' in limits %}
+                                            <li class="nav-item">
+                                                <a class="nav-link{% block 扣款明细-active %}
+                                        {% endblock %}" href="{% url 'personnel:withhold' %}">未达标明细</a>
+                                            </li>
+                                        {% endif %}
+                                        {% if 'personnel:shenwithhold' in limits %}
+                                            <li class="nav-item">
+                                                <a class="nav-link{% block 扣款申诉-active %}
+                                        {% endblock %}" href="{% url 'personnel:shenwithhold' %}">未达标申诉</a>
+                                            </li>
+                                        {% endif %}
+                                        {% if 'personnel:yuangongxioazu' in limits %}
+                                            <li class="nav-item">
+                                                <a class="nav-link{% block 员工小组-active %}
+                                        {% endblock %}" href="{% url 'testsinfo:testinfo' %}">员工小组</a>
+                                            </li>
+                                        {% endif %}
+
+                                    </ul>
+                                </div>
+                            </li>
+                        {% endif %}
+                        {% if 'storage:stock_apply' in limits or 'storage:out_apply' in limits or 'storage:stock_lists' in limits %}
+                            <li class="nav-item">
+                                <a class="nav-link {% block 仓储管理-active %}{% endblock %}" href="#"
+                                   data-toggle="collapse" aria-expanded="false"
+                                   data-target="#submenu-14" aria-controls="submenu-14"><i class="fas fa-th-list"></i>仓储管理
+                                </a>
+                                <div id="submenu-14" class="{% block collapse14 %}{% endblock %} submenu" style="">
+                                    <ul class="nav flex-column">
+                                        {% if 'storage:stock_apply' in limits %}
+                                            <li class="nav-item">
+                                                <a class="nav-link{% block 备货单申请-active %}
+                                        {% endblock %}" href="{% url 'storage:stock_apply' %}">备货单申请</a>
+                                            </li>
+                                        {% endif %}
+
+                                        {% if 'storage:out_apply' in limits %}
+                                            <li class="nav-item">
+                                                <a class="nav-link{% block 出库申请-active %}
+                                        {% endblock %}" href="{% url 'storage:out_apply' %}">出库申请</a>
+                                            </li>
+                                        {% endif %}
+
+                                        {% if 'storage:stock_lists' in limits %}
+                                            <li class="nav-item">
+                                                <a class="nav-link{% block 库存列表-active %}
+                                        {% endblock %}" href="{% url 'storage:stock_lists' %}">库存列表</a>
+                                            </li>
+                                        {% endif %}
+                                    </ul>
+                                </div>
+                            </li>
+                        {% endif %}
+                        {% if 'waste:wasteinfo' in limits or 'waste:wastetradinghistory' in limits or 'waste:wastetradingok' in limits or 'waste:wastediff' in limits or 'waste:wastecontractor' in limits %}
+                            <li class="nav-item">
+                                <a class="nav-link {% block 危废模块-active %}{% endblock %}" href="#"
+                                   data-toggle="collapse" aria-expanded="false"
+                                   data-target="#submenu-8" aria-controls="submenu-8"><i class="fas fa-th-list"></i>危废模块
+                                </a>
+                                <div id="submenu-8" class="{% block collapse8 %}{% endblock %}submenu" style="">
+                                    <ul class="nav flex-column">
+                                        <li class="nav-item">
+                                            {% if 'waste:wasteinfo' in limits %}
+                                                <a class="nav-link{% block 系统废料-active %}
+                                        {% endblock %}" href="{% url 'waste:wasteinfo' %}">系统废料</a>
+                                            {% endif %}
+
+                                            {% if 'waste:wastetradinghistory' in limits %}
+                                                <a class="nav-link{% block 废料交易单-active %}
+                                        {% endblock %}" href="{% url 'waste:wastetradinghistory' %}">废料交易单</a>
+                                            {% endif %}
+
+                                            {% if 'waste:wastetradingok' in limits %}
+                                                <a class="nav-link{% block 废料核对单-active %}
+                                        {% endblock %}" href="{% url 'waste:wastetradingok' %}">废料核对单</a>
+                                            {% endif %}
+
+                                            {% if 'waste:wastediff' in limits %}
+                                                <a class="nav-link{% block 废料差异-active %}
+                                       {% endblock %}" href="{% url 'waste:wastediff' %}">废料差异</a>
+                                            {% endif %}
+
+                                            {% if 'waste:wastecontractor' in limits %}
+                                                <a class="nav-link{% block 废料承包商-active %}
+                                        {% endblock %}" href="{% url 'waste:wastecontractor' %}">废料承包商</a>
+                                            {% endif %}
+
+                                            {#                                            <a class="nav-link{% block 废料项目-active %}#}
+                                            {#                                                                                    {% endblock %}"#}
+                                            {#                                               href="{% url 'waste:wasteproject' %}">废料项目</a>#}
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                        {% endif %}
+                        {% if 'exam:add_exam' in limits or 'exam:open_exam' in limits or 'exam:show_exam' in limits %}
+                            <li class="nav-item">
+                                <a class="nav-link {% block 门店考试-active %}{% endblock %}" href="#"
+                                   data-toggle="collapse" aria-expanded="false"
+                                   data-target="#submenu-4" aria-controls="submenu-4"><i class="fas fa-th-list"></i>门店考试
+                                </a>
+                                <div id="submenu-4" class="{% block collapse4 %}{% endblock %}submenu" style="">
+                                    <ul class="nav flex-column">
+                                        {% if 'exam:add_exam' in limits %}
+                                            <li class="nav-item">
+                                                <a class="nav-link{% block 添加试卷-active %}
+                                        {% endblock %}" href="{% url 'exam:add_exam' %}">添加试卷</a>
+                                            </li>
+                                        {% endif %}
+
+                                        {% if 'exam:open_exam' in limits %}
+                                            <li class="nav-item">
+                                                <a class="nav-link{% block 培训考试-active %}
+                                        {% endblock %}" href="{% url 'exam:open_exam' %}">培训考试</a>
+                                            </li>
+                                        {% endif %}
+
+                                        {% if 'exam:show_exam' in limits %}
+                                            <li class="nav-item">
+                                                <a class="nav-link{% block 查看答卷-active %}
+                                        {% endblock %}" href="{% url 'exam:show_exam' %}">查看答卷</a>
+                                            </li>
+                                        {% endif %}
+
+                                    </ul>
+                                </div>
+                            </li>
+                        {% endif %}
+                        {% if 'monitor:monitor_list' in limits %}
+                            <li class="nav-item">
+                                <a class="nav-link {% block 监控管理-active %}{% endblock %}" href="#"
+                                   data-toggle="collapse" aria-expanded="false"
+                                   data-target="#submenu-15" aria-controls="submenu-15"><i class="fas fa-th-list"></i>监控管理
+                                </a>
+                                <div id="submenu-15" class="{% block collapse15 %}{% endblock %}submenu" style="">
+                                    <ul class="nav flex-column">
+                                        {% if 'monitor:monitor_list' in limits %}
+                                            <li class="nav-item">
+                                                <a class="nav-link{% block 拍照历史-active %}
+                                        {% endblock %}" href="{% url 'monitor:monitor_history' %}">拍照历史</a>
+                                            </li>
+                                        {% endif %}
+                                        {% if 'monitor:monitor_list' in limits %}
+                                            <li class="nav-item">
+                                                <a class="nav-link{% block 当天详情-active %}
+                                        {% endblock %}" href="{% url 'monitor:monitor_list' %}">当天详情</a>
+                                            </li>
+                                        {% endif %}
+
+                                    </ul>
+                                </div>
+                            </li>
+                        {% endif %}
+
+
+                        {#                        <li class="nav-item">#}
+                        {#                            <a class="nav-link {% block test-active %}{% endblock %}" href="#"#}
+                        {#                               data-toggle="collapse" aria-expanded="false"#}
+                        {#                               data-target="#submenu-5" aria-controls="submenu-5"><i class="fas fa-th-list"></i>test#}
+                        {#                            </a>#}
+                        {#                            <div id="submenu-5" class="collapse submenu" style="">#}
+                        {#                                <ul class="nav flex-column">#}
+                        {#                                    <li class="nav-item">#}
+                        {#                                        <a class="nav-link" href="{% url 'testsinfo:testinfo' %}">测试</a>#}
+                        {#                                    </li>#}
+                        {#                                </ul>#}
+                        {#                            </div>#}
+                        {#                        </li>#}
+                        {% if 'certificate:gongoffshorereceiptshistory' in limits or 'certificate:offshoreonereceipts' in limits %}
+                            <li class="nav-item">
+                                <a class="nav-link {% block 外采单据1-active %}{% endblock %}" href="#"
+                                   data-toggle="collapse" aria-expanded="false"
+                                   data-target="#submenu-13" aria-controls="submenu-13"><i class="fas fa-th-list"></i>采购商管理
+                                </a>
+                                <div id="submenu-13" class="{% block collapse13 %}{% endblock %}submenu" style="">
+                                    <ul class="nav flex-column">
+                                        {% if 'certificate:gongoffshorereceiptshistory' in limits %}
+                                            <li class="nav-item">
+                                                <a class="nav-link{% block 历史单据-11-active %}
+                                        {% endblock %}"
+                                                   href="{% url 'certificate:gongoffshorereceiptshistory' %}">历史单据</a>
+                                            </li>
+                                        {% endif %}
+
+                                        {% if 'certificate:offshoreonereceipts' in limits %}
+                                            <li class="nav-item">
+                                                <a class="nav-link{% block 供货商处理1-active %}
+                                        {% endblock %}" href="{% url 'certificate:offshoreonereceipts' %}">供货商处理</a>
+                                            </li>
+                                        {% endif %}
+
+                                    </ul>
+                                </div>
+                            </li>
+                        {% endif %}
+
+                        {% if 'mirror:mirror_image' in limits or 'mirror:mirror_image' in limits %}
+                            <li class="nav-item">
+                                <a class="nav-link {% block 镜像分析-active %}{% endblock %}" href="#"
+                                   data-toggle="collapse" aria-expanded="false"
+                                   data-target="#submenu-13" aria-controls="submenu-13"><i class="fas fa-th-list"></i>采购商管理
+                                </a>
+                                <div id="submenu-13" class="{% block collapse131 %}{% endblock %}submenu" style="">
+                                    <ul class="nav flex-column">
+
+                                        {% if 'mirror:mirror_image' in limits %}
+                                            <li class="nav-item">
+                                                <a class="nav-link{% block 定位成像 %}
+                                        {% endblock %}" href="{% url 'mirror:index' %}">定位成像</a>
+                                            </li>
+                                        {% endif %}
+
+                                    </ul>
+                                </div>
+                            </li>
+                        {% endif %}
+
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </div>
+    <div class="dashboard-wrapper">
+        {% block body %}
+
+        {% endblock %}
+    </div>
+
+</div>
+<script src="{% static 'assets/vendor/jquery/jquery-3.3.1.min.js' %}"></script>
+<!-- bootstap bundle js -->
+<script src="{% static 'assets/vendor/bootstrap/js/bootstrap.bundle.js' %}"></script>
+<!-- slimscroll js -->
+<script src="{% static 'assets/vendor/slimscroll/jquery.slimscroll.js' %}"></script>
+
+<script>
+    function nowshopname() {
+        var nowshopname = $('#state').val();
+        $.ajax({
+            type: "post",
+            url: "{% url 'index:nowshopname' %}",
+            data: {
+                'nowshopname': nowshopname,
+                'csrfmiddlewaretoken': '{{ csrf_token }}',
+            },
+            success: function (data) {
+                location.reload()
+            }
+        });
+    }
+
+</script>
+
+</body>
+
+</html>

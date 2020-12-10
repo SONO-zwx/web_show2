@@ -1,0 +1,219 @@
+{% extends 'parent_template/parent_template.html' %}
+
+{% load static %}
+
+{% block 门店考试-active %}
+    active
+{% endblock %}
+
+{% block collapse3 %}
+collapse
+{% endblock %}
+{% block collapse1 %}
+collapse
+{% endblock %}
+{% block collapse2 %}
+collapse
+{% endblock %}
+{% block collapse4 %}
+
+{% endblock %}
+{% block collapse6 %}
+collapse
+{% endblock %}
+{% block collapse7 %}
+collapse
+{% endblock %}
+{% block collapse8 %}
+collapse
+{% endblock %}
+{% block collapse9 %}
+collapse
+{% endblock %}
+{% block collapse11 %}
+collapse
+{% endblock %}
+{% block collapse12 %}
+collapse
+{% endblock %}
+
+{% block body %}
+    <div class="dashboard-ecommerce">
+        <div class="container-fluid dashboard-content ">
+            <!-- ============================================================== -->
+            <!-- pageheader  -->
+            <!-- ============================================================== -->
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="page-header">
+                        <h2 class="pageheader-title">查看答卷</h2>
+                        <div class="page-breadcrumb">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="#" class="breadcrumb-link">门店考试</a>
+                                    </li>
+                                    <li class="breadcrumb-item" aria-current="page">查看答卷
+                                    </li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="ecommerce-widget" id="div01" style="display: block">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="row">
+                        <div class="col-xl-10 col-lg-6 col-md-6" style="margin: 0 auto">
+                            <div class="card">
+                                <h5 class="card-header">查看</h5>
+                                <div class="card-body">
+                                    <table style="width: 100%">
+                                        <tr>
+                                            <td class="text-sm-right" style="width: 10%">
+                                                姓&nbsp;&nbsp;名：
+                                            </td>
+                                            <td class="text-sm-left" style="width: 20%">
+                                                {{ topic.name }}
+                                            </td>
+                                            <td class="text-sm-right" style="width: 10%">
+                                                分&nbsp;数：
+                                            </td>
+                                            <td class="text-sm-left" style="width: 20%">
+                                                {{ topic.exam_grade }}
+                                            </td>
+                                            <td class="text-sm-right" style="width: 10%">
+                                                答&nbsp;卷&nbsp;时&nbsp;间：
+                                            </td>
+                                            <td class="text-sm-left" style="width: 30%">
+                                                {{ topic.answer_date|date:"Y-m-d" }}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-sm-right" style="width: 10%">
+                                                试&nbsp;&nbsp;卷：
+                                            </td>
+                                            <td class="text-sm-left" style="width: 20%">
+                                                {{ info.name }}
+                                            </td>
+                                            <td class="text-sm-right" style="width: 10%">
+                                                试&nbsp;卷&nbsp;说&nbsp;明：
+                                            </td>
+                                            <td class="text-sm-left" style="width: 20%">
+                                                {{ info.remark }}
+                                            </td>
+                                            <td class="text-sm-right" style="width: 10%">
+                                                所&nbsp;属&nbsp;公&nbsp;司：
+                                            </td>
+                                            <td class="text-sm-left" style="width: 30%">
+                                                {{ info.superior }}
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+
+                                <h5 class="card-header">试卷题目</h5>
+                                <div class="card-body">
+                                    <table style="width: 100%" border="1" cellspacing="1" cellpadding="2">
+                                        {% for foo in examinfo %}
+                                            <tr>
+                                                <td class="text-sm-center" style="width: 5%">
+                                                    编&nbsp;&nbsp;号：
+                                                </td>
+                                                <td class="text-sm-center" style="width: 7.5%">
+                                                    {{ foo.topic_id }}
+                                                </td>
+                                                <td class="text-sm-center" style="width: 5%">
+                                                    题&nbsp;&nbsp;目：
+                                                </td>
+                                                <td class="text-sm-center" style="width: 7.5%">
+                                                    {{ foo.topic_body }}
+                                                </td>
+                                                <td class="text-sm-center" style="width: 10%">
+                                                    选&nbsp;&nbsp;项：
+                                                </td>
+                                                <td class="text-sm-left" style="width: 25%">
+                                                    {% for aoption in foo.option %}
+                                                        {{ aoption.option_id }}、{{ aoption.option_body }}<br>
+                                                    {% endfor %}
+                                                </td>
+                                                <td class="text-sm-center" style="width: 5%">
+                                                    参&nbsp;考&nbsp;答&nbsp;案：
+                                                </td>
+                                                <td class="text-sm-center" style="width: 5%">
+                                                    {{ foo.topic_answer }}
+                                                </td>
+                                                <td class="text-sm-center" style="width: 5%">
+                                                    分&nbsp;&nbsp;值：
+                                                </td>
+                                                <td class="text-sm-center" style="width: 5%">
+                                                    {{ foo.goal }}
+                                                </td>
+                                                <td class="text-sm-center" style="width: 5%">
+                                                    填&nbsp;写&nbsp;答&nbsp;案：
+                                                </td>
+                                                <td class="text-sm-center" style="width: 5%">
+                                                    {% for aoption in foo.user_anwer %}
+                                                        {{ aoption.users_answer }}
+                                                    {% endfor %}
+                                                </td>
+                                                <td class="text-sm-center" style="width: 5%">
+                                                    得&nbsp;&nbsp;分：
+                                                </td>
+                                                <td class="text-sm-center" style="width: 5%">
+                                                    {% for aoption in foo.user_anwer %}
+                                                        {{ aoption.goal }}
+                                                    {% endfor %}
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function submits() {
+            var topic_id = $('#topic_id').val();
+            if (topic_id === '') {
+                alert('请输入题号');
+                return false;
+            }
+            var topic_body = $('#topic_body').val();
+            if (topic_body === '') {
+                alert('请输入题目');
+                return false;
+            }
+            var goal = $('#goal').val();
+            if (goal === '') {
+                alert('请输入分值');
+                return false;
+            }
+            var topic_answer = $('#topic_answer').val();
+            if (topic_answer === '') {
+                alert('请输入答案');
+                return false;
+            }
+            $('form').submit();
+        }
+    </script>
+    <script>
+        function optionsubmits() {
+            var option_id = $('#option_id').val();
+            if (option_id === '') {
+                alert('请输入序号');
+                return false;
+            }
+            var option_body = $('#option_body').val();
+            if (option_body === '') {
+                alert('请输入选项');
+                return false;
+            }
+            $('form').submit();
+        }
+    </script>
+{% endblock %}
+

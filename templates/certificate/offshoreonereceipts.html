@@ -1,0 +1,760 @@
+{% extends 'parent_template/gongcertificate.html' %}
+
+{% load static %}
+
+{% block 历史单据-1-active %}
+    active
+{% endblock %}
+
+{% block 供货商处理1-active %}
+    active
+{% endblock %}
+
+{% block body %}
+    <div class="dashboard-ecommerce">
+        <div class="container-fluid dashboard-content ">
+            <!-- ============================================================== -->
+            <!-- pageheader  -->
+            <!-- ============================================================== -->
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="page-header">
+                        <h2 class="pageheader-title">外采单据</h2>
+                        <div class="page-breadcrumb">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="#" class="breadcrumb-link">外采单据</a>
+                                    </li>
+                                    <li class="breadcrumb-item active" aria-current="page">供货商处理
+                                    </li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <h5>
+                <a href="{% url 'certificate:offshoreonereceipts' %}"><span
+                        style="width: 100px;height: 30px;display: inline-block;text-align: center;line-height: 30px;background-color: rgb(51, 122, 183);color: white;border: 1px solid grey;">添加货品</span></a>
+                <a href="{% url 'certificate:faoffshoreaddreceipts' %}"><span
+                        style="width: 100px;height: 30px;display: inline-block;text-align: center;line-height: 30px;">货品发货</span></a>
+                <a href="{% url 'certificate:tuifaoffshoreaddreceipts' %}"><span
+                        style="width: 100px;height: 30px;display: inline-block;text-align: center;line-height: 30px;">货品退货</span></a>
+            </h5>
+            <div class="ecommerce-widget" id="div01" style="display: block">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="row">
+                        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-12">
+                            <div class="card">
+                                <h5 class="card-header">外采单据</h5>
+                                <div class="card-body">
+                                    <table class="table">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col" style="width: 20%">创建时间</th>
+                                            <th scope="col" style="width: 20%">车辆品牌</th>
+                                            <th scope="col" style="width: 20%">车型</th>
+                                            <th scope="col" style="width: 20%">需求描述</th>
+                                            <th scope="col" style="width: 20%">当前状态</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for offshore in offshores %}
+                                            <tr>
+                                                <td>
+                                                    <a href="{% url 'certificate:offshoreonereceipts' %}?offshoreid={{ offshore.id }}">{{ offshore.tijiaodata|date:'Y-m-d' }}</a>
+                                                </td>
+                                                <td>
+                                                    <a href="{% url 'certificate:offshoreonereceipts' %}?offshoreid={{ offshore.id }}">{{ offshore.brand|default:'' }}</a>
+                                                </td>
+                                                <td>
+                                                    <a href="{% url 'certificate:offshoreonereceipts' %}?offshoreid={{ offshore.id }}">{{ offshore.motorcycle|default:'' }}</a>
+                                                </td>
+                                                <td>
+                                                    <a href="{% url 'certificate:offshoreonereceipts' %}?offshoreid={{ offshore.id }}">{{ offshore.model|default:'' }}</a>
+                                                </td>
+                                                <td>
+                                                    <a href="{% url 'certificate:offshoreonereceipts' %}?offshoreid={{ offshore.id }}">{{ offshore.status|default:'' }}</a>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                                <nav aria-label="Page navigation">
+                                    <div class="pagination">
+                                        <ul class="pagination">
+                                            <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
+                                            <li>当前页数：{{ offshores.number }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
+                                            {% if offshores.has_previous %}
+                                                <li>
+                                                    <a href="{% url 'certificate:offshoreonereceipts' %}?offshorepage={{ offshores.previous_page_number }}"
+                                                       aria-label="Previous"><span aria-hidden="true">&laquo;&nbsp;&nbsp;</span></a>
+                                                </li>
+                                            {% endif %}
+
+                                            {% for num in offshores.paginator.page_range %}
+                                                {% if num == offshores.number|add:-1 or num == offshores.number|add:-2 or num == offshores.number|add:-3 or num == offshores.number or num == offshores.number|add:1 or num == offshores.number|add:2 or num == offshores.number|add:3 %}
+                                                    {% if num == offshores.number %}
+                                                        <li><a href="">{{ num }}&nbsp;&nbsp;</a></li>
+                                                    {% else %}
+                                                        <li>
+                                                            <a href="{% url 'certificate:offshoreonereceipts' %}?offshorepage={{ num }}">{{ num }}&nbsp;&nbsp;</a>
+                                                        </li>
+                                                    {% endif %}
+                                                {% endif %}
+                                            {% endfor %}
+
+                                            {% if offshores.has_next %}
+                                                <li>
+                                                    <a href="{% url 'certificate:offshoreonereceipts' %}?offshorepage={{ offshores.next_page_number }}"
+                                                       aria-label="Next">
+                                                        <span aria-hidden="true">&raquo;&nbsp;&nbsp;</span></a></li>
+                                            {% endif %}
+                                        </ul>
+                                    </div>
+                                </nav>
+                                <div aria-label="Page navigation" style="margin-left: 29px;margin-top: -13px;">
+                                    <span>跳转至</span>
+                                    <input type="text" style="width: 30px;" class="jump">
+                                    <input type="hidden" value="{{ info.paginator.num_pages }}" class="hidden_val">
+                                    <span>页</span>
+                                    <input type="button" value="GO" onclick="jump_to()">
+                                </div>
+                            </div>
+                        </div>
+                        {% if offshoreinfo %}
+                            <div class="col-xl-8 col-lg-6 col-md-6" style="margin: 0 auto">
+                                <div class="card">
+                                    <div class="card-body">
+
+                                        <table style="width: 100%" border="1" cellspacing="1" cellpadding="2">
+                                            <tr>
+                                                <td colspan="8">
+                                                    <h3 style="text-align: center">外采单据凭证</h3>
+                                                </td>
+                                            </tr>
+                                            <tr style="height: 60px">
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    门&nbsp;&nbsp;店
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    {{ offshoreinfo.shopname|default:"" }}
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    当&nbsp;前&nbsp;状&nbsp;态
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    {{ offshoreinfo.status|default:"" }}
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%" rowspan="2">
+                                                    车&nbsp;辆&nbsp;信&nbsp;息&nbsp;图&nbsp;片
+                                                </td>
+                                                <td colspan="3" rowspan="2">
+                                                    {% for photo in offshoreinfo.Carinfoimg %}
+                                                        <img src="{{ photo.img_url.url }}" alt="" style="height: 100px"
+                                                             id="myImgcarinfo{{ photo.id }}" height="100"
+                                                             onclick="bigimg(this.id)">
+                                                    {% endfor %}
+                                                </td>
+                                            </tr>
+                                            <tr style="height: 60px">
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    供&nbsp;货&nbsp;商
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    {{ offshoreinfo.gongaccount|default:"" }}
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    车&nbsp;辆&nbsp;品&nbsp;牌
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    {{ offshoreinfo.brand|default:"" }}
+                                                </td>
+                                            </tr>
+                                            <tr style="height: 60px">
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    车&nbsp;&nbsp;型
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    {{ offshoreinfo.motorcycle|default:"" }}
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    车&nbsp;架&nbsp;号
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    {{ offshoreinfo.forid|default:"" }}
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%" rowspan="2">
+                                                    车&nbsp;架&nbsp;号&nbsp;照&nbsp;片
+                                                </td>
+                                                <td colspan="3" rowspan="2">
+                                                    {% for photo in offshoreinfo.Vinimg %}
+                                                        <img src="{{ photo.img_url.url }}" alt="" style="height: 100px"
+                                                             id="myImgvininfo{{ photo.id }}" height="100"
+                                                             onclick="bigimg(this.id)">
+                                                    {% endfor %}
+                                                </td>
+                                            </tr>
+                                            <tr style="height: 60px">
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    需&nbsp;求&nbsp;描&nbsp;述
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%" colspan="3">
+                                                    {{ offshoreinfo.model|default:"" }}
+                                                </td>
+                                            </tr>
+                                            <tr style="height: 120px">
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    相&nbsp;关&nbsp;视&nbsp;频
+                                                </td>
+                                                <td colspan="7">
+                                                    {% for foo in offshoreinfo.Kindsimg %}
+                                                        <video width="320" height="180" controls>
+                                                            <source src="{{ foo.img_url.url }}" type="video/mp4">
+                                                        </video>
+                                                    {% endfor %}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    货&nbsp;品&nbsp;明&nbsp;细<br>
+                                                    <button style="width:100px;height:30px;line-height:18px;font-size:18px; color:#2ea8e5;padding-bottom:4px"
+                                                            type="button" onclick="add_input('dealproject')">
+                                                        添加
+                                                    </button>
+                                                </td>
+
+                                                <td class="text-sm-center" colspan="7">
+                                                    <table style="width: 100%" border="1" cellspacing="1"
+                                                           cellpadding="2" id="dealproject">
+                                                        <tr style="height: 40px">
+                                                            <td class="text-sm-center" style="width: 15%">
+                                                                商&nbsp;品&nbsp;品&nbsp;牌
+                                                            </td>
+                                                            <td class="text-sm-center" style="width: 15%">
+                                                                产&nbsp;品&nbsp;名&nbsp;称
+                                                            </td>
+                                                            <td class="text-sm-center" style="width: 15%">
+                                                                型&nbsp;&nbsp;号
+                                                            </td>
+                                                            <td class="text-sm-center" style="width: 10%">
+                                                                数&nbsp;&nbsp;量
+                                                            </td>
+                                                            <td class="text-sm-center" style="width: 10%">
+                                                                单&nbsp;&nbsp;价
+                                                            </td>
+                                                            <td class="text-sm-center" style="width: 10%">
+                                                                总&nbsp;金&nbsp;额
+                                                            </td>
+                                                            <td class="text-sm-center" style="width: 15%">
+                                                                状&nbsp;&nbsp;态
+                                                            </td>
+                                                            <td class="text-sm-center" style="width: 15%">
+                                                                操&nbsp;&nbsp;作
+                                                            </td>
+                                                        </tr>
+
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="8" style="text-align: center">
+                                                    <a href="" id="tiaozhuan" style="display: none"></a>
+                                                    <button type="button" onclick="submits()"
+                                                            style="width:140px;height:36px;line-height:18px;font-size:18px; color:#2ea8e5;padding-bottom:4px">
+                                                        完成添加
+                                                    </button>
+                                                    <button type="button" onclick="wusubmits()"
+                                                            style="width:140px;height:36px;line-height:18px;font-size:18px; color:#2ea8e5;padding-bottom:4px">
+                                                        无货
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </table>
+
+
+                                        <!-- 弹窗 -->
+                                        <div id="myModal" class="modal">
+                                            <!-- 弹窗内容 -->
+                                            <img class="modal-content" id="img01">
+                                            <div>
+                                                <div style="margin: 0 auto; width: 205px;">
+                                                    <div style="position: fixed;bottom: 40px;">
+                                                        <button type="button" class="btn btn-outline-light"
+                                                                id="fangda">
+                                                            <span class="fa fa-search-plus"></span>
+                                                        </button>
+                                                        <button type="button" class="btn btn-outline-light"
+                                                                id="suoxiao">
+                                                            <span class="fas fa-search-minus"></span>
+                                                        </button>
+                                                        <button type="button" class="btn btn-outline-light"
+                                                                id="zuozhuan">
+                                                            <span class="fas fa-undo"></span>
+                                                        </button>
+                                                        <button type="button" class="btn btn-outline-light"
+                                                                id="youzhuan">
+                                                            <span class="fas fa-redo"></span>
+                                                        </button>
+                                                        <button type="button" class="btn btn-outline-light"
+                                                                id="youzhuan"
+                                                                onclick="document.getElementById('myModal').style.display='none'">
+                                                            <span class="fa fa-power-off"></span>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <script>
+        function wudealinfo(id) {
+            $.ajax({
+                type: "post",
+                url: "{% url 'certificate:wudealinfo' %}",
+                data: {
+                    'id': id,
+                    'csrfmiddlewaretoken': '{{ csrf_token }}',
+                },
+                success: function (data) {
+                    location.reload()
+                }
+            })
+        }
+
+        function okdealinfo(id) {
+            var brand = $('#brand' + id.toString()).val();
+            var productname = $('#productname' + id.toString()).val();
+            var model = $('#model' + id.toString()).val();
+            var number = $('#number' + id.toString()).val();
+            var unit = $('#unit' + id.toString()).val();
+            if (brand === '') {
+                alert('请添加商品品牌');
+                return false;
+            }
+            if (productname === '') {
+                alert('请添加产品名称');
+                return false;
+            }
+
+            if (model === '') {
+                alert('请添加商品型号');
+                return false;
+            }
+
+            if (number === '') {
+                alert('请添加数量');
+                return false;
+            }
+            if (isNaN(number)) {
+                alert('数量为数字');
+                return false;
+            }
+            if (unit === '') {
+                alert('请添加单价');
+                return false;
+            }
+            if (isNaN(unit)) {
+                alert('单价为数字');
+                return false;
+            }
+            $.ajax({
+                type: "post",
+                url: "{% url 'certificate:okdealinfo' %}",
+                data: {
+                    'brand': brand,
+                    'productname': productname,
+                    'model': model,
+                    'number': number,
+                    'unit': unit,
+                    'forid': id,
+                    'csrfmiddlewaretoken': '{{ csrf_token }}',
+                },
+                success: function (data) {
+                    location.reload()
+                }
+            })
+        }
+    </script>
+    <script>
+
+        function wusubmits() {
+            $.ajax({
+                type: "post",
+                url: "{% url 'certificate:wufarenokdealinfo' %}",
+                data: {
+                    'id': '{{ offshoreinfo.id }}',
+                    'csrfmiddlewaretoken': '{{ csrf_token }}',
+                },
+                success: function (data) {
+                    var url = window.location.href;
+                    var arrUrl = url.split("?");
+                    var tiaozhuan = $('#tiaozhuan').attr('href', arrUrl[0]);
+                    document.getElementById("tiaozhuan").click();
+                }
+            })
+        }
+    </script>
+    <script>
+        function submits() {
+            var datas = data = getTableContent('dealproject');
+            if (datas.length === 1) {
+                alert('请添加货品信息');
+                return false;
+            }
+            var dealpro_types = $('#brand');
+            if (dealpro_types[0]) {
+                alert('请先完成明细添加');
+                return false;
+            }
+            var tmp = '';
+            for (i = 1, rows = datas.length; i < rows; i++) {
+                tmp = tmp + datas[i][0] + '**-**' + datas[i][1] + '**-**' + datas[i][2] + '**-**' + datas[i][3] + '**-**' + datas[i][4] + '**-**' + datas[i][5] + '**-**' + datas[i][6] + '**--**';
+            }
+            console.log(tmp);
+            $.ajax({
+                type: "post",
+                url: "{% url 'certificate:offshoreonereceipts' %}",
+                data: {
+                    'datas': tmp,
+                    'forid': '{{ offshoreinfo.id }}'
+                },
+                success: function (data) {
+                    var url = window.location.href;
+                    var arrUrl = url.split("?");
+                    var tiaozhuan = $('#tiaozhuan').attr('href', arrUrl[0]);
+                    document.getElementById("tiaozhuan").click();
+                }
+            })
+        }
+    </script>
+
+    <script>
+        function getTableContent(id) {
+            var mytable = document.getElementById(id);
+            var data = [];
+            for (var i = 0, rows = mytable.rows.length; i < rows; i++) {
+                for (var j = 0, cells = mytable.rows[i].cells.length; j < cells; j++) {
+                    if (!data[i]) {
+                        data[i] = new Array();
+                    }
+                    data[i][j] = mytable.rows[i].cells[j].innerHTML;
+                }
+            }
+            return data;
+        }
+
+        function add_input(id) {
+            var dealpro_types = $('#productname');
+            if (dealpro_types[0]) {
+                alert('请先完成本次添加');
+                return false;
+            } else {
+                var data = getTableContent(id);
+
+                var tmp = '';
+                tmp += '<tr style="height: 40px">';
+                tmp += '<td class="text-sm-center" style="width: 15%">';
+                tmp += data[0][0] + '</td>';
+                tmp += '<td class="text-sm-center" style="width: 15%">';
+                tmp += data[0][1] + '</td>';
+                tmp += '<td class="text-sm-center" style="width: 15%">';
+                tmp += data[0][2] + '</td>';
+                tmp += '<td class="text-sm-center" style="width: 10%">';
+                tmp += data[0][3] + '</td>';
+                tmp += '<td class="text-sm-center" style="width: 10%">';
+                tmp += data[0][4] + '</td>';
+                tmp += '<td class="text-sm-center" style="width: 15%">';
+                tmp += data[0][5] + '</td>';
+                tmp += '<td class="text-sm-center" style="width: 15%">';
+                tmp += data[0][6] + '</td>';
+                tmp += '<td class="text-sm-center" style="width: 15%">';
+                tmp += data[0][7] + '</td>';
+                tmp += '</tr>';
+                for (i = 1, rows = data.length; i < rows; i++) {
+                    tmp += '<tr style="height: 40px">';
+                    tmp += '<td class="text-sm-center" style="width: 15%">';
+                    tmp += data[i][0] + '</td>';
+                    tmp += '<td class="text-sm-center" style="width: 15%">';
+                    tmp += data[i][1] + '</td>';
+                    tmp += '<td class="text-sm-center" style="width: 15%">';
+                    tmp += data[i][2] + '</td>';
+                    tmp += '<td class="text-sm-center" style="width: 10%">';
+                    tmp += data[i][3] + '</td>';
+                    tmp += '<td class="text-sm-center" style="width: 10%">';
+                    tmp += data[i][4] + '</td>';
+                    tmp += '<td class="text-sm-center" style="width: 15%">';
+                    tmp += data[i][5] + '</td>';
+                    tmp += '<td class="text-sm-center" style="width: 15%">';
+                    tmp += data[i][6] + '</td>';
+                    tmp += '<td class="text-sm-center" style="width: 15%">';
+                    tmp += '<button type="button" onclick="delTableContent(\'' + id + '\',' + i + ')">删除</button>' + '</td>';
+                    tmp += '</tr>'
+                }
+                tmp = tmp +
+                    '<tr style="height: 40px">' +
+                    '                                                        <td class="text-sm-center">\n' +
+                    '                                                            <input type="text" class="form-control"\n' +
+                    '                                                                   name="brand"\n' +
+                    '                                                                   id="brand" value="">\n' +
+                    '                                                        </td>\n' +
+                    '                                                        <td class="text-sm-center">\n' +
+                    '                                                            <input type="text" class="form-control"\n' +
+                    '                                                                   name="productname" id="productname" value="">\n' +
+                    '                                                        </td>\n' +
+                    '                                                        <td class="text-sm-center">\n' +
+                    '                                                            <input type="text" class="form-control"\n' +
+                    '                                                                   name="model" id="model" value="">\n' +
+                    '                                                        </td>\n' +
+                    '                                                        <td class="text-sm-center">\n' +
+                    '                                                            <input type="text" class="form-control"\n' +
+                    '                                                                   name="number" id="number" value="">\n' +
+                    '                                                        </td>\n' +
+                    '                                                        <td class="text-sm-center">\n' +
+                    '                                                            <input type="text" class="form-control"\n' +
+                    '                                                                   name="unit" id="unit" value="">\n' +
+                    '                                                        </td>\n' +
+                    '                                                        <td class="text-sm-center">\n' +
+                    '                                                            <input type="text" class="form-control"\n' +
+                    '                                                                   name="jine" id="jine" value="" readonly>\n' +
+                    '                                                        </td>\n' +
+                    '                                                        <td class="text-sm-center">\n' +
+                    '                                                            <input type="text" class="form-control"\n' +
+                    '                                                                 readonly  name="status" id="status" value="待确认">\n' +
+                    '                                                        </td>\n ' +
+                    '                                                       <td>\n' +
+                    '                                                            <button type="button" onclick="okTableContent(\'dealproject\')">\n' +
+                    '                                                                完成\n' +
+                    '                                                            </button>\n' +
+                    '                                                            <button type="button" onclick="delTableContent(\'' + id + '\',\'' + data.length + '\')">\n' +
+                    '                                                                删除\n' +
+                    '                                                            </button>\n' +
+                    '                                                        </td>' +
+                    '                                                    </tr>';
+
+                document.getElementById(id).innerHTML = tmp;
+            }
+        }
+
+
+        function okTableContent(id) {
+            var data = getTableContent(id);
+            var tmp = '';
+            var brand = $('#brand').val();
+            var productname = $('#productname').val();
+            var model = $('#model').val();
+            var number = $('#number').val();
+            var unit = $('#unit').val();
+            var status = $('#status').val();
+
+            if (brand === '') {
+                alert('请添加商品品牌');
+                return false;
+            }
+            if (productname === '') {
+                alert('请输入项目名称');
+                return false;
+            }
+            if (number === "" || number == null) {
+                alert('请输入数量');
+                return false;
+            }
+            if (isNaN(number)) {
+                alert('数量为数字');
+                return false;
+            }
+            if (unit === "" || unit == null) {
+                alert('请输入单价');
+                return false;
+            }
+            if (isNaN(unit)) {
+                alert('单价为数字');
+                return false;
+            }
+
+
+            tmp += '<tr style="height: 40px">';
+            tmp += '<td class="text-sm-center" style="width: 15%">';
+            tmp += data[0][0] + '</td>';
+            tmp += '<td class="text-sm-center" style="width: 15%">';
+            tmp += data[0][1] + '</td>';
+            tmp += '<td class="text-sm-center" style="width: 15%">';
+            tmp += data[0][2] + '</td>';
+            tmp += '<td class="text-sm-center" style="width: 15%">';
+            tmp += data[0][3] + '</td>';
+            tmp += '<td class="text-sm-center" style="width: 15%">';
+            tmp += data[0][4] + '</td>';
+            tmp += '<td class="text-sm-center" style="width: 15%">';
+            tmp += data[0][5] + '</td>';
+            tmp += '<td class="text-sm-center" style="width: 15%">';
+            tmp += data[0][6] + '</td>';
+            tmp += '<td class="text-sm-center" style="width: 15%">';
+            tmp += data[0][7] + '</td>';
+            tmp += '</tr>';
+            for (i = 1, rows = data.length; i < rows - 1; i++) {
+                tmp += '<tr style="height: 40px">';
+                tmp += '<td class="text-sm-center" style="width: 15%">';
+                tmp += data[i][0] + '</td>';
+                tmp += '<td class="text-sm-center" style="width: 15%">';
+                tmp += data[i][1] + '</td>';
+                tmp += '<td class="text-sm-center" style="width: 15%">';
+                tmp += data[i][2] + '</td>';
+                tmp += '<td class="text-sm-center" style="width: 15%">';
+                tmp += data[i][3] + '</td>';
+                tmp += '<td class="text-sm-center" style="width: 15%">';
+                tmp += data[i][4] + '</td>';
+                tmp += '<td class="text-sm-center" style="width: 15%">';
+                tmp += data[i][5] + '</td>';
+                tmp += '<td class="text-sm-center" style="width: 15%">';
+                tmp += data[i][6] + '</td>';
+                tmp += '<td class="text-sm-center" style="width: 15%">';
+                tmp += '<button type="button" onclick="delTableContent(\'' + id + '\',' + i + ')">删除</button>' + '</td>';
+                tmp += '</tr>'
+            }
+            var num = data.length - 1;
+            tmp = tmp + '<tr style="height: 40px">' + '<td class="text-sm-center" style="width: 15%">' + brand + '</td>';
+            tmp = tmp + '<td class="text-sm-center" style="width: 15%">' + productname + '</td>';
+            tmp = tmp + '<td class="text-sm-center" style="width: 15%">' + model + '</td>';
+            tmp = tmp + '<td class="text-sm-center" style="width: 15%">' + number + '</td>';
+            tmp = tmp + '<td class="text-sm-center" style="width: 15%">' + unit + '</td>';
+            tmp = tmp + '<td class="text-sm-center" style="width: 15%">' + (parseFloat(number) * parseFloat(unit)).toString() + '</td>';
+            tmp = tmp + '<td class="text-sm-center" style="width: 15%">' + status + '</td>';
+            tmp = tmp + '<td class="text-sm-center" style="width: 15%">' + '<button type="button" onclick="delTableContent(\'' + id + '\',' + num + ')">删除</button>' + '</td>' + '</tr>';
+
+            document.getElementById(id).innerHTML = tmp;
+
+        }
+
+        function delTableContent(id, table_id) {
+            var dealpro_types = $('#brand');
+            var data = getTableContent(id);
+            var tmp = '';
+            tmp += '<tr style="height: 40px">';
+            tmp += '<td class="text-sm-center" style="width: 15%">';
+            tmp += data[0][0] + '</td>';
+            tmp += '<td class="text-sm-center" style="width: 15%">';
+            tmp += data[0][1] + '</td>';
+            tmp += '<td class="text-sm-center" style="width: 15%">';
+            tmp += data[0][2] + '</td>';
+            tmp += '<td class="text-sm-center" style="width: 15%">';
+            tmp += data[0][3] + '</td>';
+            tmp += '<td class="text-sm-center" style="width: 15%">';
+            tmp += data[0][4] + '</td>';
+            tmp += '<td class="text-sm-center" style="width: 15%">';
+            tmp += data[0][5] + '</td>';
+            tmp += '<td class="text-sm-center" style="width: 15%">';
+            tmp += data[0][6] + '</td>';
+            tmp += '<td class="text-sm-center" style="width: 15%">';
+            tmp += data[0][7] + '</td>';
+            tmp += '</tr>';
+            var allpriceinfo = '';
+            if (dealpro_types[0]) {
+                for (i = 1, rows = data.length; i < rows - 1; i++) {
+                    tmp += '<tr style="height: 40px">';
+                    tmp += '<td class="text-sm-center" style="width: 15%">';
+                    tmp += data[i][0] + '</td>';
+                    tmp += '<td class="text-sm-center" style="width: 15%">';
+                    tmp += data[i][1] + '</td>';
+                    tmp += '<td class="text-sm-center" style="width: 15%">';
+                    tmp += data[i][2] + '</td>';
+                    tmp += '<td class="text-sm-center" style="width: 15%">';
+                    tmp += data[i][3] + '</td>';
+                    tmp += '<td class="text-sm-center" style="width: 15%">';
+                    tmp += data[i][4] + '</td>';
+                    tmp += '<td class="text-sm-center" style="width: 15%">';
+                    tmp += data[i][5] + '</td>';
+                    tmp += '<td class="text-sm-center" style="width: 15%">';
+                    tmp += data[i][6] + '</td>';
+                    tmp += '<td class="text-sm-center" style="width: 15%">';
+                    tmp += '<button type="button" onclick="delTableContent(\'' + id + '\',' + i + ')">删除</button>' + '</td>';
+                    tmp += '</tr>'
+                }
+                if ((data.length - 1).toString() !== table_id.toString()) {
+                    tmp += '<tr style="height: 40px">';
+                    tmp += '<td class="text-sm-center" style="width: 15%">';
+                    tmp += data[data.length - 1][0] + '</td>';
+                    tmp += '<td class="text-sm-center" style="width: 15%">';
+                    tmp += data[data.length - 1][1] + '</td>';
+                    tmp += '<td class="text-sm-center" style="width: 15%">';
+                    tmp += data[data.length - 1][2] + '</td>';
+                    tmp += '<td class="text-sm-center" style="width: 15%">';
+                    tmp += data[data.length - 1][3] + '</td>';
+                    tmp += '<td class="text-sm-center" style="width: 15%">';
+                    tmp += data[data.length - 1][4] + '</td>';
+                    tmp += '<td class="text-sm-center" style="width: 15%">';
+                    tmp += data[data.length - 1][5] + '</td>';
+                    tmp += '<td class="text-sm-center" style="width: 15%">';
+                    tmp += data[data.length - 1][6] + '</td>';
+                    tmp += '<td class="text-sm-center" style="width: 15%">';
+                    tmp += '                                                            <button type="button" onclick="okTableContent(\'dealproject\')">\n' +
+                        '                                                                完成\n' +
+                        '                                                            </button>\n' +
+                        '                                                            <button type="button" onclick="delTableContent(\'' + id + '\',\'' + (data.length - 2) + '\')">\n' +
+                        '                                                                删除\n' +
+                        '                                                            </button>\n';
+                    tmp += '</tr>'
+                }
+
+            } else {
+
+                for (i = 1, rows = data.length; i < rows; i++) {
+                    if (i === table_id) {
+                        allpriceinfo = data[i][3];
+                        continue
+                    }
+                    tmp += '<tr style="height: 40px">';
+                    tmp += '<td class="text-sm-center" style="width: 15%">';
+                    tmp += data[i][0] + '</td>';
+                    tmp += '<td class="text-sm-center" style="width: 15%">';
+                    tmp += data[i][1] + '</td>';
+                    tmp += '<td class="text-sm-center" style="width: 15%">';
+                    tmp += data[i][2] + '</td>';
+                    tmp += '<td class="text-sm-center" style="width: 15%">';
+                    tmp += data[i][3] + '</td>';
+                    tmp += '<td class="text-sm-center" style="width: 15%">';
+                    tmp += data[i][4] + '</td>';
+                    tmp += '<td class="text-sm-center" style="width: 15%">';
+                    tmp += data[i][5] + '</td>';
+                    tmp += '<td class="text-sm-center" style="width: 15%">';
+                    tmp += data[i][6] + '</td>';
+                    tmp += '<td class="text-sm-center" style="width: 15%">';
+                    tmp += '<button type="button" onclick="delTableContent(\'' + id + '\',' + i + ')">删除</button>' + '</td>';
+                    tmp += '</tr>'
+                }
+            }
+
+            document.getElementById(id).innerHTML = tmp;
+        }
+    </script>
+    <script>
+        function jump_to() {
+            var href = $('.jump').val()
+            var num_pages = $('.hidden_val').val()
+            if (href === "" || href == null) {
+                alert('请输入正确的页码！')
+                return false
+            } else if (parseInt(href) > parseInt(num_pages)) {
+                location.href = '{% url 'certificate:offshoreonereceipts' %}?offshorepage=' + num_pages
+            } else if (num_pages === '') {
+                location.href = '{% url 'certificate:offshoreonereceipts' %}?offshorepage=' + 1
+            } else {
+                location.href = '{% url 'certificate:offshoreonereceipts' %}?offshorepage=' + href
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="{% static 'img/css/myimg.css' %}">
+    <script src="{% static 'img/js/myjs.js' %}"></script>
+
+
+{% endblock %}
+

@@ -1,0 +1,216 @@
+{% load static %}
+{% load templatetag %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SONO AUTO CARE</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0
+        }
+    </style>
+    <link rel="stylesheet" href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}">
+    <script src="{% static 'assets/vendor/jquery/jquery-3.3.1.min.js' %}"></script>
+</head>
+<body>
+<div style="width: 100%">
+    <a href="javascript:history.go(-1)">
+        <div style="width: 100%">
+            <div style="width: 100%; height: 120px; background-color: grey;">
+                <div style="width: 50px; height: 120px; float: left;">
+
+                </div>
+                <div style=" float: left; width: 50px; height: 120px; z-index:100">
+                    <img src="{% static '/app/images/事项审批-管理层/u2724.png' %}" alt=""
+                         style="height: 60px; margin-top: 30px">
+                </div>
+                <div style="float: left; height: 120px; text-align: center; width: 100%; margin-top: -120px">
+                    <p style="font-size: 48px;line-height: 120px; color: white">收入凭证</p>
+                </div>
+            </div>
+        </div>
+    </a>
+    <div style="width: 100%">
+        <div style="width: 100%;height:380px;  margin-top: 20px;">
+            <div style="width: 98%; margin: 0 auto;">
+                <div style="width: 25%; float: left">
+                    <div style="height: 80px; text-align: right">
+                        <p style="line-height: 80px; font-size: 36px">门店&emsp;</p>
+                    </div>
+                    <div style="height: 80px; text-align: right">
+                        <p style="line-height: 80px; font-size: 36px">提交时间&emsp;</p>
+                    </div>
+                    <div style="height: 80px; text-align: right">
+                        <p style="line-height: 80px; font-size: 36px">收款方式&emsp;</p>
+                    </div>
+                    <div style="height: 160px; text-align: right">
+                        <p style="line-height: 160px; font-size: 36px">收款账号&emsp;</p>
+                    </div>
+                </div>
+                <div style="width: 75%; height: 160px;float: left">
+                    <div style="height: 80px; text-align: left">
+                        <p style="line-height: 80px; font-size: 36px">&emsp;{{ receipts.shopname }}</p>
+                    </div>
+                    <div style="height: 80px; text-align: left">
+                        <p style="line-height: 80px; font-size: 36px">&emsp;{{ receipts.dates }}</p>
+                    </div>
+                    <div style="height: 80px; text-align: left">
+                        <p style="line-height: 80px; font-size: 36px">&emsp;{{ receipts.payment_term }}</p>
+                    </div>
+
+                    <div style="height: 160px; text-align: left">
+                        <p style="line-height: 80px; font-size: 36px">&emsp;{{ receipts.payment_account }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="height: 20px;width: 100%;background-color: gainsboro;">
+        </div>
+
+        {% for foo in receipts.dealproject %}
+            <div style="width: 100%;height:400px;  margin-top: 20px;">
+                <div style="width: 98%; margin: 0 auto">
+                    <div style="width: 98%;">
+                        <div style="height: 80px; text-align: left">
+                            <p style="line-height: 80px; font-size: 36px">&emsp;&emsp;明细说明（{{ forloop.counter }}）</p>
+                        </div>
+                    </div>
+                </div>
+                <div style="width: 98%; margin: 0 auto">
+                    <div style="width: 25%; float: left">
+                        <div style="height: 80px; text-align: right">
+                            <p style="line-height: 80px; font-size: 36px">项目名称&emsp;</p>
+                        </div>
+                        <div style="height: 160px; text-align: right">
+                            <p style="line-height: 80px; font-size: 36px">说明&emsp;</p>
+                        </div>
+                        <div style="height: 80px; text-align: right">
+                            <p style="line-height: 80px; font-size: 36px">金额&emsp;</p>
+                        </div>
+                    </div>
+                    <div style="width: 75%; height: 160px;float: left">
+                        <div style="height: 80px; text-align: left">
+                            <p style="line-height: 80px; font-size: 36px">&emsp;{{ foo.project_name }}</p>
+                        </div>
+                        <div style="height: 160px; text-align: left">
+                            <p style="line-height: 80px; font-size: 36px">&emsp;{{ foo.explains }}</p>
+                        </div>
+                        <div style="height: 80px; text-align: left">
+                            <p style="line-height: 80px; font-size: 36px">&emsp;{{ foo.amount|qianfenwei }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        {% endfor %}
+        <div style="height: 10px;width: 100%;">
+            <hr style="color: gainsboro; line-height: 10px">
+        </div>
+        <div style="height: 240px;width: 100%;">
+            <div style="width: 25%; float: left">
+                <div style="height: 160px; text-align: right">
+                    <p style="line-height: 80px; font-size: 36px">提交备注&emsp;</p>
+                </div>
+            </div>
+            <div style="width: 75%; height: 160px;float: left">
+                <div style="height: 160px; text-align: left">
+                    <p style="line-height: 80px; font-size: 36px">&emsp;{{ receipts.submitremark }}</p>
+                </div>
+
+            </div>
+        </div>
+        <div style="height: 80px;width: 100%;">
+            <div style="width: 70%; float: left">
+                <div style="height: 80px; text-align: right">
+                    <p style="line-height: 80px; font-size: 36px">应收金额&emsp;</p>
+                </div>
+            </div>
+            <div style="width: 30%; height: 80px;float: left">
+                <div style="height: 80px; text-align: left">
+                    <p style="line-height: 80px; font-size: 36px">&emsp;￥ {{ receipts.allprice|qianfenwei }}</p>
+                </div>
+
+            </div>
+        </div>
+        <div style="height: 20px;width: 100%;background-color: gainsboro;">
+        </div>
+        <div style="width: 100%; height: 700px">
+            <div style="width: 98%; margin: 0 auto">
+                <div style="width: 98%;">
+                    <div style="height: 80px; text-align: left">
+                        <p style="line-height: 80px; font-size: 36px">&emsp;&emsp;凭证图片</p>
+                    </div>
+                </div>
+            </div>
+
+            {% for foo in receipts.photos %}
+                <div style="width: 33%; float: left">
+                    <div style="height: 200px; text-align: right">
+                        <img src="{{ foo.img_url.url }}" alt="" style="height: 200px; width: 100%">
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <div style="width: 100%; margin: 0 auto">
+            <div style="width: 100%; height: 80px">
+                <div style="height: 80px; text-align: left">
+                    <p style="line-height: 80px; font-size: 36px">&emsp;&emsp;审批意见</p>
+                </div>
+            </div>
+            <div style="width: 100%;">
+                <div style=" margin: 0 auto; width: 90%">
+                    <input type="text" id="remarks"
+                           style="display: block; width: 100%; height: 200px; font-size: 36px;border-radius: 20px;">
+                </div>
+            </div>
+        </div>
+        <div style="width: 100%; height: 120px; margin-top: 40px">
+            <div style="width: 50%; height: 120px;float: left; ">
+
+                <button style="margin-right: 20px;display: block; float: right; width: 220px; height: 80px; color: white;border-radius: 15px;font-size: 36px; background-color: rgb(22,155,213);"
+                        onclick="subinfo('驳回')">
+                    驳回
+                </button>
+            </div>
+            <div style="width: 50%; height: 120px;float: left;">
+                <button style="margin-left: 20px;display: block; width: 220px; height: 80px; color: white;border-radius: 15px;font-size: 36px; background-color: rgb(255,0,0);"
+                        onclick="subinfo('通过审批')">
+                    同意
+                </button>
+            </div>
+        </div>
+        <div style="width: 100%; height: 50px">
+
+        </div>
+    </div>
+
+</div>
+<script>
+    function subinfo(status) {
+        var receiptsid = '{{ receipts.id }}';
+        var generalmanager = '{{ name }}';
+        var remarks = document.getElementById("remarks").value;
+        if (status === '驳回' && remarks === '') {
+            alert('驳回请输入驳回原因');
+        } else {
+            $.ajax({
+                type: "post",
+                url: "{% url 'examine:examine_three' %}",
+                data: {
+                    'receiptsid': receiptsid,
+                    'generalmanager': generalmanager,
+                    'remarks': remarks,
+                    'paymenttyoe': status,
+                },
+                success: function (data) {
+                    location.href = '{% url 'examine:examine_two' %}'
+                }
+            })
+        }
+    }
+</script>
+
+</body>
+</html>

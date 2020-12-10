@@ -1,0 +1,402 @@
+{% extends 'parent_template/parent_template.html' %}
+
+{% load static %}
+
+{% block 人事模块-active %}
+    active
+{% endblock %}
+
+{% block 门店员工信息-active %}
+    active
+{% endblock %}
+
+{% block collapse3 %}
+collapse
+{% endblock %}
+{% block collapse1 %}
+collapse
+{% endblock %}
+{% block collapse2 %}
+collapse
+{% endblock %}
+{% block collapse4 %}
+collapse
+{% endblock %}
+{% block collapse6 %}
+collapse
+{% endblock %}
+{% block collapse7 %}
+
+{% endblock %}
+{% block collapse8 %}
+collapse
+{% endblock %}
+{% block collapse9 %}
+collapse
+{% endblock %}
+{% block collapse11 %}
+collapse
+{% endblock %}
+{% block collapse12 %}
+collapse
+{% endblock %}
+
+{% block body %}
+    <div class="dashboard-ecommerce">
+        <div class="container-fluid dashboard-content ">
+            <!-- ============================================================== -->
+            <!-- pageheader  -->
+            <!-- ============================================================== -->
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="page-header">
+                        <h2 class="pageheader-title">人事模块</h2>
+                        <div class="page-breadcrumb">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="#" class="breadcrumb-link">人事模块</a>
+                                    </li>
+                                    <li class="breadcrumb-item active" aria-current="page">门店员工信息
+                                    </li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <h5>
+                <a href="{% url 'personnel:personnel' %}"><span style="width: 100px;height: 30px;display: inline-block;text-align: center;line-height: 30px;background-color: rgb(51, 122, 183);color: white;border: 1px solid grey;">员工信息</span></a>
+                <a href="{% url 'personnel:addpersonnel' %}"><span style="width: 100px;height: 30px;display: inline-block;text-align: center;line-height: 30px;">添加员工信息</span></a>
+
+            </h5>
+            <div class="ecommerce-widget" id="div01" style="display: block">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="row">
+                        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-12">
+                            <div class="card">
+                                <h5 class="card-header">员工信息</h5>
+                                <div class="card-body">
+                                    <table class="table">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col">门店</th>
+                                            <th scope="col">姓名</th>
+                                            <th scope="col">岗位</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for staffsinfo in staffs %}
+                                            <tr>
+                                                <td>
+                                                    <a href="{% url 'personnel:personnel' %}?staffinfoid={{ staffsinfo.id }}&staffsinfopage={{ staffs.number }}">{{ staffsinfo.shopname|default:'' }}</a>
+                                                </td>
+                                                <td>
+                                                    <a href="{% url 'personnel:personnel' %}?staffinfoid={{ staffsinfo.id }}&staffsinfopage={{ staffs.number }}">{{ staffsinfo.staff_name|default:'' }}</a>
+                                                </td>
+                                                <td>
+                                                    <a href="{% url 'personnel:personnel' %}?staffinfoid={{ staffsinfo.id }}&staffsinfopage={{ staffs.number }}">{{ staffsinfo.post|default:'' }}</a>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                                <nav aria-label="Page navigation">
+                                    <div class="pagination">
+                                        <ul class="pagination">
+                                            <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
+                                            <li>当前页数：{{ staffs.number }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
+                                            {% if staffs.has_previous %}
+                                                <li>
+                                                    <a href="{% url 'personnel:personnel' %}?staffsinfopage={{ staffs.previous_page_number }}"
+                                                       aria-label="Previous"><span aria-hidden="true">&laquo;&nbsp;&nbsp;</span></a>
+                                                </li>
+                                            {% endif %}
+
+                                            {% for num in staffs.paginator.page_range %}
+                                                {% if num == staffs.number|add:-1 or num == staffs.number|add:-2 or num == staffs.number|add:-3 or num == staffs.number or num == staffs.number|add:1 or num == staffs.number|add:2 or num == staffs.number|add:3 %}
+                                                    {% if num == staffs.number %}
+                                                        <li><a href="">{{ num }}&nbsp;&nbsp;</a></li>
+                                                    {% else %}
+                                                        <li>
+                                                            <a href="{% url 'personnel:personnel' %}?staffsinfopage={{ num }}">{{ num }}&nbsp;&nbsp;</a>
+                                                        </li>
+                                                    {% endif %}
+                                                {% endif %}
+                                            {% endfor %}
+
+                                            {% if staffs.has_next %}
+                                                <li>
+                                                    <a href="{% url 'personnel:personnel' %}?staffsinfopage={{ staffs.next_page_number }}"
+                                                       aria-label="Next">
+                                                        <span aria-hidden="true">&raquo;&nbsp;&nbsp;</span></a></li>
+                                            {% endif %}
+                                        </ul>
+                                    </div>
+                                </nav>
+                                <div aria-label="Page navigation" style="margin-left: 29px;margin-top: -13px;">
+                                    <span>跳转至</span>
+                                    <input type="text" style="width: 30px;" id="jump">
+                                    <input type="hidden" value="{{ staffs.paginator.num_pages }}" id="hidden_val">
+                                    <span>页</span>
+                                    <input type="button" value="GO" onclick="jump_to()">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-8 col-lg-6 col-md-6" style="margin: 0 auto">
+                            <div class="card">
+                                <div class="card-body">
+                                    <table style="width: 100%" border="1" cellspacing="1" cellpadding="2">
+                                        <tr>
+                                            <td colspan="8">
+                                                <h3 style="text-align: center">员工信息</h3>
+                                            </td>
+                                        </tr>
+                                        {% if staffinfo %}
+
+
+                                            <tr style="height: 60px">
+
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    员工姓名
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    {{ staffinfo.staff_name }}
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    所在门店
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    {{ staffinfo.shopname }}
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    职位
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    {{ staffinfo.post }}
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    员工类别
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    {{ staffinfo.stafftype }}
+                                                </td>
+                                            </tr>
+                                            <tr style="height: 60px">
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    证件类型
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    {{ staffinfo.idtypes }}
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    证件号码
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    {{ staffinfo.idcard }}
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    证件有效期开始日期
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    {{ staffinfo.idcardstart }}
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    证件有效期截止日期
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    {{ staffinfo.idcardend }}
+                                                </td>
+                                            </tr>
+                                            <tr style="height: 60px">
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    性别
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    {{ staffinfo.gex|default:'' }}
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    国籍
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    {{ staffinfo.nationality|default:'' }}
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    婚姻状况
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    {{ staffinfo.marstatus|default:'' }}
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    民族
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    {{ staffinfo.nation|default:'' }}
+                                                </td>
+                                            </tr>
+                                            <tr style="height: 60px">
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    政治面貌
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    {{ staffinfo.politicsstatus|default:'' }}
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    籍贯
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    {{ staffinfo.nativeplace|default:'' }}
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    户口类型
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    {{ staffinfo.censustypes|default:'' }}
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    户口所在地
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    {{ staffinfo.censuslocation|default:'' }}
+                                                </td>
+                                            </tr>
+                                            <tr style="height: 60px">
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    职工住地
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    {{ staffinfo.staffhome|default:'' }}
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    出生日期
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    {{ staffinfo.dateofbirth|date:"Y-m-d" }}
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    年龄
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    {{ staffinfo.age|default:'' }}
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    入职日期
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    {{ staffinfo.dateonboard|date:"Y-m-d" }}
+                                                </td>
+                                            </tr>
+                                            <tr style="height: 60px">
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    工龄
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    {{ staffinfo.workingage|default:'' }}
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    合同到期日
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    {{ staffinfo.contractexpirationdate|date:"Y-m-d" }}
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    未提交资料
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    {{ staffinfo.unsubmittedinformation|default:'' }}
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    开户行
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    {{ staffinfo.openingbank|default:'' }}
+                                                </td>
+                                            </tr>
+                                            <tr style="height: 60px">
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    银行卡号
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    {{ staffinfo.bankid|default:'' }}
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    基本工资
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    {{ staffinfo.office|default:'' }}
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    状态
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    {{ staffinfo.status|default:'' }}
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    离职日期
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    {{ staffinfo.departure_date|date:"Y-m-d" }}
+                                                </td>
+                                            </tr>
+                                            <tr style="height: 60px">
+                                                <td colspan="8" style="text-align: center">
+                                                    <a href="{% url 'personnel:addpersonnel' %}?staffinfoid={{ staffinfo.id }}">
+                                                        <button type="button"
+                                                                style="width:140px;height:36px;line-height:18px;font-size:18px; color:#2ea8e5;padding-bottom:4px">
+                                                            修改
+                                                        </button>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        {% endif %}
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        function submits() {
+            var name = $('#name').val();
+            var remark = $('#remark').val();
+            var superior = $('#superior').val();
+
+            if (name === '') {
+                alert('请输入试卷名');
+                return false;
+            }
+            if (remark === '') {
+                alert('请输入试卷说明');
+                return false;
+            }
+            if (superior === '') {
+                alert('请输入所属公司');
+                return false;
+            }
+            $('form').submit();
+        }
+
+        function jump_to() {
+            var href = $('#jump').val();
+            var num_pages = $('#hidden_val').val();
+            if (href === "" || href == null) {
+                alert('请输入正确的页码！')
+                return false
+            } else if (parseInt(href) > parseInt(num_pages)) {
+                location.href = '{% url 'personnel:personnel' %}?staffsinfopage=' + num_pages
+            } else if (num_pages === '') {
+                location.href = '{% url 'personnel:personnel' %}?staffsinfopage=' + 1
+            } else {
+                location.href = '{% url 'personnel:personnel' %}?staffsinfopage=' + href
+            }
+        }
+    </script>
+{% endblock %}
+

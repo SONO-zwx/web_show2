@@ -1,0 +1,271 @@
+{% extends 'parent_template/account_template.html' %}
+{% load static %}
+
+{% block 用户账号-active %}
+active
+{% endblock %}
+
+{% block body1 %}
+    <div class="dashboard-ecommerce">
+        <div class="container-fluid dashboard-content ">
+            <!-- ============================================================== -->
+            <!-- pageheader  -->
+            <!-- ============================================================== -->
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="page-header">
+                        <h2 class="pageheader-title">账号管理</h2>
+                        <div class="page-breadcrumb">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item">
+                                        <a href="#" class="breadcrumb-link">账号管理</a>
+                                    </li>
+                                    <li class="breadcrumb-item active" aria-current="page">
+                                        账号权限
+                                    </li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <h5>
+                <a href="{% url 'account:addaccount' %}"><span style="width: 100px;height: 30px;display: inline-block;text-align: center;line-height: 30px;">添加账号</span></a>
+                <a href="{% url 'account:accountlimits' %}"><span style="width: 100px;height: 30px;display: inline-block;text-align: center;line-height: 30px;background-color: rgb(51, 122, 183);color: white;border: 1px solid grey;">账号权限</span></a>
+            </h5>
+            <div class="ecommerce-widget" id="div01" style="display: block">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="row">
+                        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-12">
+                            <div class="card">
+                                <h5 class="card-header">门店员工账号</h5>
+                                <div class="card-body">
+                                    <table class="table">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col">账号</th>
+                                            <th scope="col">用户</th>
+                                            <th scope="col">门店</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for accountinfo in account %}
+                                            <tr>
+                                                <td>
+                                                    <a href="{% url 'account:accountlimits' %}?userid={{ accountinfo.id }}">{{ accountinfo.username }}</a>
+                                                </td>
+                                                <td>
+                                                    <a href="{% url 'account:accountlimits' %}?userid={{ accountinfo.id }}">{{ accountinfo.name }}</a>
+                                                </td>
+                                                <td>
+                                                    <a href="{% url 'account:accountlimits' %}?userid={{ accountinfo.id }}">{{ accountinfo.shopname }}</a>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                                <nav aria-label="Page navigation">
+                                    <div class="pagination">
+                                        <ul class="pagination">
+                                            <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
+                                            <li>当前页数：{{ account.number }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
+                                            {% if account.has_previous %}
+                                                <li>
+                                                    <a href="{% url 'account:accountlimits' %}?accountpage={{ account.previous_page_number }}"
+                                                       aria-label="Previous"><span aria-hidden="true">&laquo;&nbsp;&nbsp;</span></a>
+                                                </li>
+                                            {% endif %}
+
+                                            {% for num in account.paginator.page_range %}
+                                                {% if num == account.number|add:-1 or num == account.number|add:-2 or num == account.number|add:-3 or num == account.number or num == account.number|add:1 or num == account.number|add:2 or num == account.number|add:3 %}
+                                                    {% if num == account.number %}
+                                                        <li><a href="">{{ num }}&nbsp;&nbsp;</a></li>
+                                                    {% else %}
+                                                        <li>
+                                                            <a href="{% url 'account:accountlimits' %}?accountpage={{ num }}">{{ num }}&nbsp;&nbsp;</a>
+                                                        </li>
+                                                    {% endif %}
+                                                {% endif %}
+                                            {% endfor %}
+
+                                            {% if account.has_next %}
+                                                <li>
+                                                    <a href="{% url 'account:accountlimits' %}?accountpage={{ account.next_page_number }}"
+                                                       aria-label="Next">
+                                                        <span aria-hidden="true">&raquo;&nbsp;&nbsp;</span></a></li>
+                                            {% endif %}
+                                        </ul>
+                                    </div>
+                                </nav>
+                            </div>
+                        </div>
+                        <div class="col-xl-8 col-lg-6 col-md-6 col-sm-12 col-12">
+                            {% if userinfo %}
+                                <div class="card">
+                                    <h5 class="card-header">详情页面</h5>
+                                    <div class="card-body">
+                                        <div class="form-group row">
+                                            <label class="col-12 col-sm-3 col-form-label text-sm-right">账&nbsp;&nbsp;&nbsp;&nbsp;号</label>
+                                            {% if userinfo %}
+                                                <div class="col-12 col-sm-8 col-lg-6">
+                                                    <input readonly type="text" class="form-control" name="username"
+                                                           id="username"
+                                                           value="{{ userinfo.username }}">
+                                                </div>
+                                            {% else %}
+                                                <div class="col-12 col-sm-8 col-lg-6">
+                                                    <input readonly="readonly" type="text" class="form-control"
+                                                           name="username"
+                                                           id="username"
+                                                           value="{{ userinfo.username }}">
+                                                </div>
+                                            {% endif %}
+
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-12 col-sm-3 col-form-label text-sm-right">用&nbsp;&nbsp;户&nbsp;&nbsp;名</label>
+                                            <div class="col-12 col-sm-8 col-lg-6">
+                                                <input readonly="readonly" type="text" class="form-control" name="name"
+                                                       id="name"
+                                                       value="{{ userinfo.name }}">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-12 col-sm-3 col-form-label text-sm-right">公&nbsp;&nbsp;&nbsp;&nbsp;司</label>
+                                            <div class="col-12 col-sm-8 col-lg-6">
+                                                <input readonly="readonly" type="text" class="form-control"
+                                                       name="superior"
+                                                       id="superior"
+                                                       value="{{ superior }}">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-12 col-sm-3 col-form-label text-sm-right">门&nbsp;&nbsp;&nbsp;&nbsp;店</label>
+                                            <div class="col-12 col-sm-8 col-lg-6">
+                                                <input readonly="readonly" type="text" class="form-control"
+                                                       name="shopname" id="shopname" value="{{ userinfo.shopname }}">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-12 col-sm-3 col-form-label text-sm-right">账&nbsp;&nbsp;号&nbsp;&nbsp;权&nbsp;&nbsp;限</label>
+                                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                                                <div class="card">
+                                                    <div class="card-body">
+                                                        <select id='optgroup1' multiple='multiple' name="limits"
+                                                                id="limits">
+
+                                                            {% for limit in limitsinfo %}
+                                                                {% if limit.id in userinfo.limits %}
+                                                                    <option selected value="{{ limit.id }}"
+                                                                            onclick="alertinfo('limits', '{{ userinfo.id }}', 'selected', '{{ limit.id }}')">{{ limit.shopname }} -- {{ limit.limits }}
+                                                                    </option>
+                                                                {% else %}
+                                                                    <option value="{{ limit.id }}"
+                                                                            onclick="alertinfo('limits', '{{ userinfo.id }}', 'noselected', '{{ limit.id }}')">{{ limit.shopname }} --{{ limit.limits }}</option>
+                                                                {% endif %}
+
+                                                            {% endfor %}
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function verification() {
+            var username = document.getElementById("username").value;
+            var password = document.getElementById("password").value;
+            var name = document.getElementById("name").value;
+            var shopname = document.getElementById("shopname").value;
+            $.ajax({
+                type: "post",
+                url: "{% url 'account:isaccount' %}",
+                data: {
+                    'username': username,
+                    'csrfmiddlewaretoken': '{{ csrf_token }}',
+                },
+                success: function (data) {
+                    if (username === '') {
+                        alert("请输入账号");
+                        return false;
+                    } else if (password === '') {
+                        alert("请输入密码");
+                        return false;
+                    } else if (name === '') {
+                        alert("请输入姓名");
+                        return false;
+                    } else if (shopname === '请选择门店') {
+                        alert("请选择门店");
+                        return false;
+                    } else if (data.msg === 400) {
+                        alert("账号已存在");
+                        return false;
+                    } else {
+                        $('form').submit();
+                        return true;
+                    }
+                }
+            });
+        }
+    </script>
+    <script>
+        function xiuverification() {
+            var password = document.getElementById("password").value;
+            var name = document.getElementById("name").value;
+            var shopname = document.getElementById("shopname").value;
+
+            if (password === '') {
+                alert("请输入密码");
+                return false;
+            } else if (name === '') {
+                alert("请输入姓名");
+                return false;
+            } else if (shopname === '请选择门店') {
+                alert("请选择门店");
+                return false;
+            } else {
+                $('form').submit();
+                return true;
+            }
+
+        }
+    </script>
+
+    <script src="{% static 'assets/vendor/jquery/jquery-3.3.1.min.js' %}"></script>
+    <script src="{% static 'assets/vendor/multi-select/js/jquery.multi-select.js' %}"></script>
+    <script>
+        $('#optgroup1').multiSelect({selectableOptgroup: true});
+    </script>
+
+    <script>
+        function alertinfo(field, userid, nowstatus, values) {
+            $.ajax({
+                type: "post",
+                url: "{% url 'account:alertaccountlimit' %}",
+                data: {
+                    'field': field,
+                    'userid': userid,
+                    'nowstatus': nowstatus,
+                    'values': values,
+                    'csrfmiddlewaretoken': '{{ csrf_token }}',
+                },
+                success: function (data) {
+                    parent.location.reload();
+                }
+            })
+        }
+    </script>
+{% endblock %}
+

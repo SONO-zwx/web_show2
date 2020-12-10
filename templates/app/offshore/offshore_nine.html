@@ -1,0 +1,303 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SONO AUTO CARE</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0
+        }
+    </style>
+</head>
+<body>
+<div style="width: 100%">
+    <a href="javascript:history.go(-1)">
+        <div style="width: 100%">
+            <div style="width: 100%; height: 120px; background-color: grey;">
+                <div style="width: 50px; height: 120px; float: left;">
+
+                </div>
+                <div style=" float: left; width: 50px; height: 120px; z-index:100">
+                    <img src="{% static '/app/images/事项审批-管理层/u2724.png' %}" alt=""
+                         style="height: 60px; margin-top: 30px">
+                </div>
+                <div style="float: left; height: 120px; text-align: center; width: 100%; margin-top: -120px">
+                    <p style="font-size: 48px;line-height: 120px; color: white">外采需求单</p>
+                </div>
+            </div>
+        </div>
+    </a>
+    <div style="width: 100%">
+        <div style="width: 100%;height:640px;  margin-top: 20px;">
+            <div style="width: 98%; margin: 0 auto;">
+                <div style="width: 25%; float: left">
+                    <div style="height: 80px; text-align: right">
+                        <p style="line-height: 80px; font-size: 36px">门店&emsp;</p>
+                    </div>
+                    <div style="height: 80px; text-align: right">
+                        <p style="line-height: 80px; font-size: 36px">经办人&emsp;</p>
+                    </div>
+                    <div style="height: 80px; text-align: right">
+                        <p style="line-height: 80px; font-size: 36px">提交时间&emsp;</p>
+                    </div>
+                    <div style="height: 80px; text-align: right">
+                        <p style="line-height: 80px; font-size: 36px">车辆品牌&emsp;</p>
+                    </div>
+                    <div style="height: 80px; text-align: right">
+                        <p style="line-height: 80px; font-size: 36px">车型&emsp;</p>
+                    </div>
+                    <div style="height: 80px; text-align: right">
+                        <p style="line-height: 80px; font-size: 36px">车架号&emsp;</p>
+                    </div>
+                    <div style="height: 160px; text-align: right">
+                        <p style="line-height: 160px; font-size: 36px">需求描述&emsp;</p>
+                    </div>
+                </div>
+                <div style="width: 75%; float: left">
+                    <div style="height: 80px; text-align: left">
+                        <p style="line-height: 80px; font-size: 36px">&emsp;门店</p>
+                    </div>
+                    <div style="height: 80px; text-align: left">
+                        <p style="line-height: 80px; font-size: 36px">&emsp;经办人</p>
+                    </div>
+                    <div style="height: 80px; text-align: left">
+                        <p style="line-height: 80px; font-size: 36px">&emsp;提交时间</p>
+                    </div>
+                    <div style="height: 80px; text-align: left">
+                        <p style="line-height: 80px; font-size: 36px">&emsp;车辆品牌</p>
+                    </div>
+                    <div style="height: 80px; text-align: left">
+                        <p style="line-height: 80px; font-size: 36px">&emsp;车型</p>
+                    </div>
+                    <div style="height: 80px; text-align: left">
+                        <p style="line-height: 80px; font-size: 36px">&emsp;车架号</p>
+                    </div>
+                    <div style="height: 160px; text-align: left">
+                        <p style="line-height: 160px; font-size: 36px">&emsp;需求描述</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="height: 20px;width: 100%;background-color: gainsboro;">
+        </div>
+        <div style="width: 100%; height: 300px">
+            <div style="width: 98%; margin: 0 auto">
+                <div style="width: 98%;">
+                    <div style="height: 80px; text-align: left">
+                        <p style="line-height: 80px; font-size: 36px">&emsp;&emsp;车辆信息图片</p>
+                    </div>
+                </div>
+            </div>
+            {% for foo in ShopName %}
+                <div style="width: 33%; float: left">
+                    <div style="height: 200px; text-align: right">
+                        <img src="" alt="" style="height: 200px; width: 100%">
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <div style="width: 100%; height: 300px">
+            <div style="width: 98%; margin: 0 auto">
+                <div style="width: 98%;">
+                    <div style="height: 80px; text-align: left">
+                        <p style="line-height: 80px; font-size: 36px">&emsp;&emsp;车架号照片</p>
+                    </div>
+                </div>
+            </div>
+            {% for foo in ShopName %}
+                <div style="width: 33%; float: left">
+                    <div style="height: 200px; text-align: right">
+                        <img src="" alt="" style="height: 200px; width: 100%">
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <div style="width: 100%; height: 300px">
+            <div style="width: 98%; margin: 0 auto">
+                <div style="width: 98%;">
+                    <div style="height: 80px; text-align: left">
+                        <p style="line-height: 80px; font-size: 36px">&emsp;&emsp;相关视频</p>
+                    </div>
+                </div>
+            </div>
+            {% for foo in ShopName %}
+                <div style="width: 33%; float: left">
+                    <div style="height: 200px; text-align: right">
+                        <img src="" alt="" style="height: 200px; width: 100%">
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <div style="height: 20px;width: 100%;background-color: gainsboro;">
+        </div>
+        <div style="height: 160px;width: 100%;">
+            <div style="width: 25%; float: left">
+                <div style="height: 160px; text-align: right">
+                    <p style="line-height: 160px; font-size: 36px">货品明细&emsp;</p>
+                </div>
+            </div>
+
+        </div>
+        <div style="width: 100%; display: table">
+            <div style="width: 100%; height: 80px;">
+                <div style="width: 90%; margin: 0 auto">
+                    <div style="height: 80px; width: 100%">
+                        <div style="float: left;height: 80px; width: 10%; background-color: rgb(51,153,255); text-align: center; border: white solid 1px">
+                            <p style="line-height: 80px; font-size: 36px">选择</p>
+                        </div>
+                        <div style="float: left;height: 80px; width: 20%; background-color: rgb(51,153,255);text-align: center; border: white solid 1px">
+                            <p style="line-height: 80px; font-size: 36px">商品品牌</p>
+                        </div>
+                        <div style="float: left;height: 80px; width: 20%; background-color: rgb(51,153,255);text-align: center; border: white solid 1px">
+                            <p style="line-height: 80px; font-size: 36px">产品名称</p>
+                        </div>
+                        <div style="float: left;height: 80px; width: 15%; background-color: rgb(51,153,255);text-align: center; border: white solid 1px">
+                            <p style="line-height: 80px; font-size: 36px">数量</p>
+                        </div>
+                        <div style="float: left;height: 80px; width: 20%; background-color: rgb(51,153,255);text-align: center; border: white solid 1px">
+                            <p style="line-height: 80px; font-size: 36px">单价</p>
+                        </div>
+                        <div style="float: left;height: 80px; width: 10%; background-color: rgb(51,153,255);text-align: center; border: white solid 1px">
+                            <p style="line-height: 80px; font-size: 36px">操作</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% for foo in ShopName %}
+                <div style="width: 100%; height: 80px;">
+                    <div style="width: 90%; margin: 0 auto">
+                        <div style="height: 80px; width: 100%">
+                            <div style="float: left;height: 80px; width: 10%; text-align: center; border: white solid 1px">
+                                <p style="line-height: 80px; font-size: 36px">选择</p>
+                            </div>
+                            <div style="float: left;height: 80px; width: 20%;text-align: center; border: white solid 1px">
+                                <p style="line-height: 80px; font-size: 36px">商品品牌</p>
+                            </div>
+                            <div style="float: left;height: 80px; width: 20%;text-align: center; border: white solid 1px">
+                                <p style="line-height: 80px; font-size: 36px">产品名称</p>
+                            </div>
+                            <div style="float: left;height: 80px; width: 15%;text-align: center; border: white solid 1px">
+                                <p style="line-height: 80px; font-size: 36px">数量</p>
+                            </div>
+                            <div style="float: left;height: 80px; width: 20%; text-align: center; border: white solid 1px">
+                                <p style="line-height: 80px; font-size: 36px">单价</p>
+                            </div>
+                            <div style="float: left;height: 80px; width: 10%; text-align: center; border: white solid 1px">
+                                <p style="line-height: 80px; font-size: 36px">操作</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+
+        </div>
+        <div style="height: 160px;width: 100%;">
+            <div style="width: 25%; float: left">
+                <div style="height: 160px; text-align: right">
+                    <p style="line-height: 160px; font-size: 36px">物流信息&emsp;</p>
+                </div>
+            </div>
+        </div>
+        <div style="width: 100%; display: table">
+            <div style="width: 100%; height: 80px;">
+                <div style="width: 90%; margin: 0 auto">
+                    <div style="height: 80px; width: 100%">
+                        <div style="float: left;height: 80px; width: 24%; background-color: rgb(51,153,255); text-align: center; border: white solid 1px">
+                            <p style="line-height: 80px; font-size: 36px">订单号</p>
+                        </div>
+                        <div style="float: left;height: 80px; width: 24%; background-color: rgb(51,153,255);text-align: center; border: white solid 1px">
+                            <p style="line-height: 80px; font-size: 36px">闪送码</p>
+                        </div>
+                        <div style="float: left;height: 80px; width: 24%; background-color: rgb(51,153,255);text-align: center; border: white solid 1px">
+                            <p style="line-height: 80px; font-size: 36px">闪送费</p>
+                        </div>
+                        <div style="float: left;height: 80px; width: 24%; background-color: rgb(51,153,255);text-align: center; border: white solid 1px">
+                            <p style="line-height: 80px; font-size: 36px">垫付费用</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% for foo in ShopName %}
+                <div style="width: 100%; height: 80px;">
+                    <div style="width: 90%; margin: 0 auto">
+                        <div style="height: 80px; width: 100%">
+                            <div style="float: left;height: 80px; width: 24%; text-align: center; border: white solid 1px">
+                                <p style="line-height: 80px; font-size: 36px">订单号</p>
+                            </div>
+                            <div style="float: left;height: 80px; width: 24%; text-align: center; border: white solid 1px">
+                                <p style="line-height: 80px; font-size: 36px">闪送码</p>
+                            </div>
+                            <div style="float: left;height: 80px; width: 24%; text-align: center; border: white solid 1px">
+                                <p style="line-height: 80px; font-size: 36px">闪送费</p>
+                            </div>
+                            <div style="float: left;height: 80px; width: 24%; text-align: center; border: white solid 1px">
+                                <p style="line-height: 80px; font-size: 36px">垫付费用</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+
+        </div>
+        <div style="height: 160px;width: 100%;">
+            <div style="width: 25%; float: left">
+                <div style="height: 160px; text-align: right">
+                    <p style="line-height: 160px; font-size: 36px">费用信息&emsp;</p>
+                </div>
+            </div>
+
+        </div>
+        <div style="width: 100%; display: table">
+            <div style="width: 100%; height: 80px;">
+                <div style="width: 90%; margin: 0 auto">
+                    <div style="height: 80px; width: 100%">
+                        <div style="float: left;height: 80px; width: 48%; background-color: rgb(51,153,255); text-align: center; border: white solid 1px">
+                            <p style="line-height: 80px; font-size: 36px">成本金额</p>
+                        </div>
+                        <div style="float: left;height: 80px; width: 48%; background-color: rgb(51,153,255);text-align: center; border: white solid 1px">
+                            <p style="line-height: 80px; font-size: 36px">销售价格</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% for foo in ShopName %}
+                <div style="width: 100%; height: 80px;">
+                    <div style="width: 90%; margin: 0 auto">
+                        <div style="height: 80px; width: 100%">
+                            <div style="float: left;height: 80px; width: 48%; text-align: center; border: white solid 1px">
+                                <p style="line-height: 80px; font-size: 36px">成本金额</p>
+                            </div>
+                            <div style="float: left;height: 80px; width: 48%; text-align: center; border: white solid 1px">
+                                <p style="line-height: 80px; font-size: 36px">销售价格</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+
+        </div>
+        <div style="width: 100%; height: 120px; margin-top: 40px">
+        <div style="width: 100%; height: 120px; margin-top: 40px">
+            <div style="width: 50%; height: 120px;float: left; ">
+                <button style="margin-right: 20px;display: block; float: right; width: 220px; height: 100px; color: white;border-radius: 15px;font-size: 36px; background-color: rgb(255,0,0);">
+                    确认
+                </button>
+            </div>
+            <div style="width: 50%; height: 120px;float: left;">
+                <button style="margin-left: 20px;display: block; width: 220px; height: 100px; color: black; font-size: 36px; background-color: white; border-style: solid">
+                    退货
+                </button>
+            </div>
+        </div>
+        </div>
+        <div style="width: 100%; height: 50px">
+
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

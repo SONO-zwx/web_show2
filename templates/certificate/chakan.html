@@ -1,0 +1,344 @@
+{% load static %}
+{% load templatetag %}
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}">
+    <link href="{% static 'assets/vendor/fonts/circular-std/style.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'assets/libs/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/vendor/fonts/fontawesome/css/fontawesome-all.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/vendor/charts/chartist-bundle/chartist.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/vendor/charts/morris-bundle/morris.css' %}">
+    <link rel="stylesheet"
+          href="{% static 'assets/vendor/fonts/material-design-iconic-font/css/materialdesignicons.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/vendor/charts/c3charts/c3.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/vendor/fonts/flag-icon-css/flag-icon.min.css' %}">
+    {% block styles %}
+
+    {% endblock %}
+    <title>SONO AUTO CARE</title>
+    {#    <script language="javascript">#}
+    {#        function preview(fang) {#}
+    {#            if (fang < 10) {#}
+    {#                bdhtml = window.document.body.innerHTML;//获取当前页的html代码#}
+    {#                sprnstr = "<!--startprint" + fang + "-->";//设置打印开始区域#}
+    {#                eprnstr = "<!--endprint" + fang + "-->";//设置打印结束区域#}
+    {#                prnhtml = bdhtml.substring(bdhtml.indexOf(sprnstr) + 18); //从开始代码向后取html#}
+    {#                prnhtml = prnhtml.substring(0, prnhtml.indexOf(eprnstr));//从结束代码向前取html#}
+    {#                window.document.body.innerHTML = prnhtml;#}
+    {#                window.print();#}
+    {#                window.document.body.innerHTML = bdhtml;#}
+    {#            } else {#}
+    {#                window.print();#}
+    {#            }#}
+    {#        }#}
+    {#    </script>#}
+
+    <style>
+        @media print {
+
+            .printonly {
+                display: block;
+                width: 200%;
+            }
+
+            #anniu {
+                display: none;
+            }
+        }
+
+        /**
+        .printonly{
+            display:none
+        }
+        不能写到这里，会导致打印时printonly的内容也不显示
+        */
+    </style>
+    <script>
+        function daying() {
+            var HKEY_Root, HKEY_Path, HKEY_Key;
+
+            HKEY_Root = "HKEY_CURRENT_USER";
+
+            HKEY_Path = "\\Software\\Microsoft\\Internet Explorer\\PageSetup\\";
+
+            var head, foot, top, bottom, left, right;
+
+            var Wsh = new ActiveXObject("WScript.Shell");
+
+            HKEY_Key = "header";
+
+//设置页眉（为空） 根据你自己要设置的填入
+
+            Wsh.RegWrite(HKEY_Root + HKEY_Path + HKEY_Key, "");
+
+            HKEY_Key = "footer";
+
+//设置页脚（为空） 根据你自己要设置的填入
+
+            Wsh.RegWrite(HKEY_Root + HKEY_Path + HKEY_Key, "");
+
+            HKEY_Key = "margin_bottom";
+
+//设置下页边距（0） 根据你自己要设置的填入
+
+            Wsh.RegWrite(HKEY_Root + HKEY_Path + HKEY_Key, "0");
+
+            HKEY_Key = "margin_left";
+
+//设置左页边距（0） 根据你自己要设置的填入
+
+            Wsh.RegWrite(HKEY_Root + HKEY_Path + HKEY_Key, "1");
+
+            HKEY_Key = "margin_right";
+
+//设置右页边距（0）
+
+            Wsh.RegWrite(HKEY_Root + HKEY_Path + HKEY_Key, "0");
+
+            HKEY_Key = "margin_top";
+
+//设置上页边距（8）
+
+            Wsh.RegWrite(HKEY_Root + HKEY_Path + HKEY_Key, "1");
+        }
+    </script>
+</head>
+
+<body>
+
+<div class="dashboard-main-wrapper">
+
+    <!--startprint1-->
+    <div class="col-xl-8 col-lg-6 col-md-6" style="">
+        <input onClick="print()" value="点击打印" type="button" id="anniu">
+        <div class="card">
+            <div class="card-body">
+                <div class="printonly">
+                    <table style="width: 100%">
+                        <tr style="height: 40px; text-align: center;">
+                            <td colspan="6">
+                                <h3>{{ offshoreinfo.gongaccountdizhi }}销售单</h3>
+                            </td>
+                        </tr>
+                        <tr style="height: 60px">
+                            <td class="text-sm-center" style="width: 12.5%">
+                                客户名称：
+                            </td>
+                            <td class="text-sm-center" style="width: 12.5%">
+                                途虎养车 {{ offshoreinfo.shopname|default:"" }}
+                            </td>
+                            <td class="text-sm-center" style="width: 12.5%">
+                                发票类型：
+                            </td>
+                            <td class="text-sm-center" style="width: 12.5%">
+                                收据
+                            </td>
+                            <td class="text-sm-center" style="width: 12.5%">
+                                销售单号：
+                            </td>
+                            <td class="text-sm-center" style="width: 12.5%">
+                                {{ offshoreinfo.taitou }}{{ offshoreinfo.danhao }}
+                            </td>
+                        </tr>
+                        <tr style="height: 60px">
+                            <td class="text-sm-center" style="width: 12.5%">
+                                联系方式：
+                            </td>
+                            <td class="text-sm-center" style="width: 12.5%">
+
+                            </td>
+                            <td class="text-sm-center" style="width: 12.5%">
+                                业务时间：
+                            </td>
+                            <td class="text-sm-center" style="width: 12.5%">
+                                {{ offshoreinfo.tijiaodata|date:'Y-m-d' }}
+                            </td>
+                            <td class="text-sm-center" style="width: 12.5%">
+                                付款方式：
+                            </td>
+                            <td class="text-sm-center" style="width: 12.5%">
+                                挂账
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-sm-left" colspan="6">
+                                <table style="width: 100%" border="1" cellspacing="1"
+                                       cellpadding="2">
+
+                                    <tr style="height: 40px">
+                                        <td class="text-sm-center" style="width: 5%">
+                                            序号
+                                        </td>
+                                        <td class="text-sm-center" style="width: 15%">
+                                            名称
+                                        </td>
+                                        <td class="text-sm-center" style="width: 15%">
+                                            型号
+                                        </td>
+                                        <td class="text-sm-center" style="width: 15%">
+                                            产地
+                                        </td>
+                                        <td class="text-sm-center" style="width: 15%">
+                                            数量
+                                        </td>
+                                        <td class="text-sm-center" style="width: 10%">
+                                            单位
+                                        </td>
+                                        <td class="text-sm-center" style="width: 15%">
+                                            单价
+                                        </td>
+                                        <td class="text-sm-center" style="width: 15%">
+                                            金额
+                                        </td>
+                                    </tr>
+
+                                    {% for dealpro in offshoreinfo.offshoredealproject %}
+                                        <tr style="height: 40px">
+                                            <td class="text-sm-center" style="width: 5%">
+                                                {{ forloop.counter }}
+                                            </td>
+                                            <td class="text-sm-center" style="width: 15%">
+                                                {{ dealpro.productname }}
+                                            </td>
+                                            <td class="text-sm-center" style="width: 15%">
+                                                {{ dealpro.model }}
+                                            </td>
+                                            <td class="text-sm-center" style="width: 15%">
+
+                                            </td>
+                                            <td class="text-sm-center" style="width: 10%">
+                                                {{ dealpro.number }}
+                                            </td>
+                                            <td class="text-sm-center" style="width: 15%">
+                                                个
+                                            </td>
+                                            <td class="text-sm-center" style="width: 15%">
+                                                ￥{{ dealpro.unit|mul:offshoreinfo.baojiaxishu }}
+                                            </td>
+                                            <td class="text-sm-center" style="width: 15%">
+                                                ￥{{ dealpro.manay }}
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+
+                                </table>
+                            </td>
+                        </tr>
+                        <tr style="height: 60px">
+                            <td class="text-sm-center" style="width: 12.5%">
+                                金额
+                            </td>
+                            <td class="text-sm-center" colspan="2">
+                                ￥{{ offshoreinfo.allprice }}
+                            </td>
+                            <td class="text-sm-center" style="width: 12.5%">
+                                大写金额
+                            </td>
+                            <td class="text-sm-center" colspan="4">
+                                {{ offshoreinfo.daxiemanay }}
+                            </td>
+
+                        </tr>
+                        <tr style="height: 60px">
+                            <td class="text-sm-center" style="width: 12.5%">
+                                地址：
+                            </td>
+                            <td class="text-sm-center" style="width: 12.5%">
+                                {{ offshoreinfo.gongaccountdizhi }}
+                            </td>
+                            <td class="text-sm-center" style="width: 12.5%">
+                                电话：
+                            </td>
+                            <td class="text-sm-center" style="width: 12.5%">
+
+                            </td>
+                            <td class="text-sm-center" style="width: 12.5%">
+                                传真：
+                            </td>
+                            <td class="text-sm-center" style="width: 12.5%">
+
+                            </td>
+                        </tr>
+                        <tr style="height: 60px">
+                            <td class="text-sm-center" style="width: 12.5%">
+                                发货方式：
+                            </td>
+                            <td class="text-sm-center" style="width: 12.5%">
+
+                            </td>
+                            <td class="text-sm-center" style="width: 12.5%">
+                                开单：
+                            </td>
+                            <td class="text-sm-center" style="width: 12.5%">
+                                {{ offshoreinfo.gongaccountname }}
+                            </td>
+                            <td class="text-sm-center" style="width: 12.5%">
+                                发货：
+                            </td>
+                            <td class="text-sm-center" style="width: 12.5%">
+
+                            </td>
+
+                        </tr>
+                        <tr style="height: 60px">
+                            <td class="text-sm-center" style="width: 12.5%">
+                                备注：
+                            </td>
+                            <td class="text-sm-center" style="width: 12.5%" colspan="5">
+                            </td>
+
+                        </tr>
+                    </table>
+                </div>
+                <!-- 弹窗 -->
+                <div id="myModal" class="modal">
+                    <!-- 弹窗内容 -->
+                    <img class="modal-content" id="img01">
+                    <div>
+                        <div style="margin: 0 auto; width: 205px;">
+                            <div style="position: fixed;bottom: 40px;">
+                                <button type="button" class="btn btn-outline-light"
+                                        id="fangda">
+                                    <span class="fa fa-search-plus"></span>
+                                </button>
+                                <button type="button" class="btn btn-outline-light"
+                                        id="suoxiao">
+                                    <span class="fas fa-search-minus"></span>
+                                </button>
+                                <button type="button" class="btn btn-outline-light"
+                                        id="zuozhuan">
+                                    <span class="fas fa-undo"></span>
+                                </button>
+                                <button type="button" class="btn btn-outline-light"
+                                        id="youzhuan">
+                                    <span class="fas fa-redo"></span>
+                                </button>
+                                <button type="button" class="btn btn-outline-light"
+                                        id="youzhuan"
+                                        onclick="document.getElementById('myModal').style.display='none'">
+                                    <span class="fa fa-power-off"></span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!--endprint1-->
+    </div>
+</div>
+<script src="{% static 'assets/vendor/jquery/jquery-3.3.1.min.js' %}"></script>
+<!-- bootstap bundle js -->
+<script src="{% static 'assets/vendor/bootstrap/js/bootstrap.bundle.js' %}"></script>
+<!-- slimscroll js -->
+<script src="{% static 'assets/vendor/slimscroll/jquery.slimscroll.js' %}"></script>
+
+</body>
+
+</html>

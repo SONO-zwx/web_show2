@@ -1,0 +1,417 @@
+{% extends 'parent_template/parent_template.html' %}
+{% load static %}
+{% load templatetag %}
+{% block 运营状况-active %}
+    active
+{% endblock %}
+{% block 技师数据-active %}
+    active
+{% endblock %}
+
+{% block collapse3 %}
+    collapse
+{% endblock %}
+{% block collapse1 %}
+
+{% endblock %}
+{% block collapse2 %}
+    collapse
+{% endblock %}
+{% block collapse4 %}
+    collapse
+{% endblock %}
+{% block collapse6 %}
+    collapse
+{% endblock %}
+{% block collapse7 %}
+    collapse
+{% endblock %}
+{% block collapse8 %}
+    collapse
+{% endblock %}
+{% block collapse9 %}
+    collapse
+{% endblock %}
+{% block collapse11 %}
+    collapse
+{% endblock %}
+{% block collapse12 %}
+    collapse
+{% endblock %}
+
+
+{% if post == 'get' %}
+    {% block body %}
+        <style>
+            .tableBox table {
+                width: 1750px;
+            }
+
+            .tableBox thead {
+                width: 100%;
+                border-top: 1px solid #c5d9f1;
+                border-left: 1px solid #c5d9f1;
+                text-align: center;
+            }
+
+            .tableBox tbody td,
+            .tableBox thead th {
+                height: 40px;
+                line-height: 40px;
+                text-align: center;
+                font-size: 18px;
+                color: #404040;
+
+            }
+
+            .tableBox thead th {
+                background-color: #d8e5f4;
+                border-bottom: 1px solid #c5d9f1;
+                border-right: 1px solid #c5d9f1;
+            }
+
+            .tableBox tbody {
+                border-left: 1px solid #dcdddd;
+                text-align: center;
+                height: 40px;
+                line-height: 40px;
+                font-size: 16px;
+            }
+
+            .tableBox tbody td {
+                border-bottom: 1px solid #dcdddd;
+                border-right: 1px solid #dcdddd;
+                background-color: #FFFFFF;
+                text-align: center;
+            }
+
+            .tableBox tbody tr:nth-child(even) td {
+                background-color: #f9f9f9;
+            }
+
+            .tableBox table td, .tableBox table th {
+                vertical-align: middle;
+            }
+        </style>
+        <div class="dashboard-ecommerce">
+            <div class="container-fluid dashboard-content ">
+                <!-- ============================================================== -->
+                <!-- pageheader  -->
+                <!-- ============================================================== -->
+                <div class="row">
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                        <div class="page-header">
+                            <h2 class="pageheader-title">周汇总</h2>
+                            <div class="page-breadcrumb">
+                                <nav aria-label="breadcrumb">
+                                    <ol class="breadcrumb">
+                                        <li class="breadcrumb-item"><a href="#" class="breadcrumb-link">运营状况</a>
+                                        </li>
+                                        <li class="breadcrumb-item active" aria-current="page">周汇总
+                                        </li>
+                                    </ol>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="ecommerce-widget">
+                    <div class="row">
+                        <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
+                            <div class="card" style="height: 40px;width: 260px;">
+                                <div class="form-group row" style="width: 377px;">
+                                    <label class="col-12 col-sm-3 col-form-label text-sm-right"
+                                           style="line-height: 5px;">&emsp;开始日期</label>
+                                    <div class="col-12 col-sm-8 col-lg-6" style="margin-top: -10px">
+                                        <input type="date" class="form-control" name="starttime" id="starttime"
+                                               value="{{ starttime }}" onchange="seachstaff()">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card" style="height: 40px;width: 250px;margin-left: -116px;">
+                            <div class="form-group" style="width: 250px;">
+                                <span style="margin-left: 12px;margin-top: 10px;display: inline-block;font-size: 15px;">截止日期</span>
+                                <div style="margin-top: -30px;margin-left: 80px;width: 160px;">
+                                    <input type="date" class="form-control" name="endtime" id="endtime"
+                                           value="{{ endtime }}" onchange="seachstaff()">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card" style="height: 40px;width: 250px;margin-left: 20px;">
+                            <div class="form-group" style="width: 250px;">
+                                <span style="margin-left: 12px;margin-top: 10px;display: inline-block;font-size: 15px;">门店</span>
+                                <div style="margin-top: -30px;margin-left: 80px;width: 160px;">
+                                    <select class="form-control" id="shopname" name="shopname" onchange="seachstaff()">
+                                        {% for shopname in ShopNames %}
+                                            {% if nowshopname == shopname.shopname %}
+                                                <option selected="selected">{{ shopname.shopname }}</option>
+                                            {% else %}
+                                                <option>{{ shopname.shopname }}</option>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card" style="height: 40px;width: 250px;margin-left: 20px;">
+                            <div class="form-group" style="width: 250px;">
+                                <span style="margin-left: 12px;margin-top: 10px;display: inline-block;font-size: 15px;">技师</span>
+                                <div style="margin-top: -30px;margin-left: 80px;width: 160px;">
+                                    <select class="form-control" id="staffsname" name="staffsname">
+                                        {% for foo in staffsnamelist %}
+                                            {% if staffsname == foo %}
+                                                <option selected="selected">{{ foo }}</option>
+                                            {% else %}
+                                                <option>{{ foo }}</option>
+                                            {% endif %}
+                                        {% endfor %}
+                                        <option>请先选择门店和日期</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="margin-left: 10px;">
+                            <button type="button" class="btn btn-success" style="width: 70px;height: 37px;"
+                                    onclick="searchinfo()">确认
+                            </button>&emsp;
+                        </div>
+                        <div class="card" style="width: 70px;height: 37px; margin: 10px 5px;">
+                            <button type="button" class="btn btn-warning"
+                                    style="width: 70px;height: 37px;color: white;"
+                                    onclick="daochu()">导出
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xl-12 col-lg-12 col-md-6 col-sm-12 col-12">
+                            <div class="card">
+                                <h5 class="card-header"><a>{{ starttime }} -- {{ endtime }} {{ staffsname }}汇总数据&emsp;
+                                    共接车{{ size }}辆， 业绩金额{{ zongyeji|floatformat:'2' }}</a></h5>
+                                <div class="card-body p-0" id="tab01"
+                                     style="width: 100%; overflow:scroll; height: 700px">
+                                    <div class="tableBox">
+                                        <table style="width: 1750px;" border="1" cellspacing="0"
+                                               cellpadding="0" id="jishishuju" >
+                                            <thead>
+                                            <tr style="width: 1750px">
+                                                <th style="width: 120px">日期</th>
+                                                <th style="width: 120px">车牌号</th>
+                                                <th style="width: 120px">业绩</th>
+                                                <th style="width: 120px">订单号</th>
+                                                <th style="width: 120px">订单金额</th>
+                                                <th style="width: 120px">虎品业绩</th>
+                                                <th style="width: 150px">虎品转化数量</th>
+                                                <th style="width: 150px">虎品转化金额权重</th>
+                                                <th style="width: 150px">外采客均增幅</th>
+                                                <th style="width: 120px">外采成本</th>
+                                                <th style="width: 120px">外采毛利</th>
+                                                <th style="width: 120px">外采数量</th>
+                                                <th style="width: 150px">外采金额权重</th>
+                                                <th style="width: 120px">外采加价率</th>
+                                                <th style="width: 120px">工时费</th>
+                                                <th style="width: 120px">工时费权重</th>
+                                                <th style="width: 120px">其他收益</th>
+                                            </tr>
+                                            </thead>
+                                            {% for keys,values in data.items %}
+                                                <tr>
+                                                    <td style="width: 120px">{{ values.订单.0.日期|date:'Y-m-d' }}</td>
+                                                    <td style="width: 120px">
+                                                        {{ keys }}
+                                                    </td>
+                                                    <td style="width: 120px">
+                                                        ￥ {{ values.业绩|floatformat:"2" }}
+                                                    </td>
+                                                    <td style="width: 120px">
+                                                        <table style="width: 120px">
+                                                            {% for datum in values.订单 %}
+                                                                <tr>
+                                                                    <th>TH{{ datum.订单号 }}</th>
+                                                                </tr>
+                                                            {% endfor %}
+                                                        </table>
+
+                                                    </td>
+                                                    <td style="width: 120px">
+                                                        <table style="width: 120px">
+                                                            {% for datum in values.订单 %}
+                                                                <tr>
+                                                                    <th>￥ {{ datum.订单金额|floatformat:"2" }}</th>
+                                                                </tr>
+                                                            {% endfor %}
+                                                        </table>
+
+                                                    </td>
+                                                    <td style="width: 120px">
+                                                        ￥ {{ values.虎品业绩|floatformat:"2" }}
+                                                    </td>
+                                                    <td style="width: 150px">
+                                                        {{ values.虎品转化数量|floatformat:"2" }}
+                                                    </td>
+                                                    <td style="width: 150px">
+                                                        {{ values.虎品转化金额权重|floatformat:"2" }} %
+                                                    </td>
+                                                    <td style="width: 150px">
+                                                        ￥ {{ values.外采客均增幅|floatformat:"2" }}
+                                                    </td>
+                                                    <td style="width: 120px">
+                                                        ￥ {{ values.外采成本|floatformat:"2" }}
+                                                    </td>
+                                                    <td style="width: 120px">
+                                                        ￥ {{ values.外采业绩|floatformat:"2" }}
+                                                    </td>
+                                                    <td style="width: 120px">
+                                                        {{ values.外采数量|floatformat:"2" }}
+                                                    </td>
+                                                    <td style="width: 150px">
+                                                        {{ values.外采金额权重|floatformat:"2" }} %
+                                                    </td>
+                                                    <td style="width: 120px">
+                                                        {{ values.外采加价率|floatformat:"2" }} %
+                                                    </td>
+                                                    <td style="width: 120px">
+                                                        ￥ {{ values.服务费|floatformat:"2" }}
+                                                    </td>
+                                                    <td style="width: 120px">
+                                                        {{ values.服务费权重|floatformat:"2" }} %
+                                                    </td>
+                                                    <td style="width: 120px">
+                                                        ￥ {{ values.其他收益|floatformat:"2" }}
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xl-12 col-lg-12 col-md-6 col-sm-12 col-12">
+                            <div class="card">
+                                <h5 class="card-header"><a>{{ starttime }} -- {{ endtime }} {{ staffsname }}汇总数据&emsp;
+                                    共接车{{ size }}辆， 业绩金额{{ zongyeji|floatformat:'2' }}</a></h5>
+                                <div class="card-body p-0" id="tab01"
+                                     style="width: 100%; overflow:scroll; height: 700px">
+                                    <div class="tableBox">
+                                        <table style="width: 1500px;" border="1" cellspacing="0"
+                                               cellpadding="0" id="chanpinshuju" >
+                                        <thead>
+                                            <tr style="width: 1890px">
+                                                <th style="width: 100px">日期</th>
+                                                <th style="width: 100px">订单号</th>
+                                                <th style="width: 120px">订单类型</th>
+                                                <th style="width: 120px">产品品类</th>
+                                                <th style="width: 400px">产品名称</th>
+                                                <th style="width: 100px">产品类型</th>
+                                                <th style="width: 80px">数量</th>
+                                                <th style="width: 120px">产品业绩</th>
+                                                <th style="width: 120px">产品业绩权重</th>
+                                                <th style="width: 120px">当天工时费</th>
+                                                <th style="width: 120px">当天工时权重</th>
+                                            </tr>
+</thead>
+                                            {% for keys,values in datas.items %}
+                                                <tr>
+                                                    <td style="width: 100px">{{ keys.0|date:'Y-m-d' }}</td>
+                                                    <td style="width: 100px">TH {{ keys.1 }}</td>
+                                                    <td style="width: 120px">{{ keys.2 }}</td>
+                                                    <td style="width: 120px">{{ keys.3 }}</td>
+                                                    <td style="width: 400px">
+                                                        <table style="width: 400px">
+                                                            {% for datum in values.产品名称 %}
+                                                                <tr>
+                                                                    <th>
+                                                                        {{ datum }}
+                                                                    </th>
+                                                                </tr>{% endfor %}
+                                                        </table>
+                                                    </td>
+                                                    <td style="width: 100px">
+                                                        <table style="width: 100px">{% for datum in values.品牌 %}
+                                                            <tr>
+                                                                <th>
+                                                                    {{ datum }}
+                                                                </th>
+                                                            </tr>{% endfor %}
+                                                        </table>
+                                                    </td>
+                                                    <td style="width: 80px">{{ values.shuliang|floatformat:'2' }}</td>
+                                                    <td style="width: 120px">
+                                                        ￥ {{ values.业绩|floatformat:'2' }}</td>
+                                                    <td style="width: 120px">{{ values.业绩权重|floatformat:'2' }}
+                                                        %
+                                                    </td>
+                                                    <td style="width: 120px">
+                                                        ￥ {{ values.工时费|floatformat:'2' }}</td>
+                                                    <td style="width: 120px">{{ values.工时费权重|floatformat:'2' }}
+                                                        %
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            function searchinfo() {
+                var starttime = $('#starttime').val();
+                var endtime = $('#endtime').val();
+                var shopname = $('#shopname').val();
+                var staffsname = $('#staffsname').val();
+                if (starttime > endtime) {
+                    alert('开始时间应早于截止时间');
+                    return false;
+                }
+                location.href = '{% url 'collect:technician_data' %}?starttime=' + starttime + '&endtime=' + endtime + '&shopname=' + shopname + '&staffsname=' + staffsname
+            }
+
+            function seachstaff() {
+                var starttime = $('#starttime').val();
+                var endtime = $('#endtime').val();
+                var shopname = $('#shopname').val();
+                if (starttime !== '' && endtime !== '') {
+                    if (starttime > endtime) {
+                        alert('开始时间应早于截止时间');
+                        return false;
+                    } else {
+                        $.ajax({
+                            type: "post",
+                            url: "{% url 'collect:get_staffs' %}",
+                            data: {
+                                'starttime': starttime,
+                                'endtime': endtime,
+                                'shopname': shopname,
+                                'csrfmiddlewaretoken': '{{ csrf_token }}',
+                            },
+                            success: function (data) {
+                                var staffsname = $('#staffsname');
+                                var t = '<option>请选择</option>';
+                                $.each(data.TechnicalName, function (i, n) {
+                                    t = t + '<option>' + n + '</option>'
+                                });
+                                staffsname.html(t)
+                            }
+                        })
+                    }
+                }
+            }
+
+            function daochu() {
+                export_xlsx('jishishuju', '技师数据');
+                export_xlsx('chanpinshuju', '产品数据');
+            }
+        </script>
+        <script src="{% static 'assets/libs/js/export_utils.js' %}" type='text/javascript'></script>
+
+    {% endblock %}
+{% endif %}

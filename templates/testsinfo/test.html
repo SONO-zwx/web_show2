@@ -1,0 +1,16 @@
+<html>
+<head>
+  <title>自定义弹出窗口</title>
+  <script type="text/javascript" src="../../static/layui/layui.js"></script>
+</head>
+<body>
+  <button type="button" on>打开弹窗</button>
+</body>
+<script>
+layui.use(['layer', 'form'], function(){
+  var layer = layui.layer;
+
+  layer.msg('Hello World');
+});
+</script>
+</html>　

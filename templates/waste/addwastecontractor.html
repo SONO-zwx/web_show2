@@ -1,0 +1,199 @@
+{% extends 'parent_template/parent_template.html' %}
+
+{% load static %}
+
+{% block 危废模块-active %}
+    active
+{% endblock %}
+
+{% block 废料承包商-active %}
+    active
+{% endblock %}
+
+{% block collapse3 %}
+    collapse
+{% endblock %}
+{% block collapse1 %}
+    collapse
+{% endblock %}
+{% block collapse2 %}
+    collapse
+{% endblock %}
+{% block collapse4 %}
+    collapse
+{% endblock %}
+{% block collapse6 %}
+    collapse
+{% endblock %}
+{% block collapse7 %}
+    collapse
+{% endblock %}
+{% block collapse8 %}
+
+{% endblock %}
+{% block collapse9 %}
+    collapse
+{% endblock %}
+{% block collapse11 %}
+    collapse
+{% endblock %}
+{% block collapse12 %}
+    collapse
+{% endblock %}
+
+{% block body %}
+    <div class="dashboard-ecommerce">
+        <div class="container-fluid dashboard-content ">
+            <!-- ============================================================== -->
+            <!-- pageheader  -->
+            <!-- ============================================================== -->
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="page-header">
+                        <h2 class="pageheader-title">危废模块</h2>
+                        <div class="page-breadcrumb">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="#" class="breadcrumb-link">危废模块</a>
+                                    </li>
+                                    <li class="breadcrumb-item active" aria-current="page">危废承包商
+                                    </li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <h5>
+                <a href="{% url 'waste:wastecontractor' %}"><span
+                        style="width: 100px;height: 30px;display: inline-block;text-align: center;line-height: 30px;">危废承包商</span></a>
+                <a href="{% url 'waste:addwastecontractor' %}"><span
+                        style="width: 150px;height: 30px;display: inline-block;text-align: center;line-height: 30px;background-color: rgb(51, 122, 183);color: white;border: 1px solid grey;">添加危废承包商</span></a>
+            </h5>
+            <div class="ecommerce-widget">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="row">
+                        <div class="col-xl-8 col-lg-6 col-md-6 col-sm-12 col-12" style="margin: 0 auto">
+                            <form action="{% url 'waste:addwastecontractor' %}" method="post">
+                                <div class="card">
+                                    <h5 class="card-header">详情页面</h5>
+                                    <div class="card-body">
+                                        <div class="form-group row">
+                                            <label class="col-12 col-sm-3 col-form-label text-sm-right">承&nbsp;&nbsp;包&nbsp;&nbsp;商</label>
+                                            <div class="col-12 col-sm-8 col-lg-6">
+                                                <input type="text" id="username"
+                                                       class="form-control"
+                                                       value="{{ wasteuserinfo.username|default:'' }}"
+                                                       name="username" {% if wasteuserinfo.username %}
+                                                       readonly {% endif %}>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-12 col-sm-3 col-form-label text-sm-right">压&nbsp;&nbsp;&nbsp;&nbsp;金</label>
+                                            <div class="col-12 col-sm-8 col-lg-6">
+                                                <input type="text" class="form-control"
+                                                       name="cashpledge" id="cashpledge"
+                                                        {% if wasteuserinfo.cashpledge %} readonly {% endif %}
+                                                       value="{{ wasteuserinfo.cashpledge|default:'' }}">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-12 col-sm-3 col-form-label text-sm-right">合&nbsp;同&nbsp;到&nbsp;期&nbsp;日</label>
+                                            <div class="col-12 col-sm-8 col-lg-6">
+                                                <input type="date" class="form-control"
+                                                       name="expirydate" id="expirydate"
+                                                       value="{{ wasteuserinfo.expirydate|date:'Y-m-d' }}">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label text-sm-right">联&nbsp;系&nbsp;方&nbsp;式</label>
+                                            <div class="col-12 col-sm-8 col-lg-6">
+                                                <input type="text" class="form-control"
+                                                       name="phone" id="phone"
+                                                       value="{{ wasteuserinfo.phone|default:'' }}">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label text-sm-right">相&nbsp;关&nbsp;操&nbsp;作</label>
+                                            <div class="col-12 col-sm-8 col-lg-6">
+                                                <select class="custom-select d-block" id="stateinfo"
+                                                        name="stateinfo">
+                                                    <option>请选择</option>
+                                                    <option>押金充值</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label text-sm-right">充&nbsp;值&nbsp;金&nbsp;额</label>
+                                            <div class="col-12 col-sm-8 col-lg-6">
+                                                <input type="text" class="form-control"
+                                                       name="manay" id="manay">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row text-right">
+                                            <div class="col col-sm-10 col-lg-9 offset-sm-1 offset-lg-0">
+                                                {% if wasteuserinfo %}
+                                                    <input type="text" class="form-control"
+                                                           style="display: none"
+                                                           name="id" id="id" value="{{ wasteuserinfo.id|default:'' }}">
+                                                    <a id="activate">
+                                                        <button onclick="submits()"
+                                                                style="width:140px;height:36px;line-height:18px;font-size:18px; color:#2ea8e5;padding-bottom:4px">
+                                                            修改
+                                                        </button>
+                                                    </a>
+                                                {% else %}
+                                                    <a id="activate">
+                                                        <button onclick="submits()"
+                                                                style="width:140px;height:36px;line-height:18px;font-size:18px; color:#2ea8e5;padding-bottom:4px">
+                                                            添加
+                                                        </button>
+                                                    </a>
+                                                {% endif %}
+
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label text-sm-right">金&nbsp;额&nbsp;变&nbsp;动&nbsp;明&nbsp;细</label>
+                                            <div class="col-12 col-sm-8 col-lg-6">
+                                                <table class="table">
+                                                    <thead>
+                                                    <tr>
+                                                        <th>操作</th>
+                                                        <th>金额</th>
+                                                        <th>时间</th>
+                                                    </tr>
+                                                    </thead>
+
+                                                    {% for foo in info %}
+                                                        <tr>
+                                                            <td>{{ foo.state }}</td>
+                                                            <td>{{ foo.manay }}</td>
+                                                            <td>{{ foo.datetimes|date:'y-m-d' }}</td>
+                                                        </tr>
+                                                    {% endfor %}
+                                                </table>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        function submits() {
+            $('form').submit()
+        }
+    </script>
+
+{% endblock %}
+

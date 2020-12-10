@@ -1,0 +1,254 @@
+{% extends 'parent_template/account_template.html' %}
+
+{% load static %}
+
+
+{% block 首付款账号-active %}
+active
+{% endblock %}
+
+
+{% block body1 %}
+    <div class="dashboard-ecommerce">
+        <div class="container-fluid dashboard-content ">
+            <!-- ============================================================== -->
+            <!-- pageheader  -->
+            <!-- ============================================================== -->
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="page-header">
+                        <h2 class="pageheader-title">收付款账号</h2>
+                        <div class="page-breadcrumb">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="#" class="breadcrumb-link">账号管理</a>
+                                    </li>
+                                    <li class="breadcrumb-item active" aria-current="page">收付款账号
+                                    </li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <h5>
+                <a href="{% url 'certificate:m_account' %}"><span style="width: 100px;height: 30px;display: inline-block;text-align: center;line-height: 30px;background-color: rgb(51, 122, 183);color: white;border: 1px solid grey;">门店账号</span></a>
+                <a href="{% url 'certificate:add_account' %}"><span style="width: 100px;height: 30px;display: inline-block;text-align: center;line-height: 30px;">添加门店账号</span></a>
+            </h5>
+            <div class="ecommerce-widget" id="div01" style="display: block">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="row">
+                        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-12">
+                            <div class="card">
+                                <h5 class="card-header">门店收付款账号</h5>
+                                <div class="card-body">
+                                    <table class="table">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col">账号</th>
+                                            <th scope="col">用户</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for accountinfo in account %}
+                                            <tr>
+                                                <td>
+                                                    <a onclick="accountinfo({{ accountinfo.id }}, {{ account.number }})">{{ accountinfo.account }}</a>
+                                                </td>
+                                                <td>
+                                                    <a onclick="accountinfo({{ accountinfo.id }}, {{ account.number }})">{{ accountinfo.name }}</a>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                                <nav aria-label="Page navigation">
+                                    <div class="pagination">
+                                        <ul class="pagination">
+                                            <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
+                                            <li>当前页数：{{ account.number }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
+                                            {% if account.has_previous %}
+                                                <li>
+                                                    <a href="{% url 'certificate:m_account' %}?accountpage={{ account.previous_page_number }}"
+                                                       aria-label="Previous">
+                                                        <span aria-hidden="true">&laquo;&nbsp;&nbsp;</span></a></li>
+                                            {% endif %}
+
+                                            {% for num in account.paginator.page_range %}
+                                                {% if num == account.number|add:-1 or num == account.number|add:-2 or num == account.number|add:-3 or num == account.number or num == account.number|add:1 or num == account.number|add:2 or num == account.number|add:3 %}
+                                                    {% if num == account.number %}
+                                                        <li><a href="">{{ num }}&nbsp;&nbsp;</a></li>
+                                                    {% else %}
+                                                        <li>
+                                                            <a href="{% url 'certificate:m_account' %}?accountpage={{ num }}">{{ num }}&nbsp;&nbsp;</a>
+                                                        </li>
+                                                    {% endif %}
+                                                {% endif %}
+                                            {% endfor %}
+
+                                            {% if account.has_next %}
+                                                <li>
+                                                    <a href="{% url 'certificate:m_account' %}?accountpage={{ account.next_page_number }}"
+                                                       aria-label="Next">
+                                                        <span aria-hidden="true">&raquo;&nbsp;&nbsp;</span></a></li>
+                                            {% endif %}
+                                        </ul>
+                                    </div>
+                                </nav>
+                                <div aria-label="Page navigation" style="margin-left: 29px;margin-top: -13px;">
+                                    <span>跳转至</span>
+                                    <input type="text" style="width: 30px;" class="jump">
+                                    <input type="hidden" value="{{ account.paginator.num_pages }}" class="hidden_val">
+                                    <span>页</span>
+                                    <input type="button" value="GO" onclick="jump_to()">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-8 col-lg-6 col-md-6 col-sm-12 col-12">
+                            <div class="card">
+                                <h5 class="card-header">详情页面</h5>
+                                <div class="card-body">
+                                    <div class="form-group row">
+                                        <label class="col-12 col-sm-3 col-form-label text-sm-right">账&nbsp;&nbsp;&nbsp;&nbsp;号</label>
+                                        <div class="col-12 col-sm-8 col-lg-6">
+                                            <input readonly="readonly" type="text" class="form-control" name="account"
+                                                   id="account">
+                                            <input readonly="readonly" type="text" class="form-control" name="id"
+                                                   id="id" style="display: none">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-12 col-sm-3 col-form-label text-sm-right">用&nbsp;&nbsp;户&nbsp;&nbsp;名</label>
+                                        <div class="col-12 col-sm-8 col-lg-6">
+                                            <input readonly="readonly" type="text" class="form-control" name="name"
+                                                   id="name">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-12 col-sm-3 col-form-label text-sm-right">门&nbsp;&nbsp;&nbsp;&nbsp;店</label>
+
+                                        <div class="col-12 col-sm-8 col-lg-6">
+                                            <input readonly="readonly" type="text" class="form-control" name="shopname"
+                                                   id="shopname">
+                                        </div>
+
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-3 col-form-label text-sm-right">账&nbsp;&nbsp;号&nbsp;&nbsp;类&nbsp;&nbsp;型</label>
+                                        <div class="col-12 col-sm-8 col-lg-6">
+                                            <label class="custom-control custom-radio custom-control-inline">
+                                                <input disabled="disabled" type="radio" name="types" id="option1"
+                                                       readonly="readonly"
+                                                       class="custom-control-input" value="支出"><span
+                                                    class="custom-control-label">支出</span>
+                                            </label>
+                                            <label class="custom-control custom-radio custom-control-inline">
+                                                <input disabled="disabled" type="radio" name="types" id="option2"
+                                                       class="custom-control-input" value="收款"
+                                                       readonly="readonly"><span
+                                                    class="custom-control-label">收款</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-3 col-form-label text-sm-right">是&nbsp;&nbsp;否&nbsp;&nbsp;使&nbsp;&nbsp;用</label>
+                                        <div class="col-12 col-sm-8 col-lg-6">
+                                            <label class="custom-control custom-radio custom-control-inline">
+                                                <input disabled="disabled" type="radio" name="isuse" id="isuse1"
+                                                       readonly="readonly"
+                                                       class="custom-control-input" value="1"><span
+                                                    class="custom-control-label">使用</span>
+                                            </label>
+                                            <label class="custom-control custom-radio custom-control-inline">
+                                                <input disabled="disabled" type="radio" name="isuse" id="isuse2"
+                                                       class="custom-control-input" value="0"
+                                                       readonly="readonly"><span
+                                                    class="custom-control-label">禁用</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row text-right">
+                                        <div class="col col-sm-10 col-lg-9 offset-sm-1 offset-lg-0">
+                                            <a id="activate">
+                                                <button style="width:140px;height:36px;line-height:18px;font-size:18px; color:#2ea8e5;padding-bottom:4px">
+                                                    修改
+                                                </button>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function accountinfo(id, page) {
+            $.ajax({
+                type: "post",
+                url: "{% url 'certificate:get_m_account' %}",
+                data: {
+                    'accountid': id,
+                    'accountpage': page,
+                    'csrfmiddlewaretoken': '{{ csrf_token }}',
+                },
+                success: function (data) {
+                    document.getElementById('account').value = data.account.account;
+                    document.getElementById('shopname').value = data.account.shopname;
+                    document.getElementById('name').value = data.account.name;
+                    document.getElementById('id').value = data.account.id;
+                    var option1 = $('#option1');
+                    var option2 = $('#option2');
+                    option1.removeAttr('disabled');
+                    option2.removeAttr('disabled');
+                    if (data.account.types === '支出') {
+                        option1.attr('checked', 'checked');
+                        option2.removeAttr('checked');
+                    } else {
+                        option2.attr('checked', 'checked');
+                        option1.removeAttr('checked');
+                    }
+                    option1.attr('disabled', 'disabled');
+                    option2.attr('disabled', 'disabled');
+
+                    var isuse1 = $('#isuse1');
+                    var isuse2 = $('#isuse2');
+                    if (data.account.isuse === 1) {
+                        isuse1.attr('checked', 'checked');
+                        isuse2.removeAttr('checked');
+                    } else {
+                        isuse2.attr('checked', 'checked');
+                        isuse1.removeAttr('checked');
+                    }
+
+                    var activate = $('#activate');
+                    activate.removeAttr('href');
+                    activate.attr('href', "{% url 'certificate:add_account' %}?id=" + data.account.id)
+                }
+            });
+
+        }
+
+        function jump_to() {
+            var href = $('.jump').val()
+            var num_pages = $('.hidden_val').val()
+            console.log(num_pages)
+            if (href === "" || href == null) {
+                alert('请输入正确的页码！')
+                return false
+            } else if (parseInt(href) > parseInt(num_pages)) {
+                location.href = '{% url 'certificate:m_account' %}?accountpage=' + num_pages
+            } else if (num_pages === '') {
+                location.href = '{% url 'certificate:m_account' %}?accountpage=' + 1
+            } else {
+                location.href = '{% url 'certificate:m_account' %}?accountpage=' + href
+            }
+        }
+    </script>
+{% endblock %}
+

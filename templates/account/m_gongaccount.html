@@ -1,0 +1,253 @@
+{% extends 'parent_template/gongcertificate.html' %}
+
+{% load static %}
+
+{% block 供应商账号-active %}
+    active
+{% endblock %}
+
+{% block body1 %}
+    <div class="dashboard-ecommerce">
+        <div class="container-fluid dashboard-content ">
+            <!-- ============================================================== -->
+            <!-- pageheader  -->
+            <!-- ============================================================== -->
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="page-header">
+                        <h2 class="pageheader-title">收付款账号</h2>
+                        <div class="page-breadcrumb">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="#" class="breadcrumb-link">账号管理</a>
+                                    </li>
+                                    <li class="breadcrumb-item active" aria-current="page">收付款账号
+                                    </li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <h5>
+                <a href="{% url 'certificate:m_gongaccount' %}"><span
+                        style="width: 100px;height: 30px;display: inline-block;text-align: center;line-height: 30px;background-color: rgb(51, 122, 183);color: white;border: 1px solid grey;">供货商账号</span></a>
+                <a href="{% url 'certificate:add_gongaccount' %}"><span
+                        style="width: 150px;height: 30px;display: inline-block;text-align: center;line-height: 30px;">添加供货商账号</span></a>
+            </h5>
+            <div class="ecommerce-widget" id="div02">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="row">
+                        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-12">
+                            <div class="card">
+                                <h5 class="card-header">供货商收付款账号</h5>
+                                <div class="card-body">
+                                    <table class="table">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col">账号</th>
+                                            <th scope="col">供货商</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for accountinfo in gongaccount %}
+                                            <tr>
+                                                <td>
+                                                    <a onclick="gongaccountinfo({{ accountinfo.id }}, {{ gongaccount.number }})">{{ accountinfo.account }}</a>
+                                                </td>
+                                                <td>
+                                                    <a onclick="gongaccountinfo({{ accountinfo.id }}, {{ gongaccount.number }})">{{ accountinfo.effect }}</a>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <nav aria-label="Page navigation">
+                                    <div class="pagination">
+                                        <ul class="pagination">
+                                            <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
+                                            <li>当前页数：{{ gongaccount.number }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
+                                            {% if gongaccount.has_previous %}
+                                                <li>
+                                                    <a href="{% url 'certificate:m_gongaccount' %}?gongaccountpage={{ gongaccount.previous_page_number }}"
+                                                       aria-label="Previous">
+                                                        <span aria-hidden="true">&laquo;&nbsp;&nbsp;</span></a></li>
+                                            {% endif %}
+
+                                            {% for num in gongaccount.paginator.page_range %}
+                                                {% if num == gongaccount.number|add:-1 or num == gongaccount.number|add:-2 or num == gongaccount.number|add:-3 or num == gongaccount.number or num == gongaccount.number|add:1 or num == gongaccount.number|add:2 or num == gongaccount.number|add:3 %}
+                                                    {% if num == gongaccount.number %}
+                                                        <li><a href="">{{ num }}&nbsp;&nbsp;</a></li>
+                                                    {% else %}
+                                                        <li>
+                                                            <a href="{% url 'certificate:m_gongaccount' %}?gongaccountpage={{ num }}">{{ num }}&nbsp;&nbsp;</a>
+                                                        </li>
+                                                    {% endif %}
+                                                {% endif %}
+                                            {% endfor %}
+
+                                            {% if gongaccount.has_next %}
+                                                <li>
+                                                    <a href="{% url 'certificate:m_gongaccount' %}?gongaccountpage={{ gongaccount.next_page_number }}"
+                                                       aria-label="Next">
+                                                        <span aria-hidden="true">&raquo;&nbsp;&nbsp;</span></a></li>
+                                            {% endif %}
+                                        </ul>
+                                    </div>
+                                </nav>
+                                <div aria-label="Page navigation" style="margin-left: 29px;margin-top: -13px;">
+                                    <span>跳转至</span>
+                                    <input type="text" style="width: 30px;" class="jump">
+                                    <input type="hidden" value="{{ info.paginator.num_pages }}" class="hidden_val">
+                                    <span>页</span>
+                                    <input type="button" value="GO" onclick="jump_to()">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-8 col-lg-6 col-md-6 col-sm-12 col-12">
+                            <div class="card">
+                                <h5 class="card-header">详情页面</h5>
+                                <div class="card-body">
+                                    <div class="form-group row">
+                                        <label class="col-12 col-sm-3 col-form-label text-sm-right">收&nbsp;&nbsp;款&nbsp;&nbsp;账&nbsp;&nbsp;号</label>
+                                        <div class="col-12 col-sm-8 col-lg-6">
+                                            <input readonly="readonly" type="text" required="required"
+                                                   class="form-control"
+                                                   name="gongaccount" id="gongaccount">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-3 col-form-label text-sm-right">登&nbsp;&nbsp;录&nbsp;&nbsp;账&nbsp;&nbsp;号</label>
+                                        <div class="col-12 col-sm-8 col-lg-6">
+                                            <input readonly="readonly" type="text" required="" class="form-control"
+                                                   name="username" id="username">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-3 col-form-label text-sm-right">登&nbsp;&nbsp;录&nbsp;&nbsp;密&nbsp;&nbsp;码</label>
+                                        <div class="col-12 col-sm-8 col-lg-6">
+                                            <input readonly="readonly" type="text" required="" class="form-control"
+                                                   name="password" id="password">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-3 col-form-label text-sm-right">供&nbsp;&nbsp;货&nbsp;&nbsp;类&nbsp;&nbsp;型</label>
+                                        <div class="col-12 col-sm-8 col-lg-6">
+                                            <input readonly="readonly" type="text" required="" class="form-control"
+                                                   name="gongtypes" id="gongtypes">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label class="col-12 col-sm-3 col-form-label text-sm-right">用&nbsp;&nbsp;&nbsp;&nbsp;户</label>
+                                        <div class="col-12 col-sm-8 col-lg-6">
+                                            <input readonly="readonly" type="text" required="" class="form-control"
+                                                   name="gongname" id="gongname">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-12 col-sm-3 col-form-label text-sm-right">供&nbsp;&nbsp;货&nbsp;&nbsp;商</label>
+                                        <div class="col-12 col-sm-8 col-lg-6">
+                                            <input readonly="readonly" type="text" required="" class="form-control"
+                                                   name="gongeffect" id="gongeffect">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-12 col-sm-3 col-form-label text-sm-right">供&nbsp;&nbsp;给&nbsp;&nbsp;门&nbsp;&nbsp;店</label>
+                                        <div class="col-12 col-sm-8 col-lg-6">
+                                            <input readonly="readonly" type="text" required="" class="form-control"
+                                                   name="gongshopname" id="gongshopname">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label class="col-sm-3 col-form-label text-sm-right">是&nbsp;&nbsp;否&nbsp;&nbsp;使&nbsp;&nbsp;用</label>
+                                        <div class="col-12 col-sm-8 col-lg-6">
+                                            <label class="custom-control custom-radio custom-control-inline">
+                                                <input type="radio" name="isuse" id="isuse1"
+                                                       class="custom-control-input" value="1"
+                                                       {% if info.isuse == 1 %}checked{% endif %}><span
+                                                    class="custom-control-label">使用</span>
+                                            </label>
+                                            <label class="custom-control custom-radio custom-control-inline">
+                                                <input type="radio" name="isuse" id="isuse2"
+                                                       class="custom-control-input" value="0"
+                                                       {% if info.isuse == 0 %}checked{% endif %}><span
+                                                    class="custom-control-label">禁用</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row text-right">
+                                        <div class="col col-sm-10 col-lg-9 offset-sm-1 offset-lg-0">
+                                            <a id="activate">
+                                                <button style="width:140px;height:36px;line-height:18px;font-size:18px; color:#2ea8e5;padding-bottom:4px">
+                                                    修改
+                                                </button>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <script>
+        function gongaccountinfo(id, page) {
+            $.ajax({
+                type: "post",
+                url: "{% url 'certificate:get_m_account' %}",
+                dataType: 'json',
+                data: {
+                    'gongaccountid': id,
+                    'gongaccountpage': page,
+                    'csrfmiddlewaretoken': '{{ csrf_token }}',
+                },
+                success: function (data) {
+                    document.getElementById('gongaccount').value = data.gongaccount.account;
+                    document.getElementById('gongshopname').value = data.gongaccount.shopname;
+                    document.getElementById('username').value = data.gongaccount.username;
+                    document.getElementById('password').value = data.gongaccount.password;
+                    document.getElementById('gongeffect').value = data.gongaccount.effect;
+                    document.getElementById('gongname').value = data.gongaccount.name;
+                    document.getElementById('gongtypes').value = data.gongaccount.types;
+
+                    var isuse1 = $('#isuse1');
+                    var isuse2 = $('#isuse2');
+                    if (data.gongaccount.isuse === 1) {
+                        isuse1.attr('checked', 'checked');
+                        isuse2.removeAttr('checked');
+                    } else {
+                        isuse2.attr('checked', 'checked');
+                        isuse1.removeAttr('checked');
+                    }
+
+                    var activate = $('#activate');
+                    activate.removeAttr('href');
+                    activate.attr('href', "{% url 'certificate:add_gongaccount' %}?id=" + data.gongaccount.id)
+                }
+            });
+
+        }
+
+        function jump_to() {
+            var href = $('.jump').val()
+            var num_pages = $('.hidden_val').val()
+            if (href === "" || href == null) {
+                alert('请输入正确的页码！')
+                return false
+            } else if (parseInt(href) > parseInt(num_pages)) {
+                location.href = '{% url 'certificate:m_gongaccount' %}?gongaccountpage=' + num_pages
+            } else if (num_pages === '') {
+                location.href = '{% url 'certificate:m_gongaccount' %}?gongaccountpage=' + 1
+            } else {
+                location.href = '{% url 'certificate:m_gongaccount' %}?gongaccountpage=' + href
+            }
+        }
+    </script>
+{% endblock %}
+

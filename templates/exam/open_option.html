@@ -1,0 +1,175 @@
+{% extends 'parent_template/parent_template.html' %}
+
+{% load static %}
+
+{% block 门店考试-active %}
+    active
+{% endblock %}
+
+{% block collapse3 %}
+collapse
+{% endblock %}
+{% block collapse1 %}
+collapse
+{% endblock %}
+{% block collapse2 %}
+collapse
+{% endblock %}
+{% block collapse4 %}
+
+{% endblock %}
+{% block collapse6 %}
+collapse
+{% endblock %}
+{% block collapse7 %}
+collapse
+{% endblock %}
+{% block collapse8 %}
+collapse
+{% endblock %}
+{% block collapse9 %}
+collapse
+{% endblock %}
+{% block collapse11 %}
+collapse
+{% endblock %}
+{% block collapse12 %}
+collapse
+{% endblock %}
+
+{% block body %}
+    <div class="dashboard-ecommerce">
+    <div class="container-fluid dashboard-content ">
+        <!-- ============================================================== -->
+        <!-- pageheader  -->
+        <!-- ============================================================== -->
+        <div class="row">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                <div class="page-header">
+                    <h2 class="pageheader-title">考题作答</h2>
+                    <div class="page-breadcrumb">
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="#" class="breadcrumb-link">门店考试</a>
+                                </li>
+                                <li class="breadcrumb-item" aria-current="page">考题作答
+                                </li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="ecommerce-widget" id="div01" style="display: block">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                <div class="row">
+                    <div class="col-xl-10 col-lg-6 col-md-6">
+                        <div class="card">
+                            {% if topic %}
+                                <form action="{% url 'exam:open_option' %}" method="post">
+                                    <table style="width: 100%">
+
+                                        <tr>
+                                            <td class="text-sm-right" style="width: 20%">
+                                                题&nbsp;&nbsp;目：&nbsp;&nbsp;
+                                            </td>
+                                            <td class="text-sm-left" style="width: 30%">
+                                                <h3>{{ topic }}</h3>
+                                                <input type="text" class="form-control" name="topicid" id="topicid"
+                                                       value="{{ topicid }}" style="display: none">
+                                                <input type="text" class="form-control" name="topic" id="topic"
+                                                       value="{{ topic }}" style="display: none">
+                                                <input type="text" class="form-control" name="answermainid"
+                                                       id="answermainid"
+                                                       value="{{ answermainid }}" style="display: none">
+                                                <input type="text" class="form-control" name="useranswerid"
+                                                       id="useranswerid"
+                                                       value="{{ useranswerid }}" style="display: none">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-sm-right" style="width: 20%">
+                                                选&nbsp;&nbsp;项：&nbsp;&nbsp;
+                                            </td>
+                                            <td class="text-sm-left" style="width: 80%">
+                                                                                        <label class="custom-control custom-radio" style="display: none">
+                                                <input checked type="radio" name="option"
+                                                       class="custom-control-input" value="0"><span
+                                                    class="custom-control-label"></span>
+                                            </label>
+                                                {% for foo in option %}
+                                                    <label class="custom-control custom-radio">
+                                                        <input type="radio" name="option"
+                                                               class="custom-control-input"
+                                                               value="{{ foo.option_id }}"><span
+                                                            class="custom-control-label">{{ foo.option_body }}</span>
+                                                    </label>
+                                                {% endfor %}
+                                            </td>
+                                        </tr>
+                                    </table>
+
+                                    <div class="form-group row text-right">
+                                        <div class="col col-sm-10 col-lg-9 offset-sm-1 offset-lg-0">
+                                            <button type="button" onclick="submits()"
+                                                    style="width:140px;height:36px;line-height:18px;font-size:18px; color:#2ea8e5;padding-bottom:4px">
+                                                下一题
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            {% else %}
+                                <div class="card">
+                                <h5 class="card-header">考试结果</h5>
+                                <div class="card-body">
+                                    <table style="width: 100%">
+                                        <tr>
+                                            <td class="text-sm-right" style="width: 50%">
+                                                考试完成保
+                                            </td>
+                                            <td class="text-sm-left" style="width: 50%">
+                                                留成绩截图
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-sm-right" style="width: 50%">
+                                                姓&nbsp;&nbsp;名：
+                                            </td>
+                                            <td class="text-sm-left" style="width: 50%">
+                                                {{ goal.name }}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-sm-right" style="width: 50%">
+                                                成&nbsp;&nbsp;绩：
+                                            </td>
+                                            <td class="text-sm-left" style="width: 50%">
+                                                {{ goal.exam_grade }}
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+
+                            {% endif %}
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function submits() {
+            var option = $("input[name='option']:checked").val();
+            if (option === '0') {
+                alert('请选择答案');
+                return false;
+            }
+            $('form').submit();
+        }
+    </script>
+
+{% endblock %}
+

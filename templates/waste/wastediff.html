@@ -1,0 +1,303 @@
+{% extends 'parent_template/parent_template.html' %}
+
+{% load static %}
+
+{% block 危废模块-active %}
+    active
+{% endblock %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'img/css/updateimg.css' %}">
+{% endblock %}
+
+{% block 废料差异-active %}
+    active
+{% endblock %}
+
+{% block collapse3 %}
+    collapse
+{% endblock %}
+{% block collapse1 %}
+    collapse
+{% endblock %}
+{% block collapse2 %}
+    collapse
+{% endblock %}
+{% block collapse4 %}
+    collapse
+{% endblock %}
+{% block collapse6 %}
+    collapse
+{% endblock %}
+{% block collapse7 %}
+    collapse
+{% endblock %}
+{% block collapse8 %}
+
+{% endblock %}
+{% block collapse9 %}
+    collapse
+{% endblock %}
+{% block collapse11 %}
+    collapse
+{% endblock %}
+{% block collapse12 %}
+    collapse
+{% endblock %}
+
+{% block body %}
+    <div class="dashboard-ecommerce">
+        <div class="container-fluid dashboard-content ">
+            <!-- ============================================================== -->
+            <!-- pageheader  -->
+            <!-- ============================================================== -->
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="page-header">
+                        <h2 class="pageheader-title">危废模块</h2>
+                        <div class="page-breadcrumb">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="#" class="breadcrumb-link">危废模块</a>
+                                    </li>
+                                    <li class="breadcrumb-item active" aria-current="page">危废差异单
+                                    </li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="ecommerce-widget" id="div01" style="display: block">
+
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+
+                    <div class="row">
+                        <div class="col-xl-8 col-lg-6 col-md-6" style="margin: 0 auto">
+                            <div class="card">
+                                <div class="form-group row">
+                                    <div class="row" style="margin-left: 5px;">
+                                        <div>
+                                            <select name="shopname" id="shopname" class="form-control text-sm-center"
+                                                    style="width: 120px;margin-left: 10px;" onchange="searchtime()">
+                                                <option value="">请选择门店</option>
+                                                {% for ShopName in ShopNames %}
+                                                    {% if searchinfo.shopname == ShopName.shopname %}
+                                                        <option value="{{ ShopName.shopname }}"
+                                                                selected>{{ ShopName.shopname }}</option>
+                                                    {% else %}
+                                                        <option value="{{ ShopName.shopname }}">{{ ShopName.shopname }}</option>
+                                                    {% endif %}
+
+                                                {% endfor %}
+                                            </select>
+                                            <select name="times" id="times" class="form-control text-sm-center"
+                                                    style="width: 120px;margin-left: 137px;margin-top: -38px;"
+                                                    onchange="confirm_form()">
+                                                <option value="">请选择核对时间</option>
+                                                {% for foo in timeinfo %}
+                                                    {% if searchinfo.times == foo %}
+                                                        <option selected>{{ foo }}</option>
+                                                    {% else %}
+                                                        <option>{{ foo }}</option>
+                                                    {% endif %}
+
+                                                {% endfor %}
+                                            </select>
+
+                                            <button type="button" class="btn btn-success"
+                                                    style="width: 70px;height: 37px;margin-left: 280px;margin-top: -60px;"
+                                                    onclick="ok_sub()">确认
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-body">
+
+                                    <input type="text" style="display: none" id="allpriceinfo" name="allpriceinfo"
+                                           value="">
+
+                                    <table style="width: 100%" border="1" cellspacing="1" cellpadding="2">
+                                        <tr style="height: 40px">
+                                            <td colspan="8">
+                                                <h3 style="text-align: center; line-height: 40px;">危废差异单</h3>
+                                            </td>
+                                        </tr>
+                                        <tr style="height: 40px">
+                                            <td class="text-sm-center" colspan="1">
+                                                核&nbsp;&nbsp;对&nbsp;&nbsp;时&nbsp;&nbsp;间
+                                            </td>
+                                            <td colspan="3">{{ searchinfo.times }}</td>
+                                            <td class="text-sm-center" colspan="1">
+                                                门&nbsp;&nbsp;店
+                                            </td>
+                                            <td colspan="3">{{ searchinfo.shopname }}</td>
+                                        </tr>
+                                        <tr style="height: 40px">
+                                            <td>项目</td>
+                                            <td>上月库存</td>
+                                            <td>当前系统总数</td>
+                                            <td>卖出数量</td>
+                                            <td>客户带走数量</td>
+                                            <td>应剩库存</td>
+                                            <td>当前库存核实数</td>
+                                            <td>货品差数</td>
+                                        </tr>
+                                        {% for foo in df_info %}
+                                            <tr style="height: 40px">
+                                                <td>{{ foo.项目 }}</td>
+                                                <td>{{ foo.上次库存数量 }}</td>
+                                                <td>{{ foo.当前系统总数 }}</td>
+                                                <td>{{ foo.卖出数量 }}</td>
+                                                <td>{{ foo.客户带走数量 }}</td>
+                                                <td>{{ foo.应剩库存 }}</td>
+                                                <td>{{ foo.本次库存数量 }}</td>
+                                                <td>{{ foo.货品差额 }}</td>
+                                            </tr>
+                                        {% endfor %}
+
+                                        <tr>
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                当&nbsp;&nbsp;月 <br>
+                                                交&nbsp;&nbsp;易 <br>
+                                                明&nbsp;&nbsp;细 <br>
+                                            </td>
+                                            <td class="text-sm-left" colspan="8">
+                                                <table style="width: 100%" border="1" cellspacing="1"
+                                                       cellpadding="2" id="dealproject">
+                                                    <tr style="height: 40px">
+                                                        <td class="text-sm-left">
+                                                            交&nbsp;易&nbsp;时&nbsp;间
+                                                        </td>
+                                                        <td class="text-sm-left">
+                                                            承&nbsp;包&nbsp;商
+                                                        </td>
+                                                        <td class="text-sm-left">
+                                                            负责人
+                                                        </td>
+                                                        <td class="text-sm-left">
+                                                            审核人
+                                                        </td>
+                                                        <td class="text-sm-left">
+                                                            交易金额
+                                                        </td>
+                                                        <td class="text-sm-left">
+                                                            操作
+                                                        </td>
+                                                    </tr>
+                                                    {% for foo in dealinfo %}
+                                                        <tr style="height: 40px">
+                                                            <td class="text-sm-left">
+                                                                {{ foo.datetimes|date:'Y-m-d' }}
+                                                            </td>
+                                                            <td class="text-sm-left">
+                                                                {{ foo.wasteuser }}
+                                                            </td>
+                                                            <td class="text-sm-left">
+                                                                {{ foo.responsibleperson }}
+                                                            </td>
+                                                            <td class="text-sm-left">
+                                                                审核人
+                                                            </td>
+                                                            <td class="text-sm-left">
+                                                                {{ foo.zhimanay }}
+                                                            </td>
+                                                            <td class="text-sm-left">
+                                                                操作
+                                                            </td>
+                                                        </tr>
+                                                    {% endfor %}
+
+                                                </table>
+                                            </td>
+                                        </tr>
+                                        <tr style="height: 40px">
+                                            <td class="text-sm-center" colspan="1">
+                                                扣&nbsp;款&nbsp;金&nbsp;额
+                                            </td>
+                                            <td colspan="3">
+                                                <input class="form-control" name="manaysinfo"
+                                                       id="manaysinfo">
+                                            </td>
+                                            <td class="text-sm-center" colspan="1">
+                                                扣&nbsp;款&nbsp;原&nbsp;则
+                                            </td>
+                                            <td colspan="3">
+                                                <input class="form-control" name="names"
+                                                       id="names">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="8" style="text-align: center; height: 50px">
+                                                <button style="width:140px;height:36px;line-height:18px;font-size:18px; color:#2ea8e5;padding-bottom:4px"
+                                                        type="button" onclick="submitsinfo()">
+                                                    提交扣款
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </table>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function submitsinfo() {
+            var manaysinfo = $('#manaysinfo').val();
+            var names = $('#names').val();
+            $.ajax({
+                type: "post",
+                url: "{% url 'waste:searchtime' %}",
+                data: {
+                    'manaysinfo': manaysinfo,
+                    'names': names,
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                },
+                success: function (data) {
+                    var times = $('#times');
+                    times.empty();
+                    times.append('<option value="">请选择核对时间</option>');
+                    $.each(data.info, function (key, value) {
+                        times.append('<option>' + value + '</option>')
+                    })
+                }
+            })
+        }
+
+        function ok_sub() {
+            var shopname = $('#shopname').val();
+            var times = $('#times').val();
+            location.href = '?'.split(window.location.href)[0] + 'shopname=' + shopname + '&times=' + times;
+        }
+
+        function searchtime() {
+            var shopname = $('#shopname').val();
+            $.ajax({
+                type: "post",
+                url: "{% url 'waste:searchtime' %}",
+                data: {
+                    'shopname': shopname,
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                },
+                success: function (data) {
+                    var times = $('#times');
+                    times.empty();
+                    times.append('<option value="">请选择核对时间</option>');
+
+                    $.each(data.info, function (key, value) {
+                        times.append('<option value="'+ value.zhenshi  +'">' + value.xianshi + '</option>')
+                    })
+                }
+            })
+        }
+    </script>
+{% endblock %}
+

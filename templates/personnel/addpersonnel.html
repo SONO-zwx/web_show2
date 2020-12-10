@@ -1,0 +1,346 @@
+{% extends 'parent_template/parent_template.html' %}
+
+{% load static %}
+
+{% block 人事模块-active %}
+    active
+{% endblock %}
+{% block 门店员工信息-active %}
+    active
+{% endblock %}
+
+{% block collapse3 %}
+collapse
+{% endblock %}
+{% block collapse1 %}
+collapse
+{% endblock %}
+{% block collapse2 %}
+collapse
+{% endblock %}
+{% block collapse4 %}
+collapse
+{% endblock %}
+{% block collapse6 %}
+collapse
+{% endblock %}
+{% block collapse7 %}
+
+{% endblock %}
+{% block collapse8 %}
+collapse
+{% endblock %}
+{% block collapse9 %}
+collapse
+{% endblock %}
+{% block collapse11 %}
+collapse
+{% endblock %}
+{% block collapse12 %}
+collapse
+{% endblock %}
+
+{% block body %}
+    <div class="dashboard-ecommerce">
+        <div class="container-fluid dashboard-content ">
+            <!-- ============================================================== -->
+            <!-- pageheader  -->
+            <!-- ============================================================== -->
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="page-header">
+                        <h2 class="pageheader-title">人事模块</h2>
+                        <div class="page-breadcrumb">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="#" class="breadcrumb-link">人事模块</a>
+                                    </li>
+                                    <li class="breadcrumb-item active" aria-current="page">门店员工信息
+                                    </li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <h5>
+                <a href="{% url 'personnel:personnel' %}"><span style="width: 100px;height: 30px;display: inline-block;text-align: center;line-height: 30px;">员工信息</span></a>
+                <a href="{% url 'personnel:addpersonnel' %}"><span style="width: 100px;height: 30px;display: inline-block;text-align: center;line-height: 30px;background-color: rgb(51, 122, 183);color: white;border: 1px solid grey;">添加员工信息</span></a>
+
+            </h5>
+            <div class="ecommerce-widget" id="div01" style="display: block">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="row">
+                        <div class="col-xl-8 col-lg-6 col-md-6" style="margin: 0 auto">
+                            <div class="card">
+                                <div class="card-body">
+                                    <table style="width: 100%" border="1" cellspacing="1" cellpadding="2">
+                                        <tr>
+                                            <td colspan="8">
+                                                <h3 style="text-align: center">员工信息</h3>
+                                            </td>
+                                        </tr>
+                                        <form action="{% url 'personnel:addpersonnel' %}" method="post">
+                                            {% csrf_token %}
+                                            <tr style="height: 50px">
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    员工姓名
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    <input type="text" class="form-control" name="staff_name"
+                                                           id="staff_name"
+                                                           value="{{ staffinfo.staff_name|default:'' }}">
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    所在门店
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    <input type="text" class="form-control" name="shopname"
+                                                           id="shopname" value="{{ staffinfo.shopname|default:'' }}">
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    职位
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    <input type="text" class="form-control" name="post" id="post"
+                                                           value="{{ staffinfo.post|default:'' }}">
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    员工类别
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    <input type="text" class="form-control" name="stafftype"
+                                                           id="stafftype" value="{{ staffinfo.stafftype|default:'' }}">
+                                                </td>
+                                            </tr>
+                                            <tr style="height: 50px">
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    证件类型
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    <input type="text" class="form-control" name="idtypes" id="idtypes"
+                                                           value="{{ staffinfo.idtypes|default:'' }}">
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    证件号码
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    <input type="text" class="form-control" name="idcard" id="idcard"
+                                                           value="{{ staffinfo.idcard|default:'' }}">
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    证件有效期开始日期
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    <input type="date" class="form-control" name="idcardstart"
+                                                           id="idcardstart" value="{{ staffinfo.idcardstart }}">
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    证件有效期截止日期
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    <input type="date" class="form-control" name="idcardend"
+                                                           id="idcardend" value="{{ staffinfo.idcardend }}">
+                                                </td>
+                                            </tr>
+                                            <tr style="height: 50px">
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    性别
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    <input type="text" class="form-control" name="gex" id="gex"
+                                                           value="{{ staffinfo.gex|default:'' }}">
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    国籍
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    <input type="text" class="form-control" name="nationality"
+                                                           id="nationality"
+                                                           value="{{ staffinfo.nationality|default:'' }}">
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    婚姻状况
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    <input type="text" class="form-control" name="marstatus"
+                                                           id="marstatus" value="{{ staffinfo.marstatus|default:'' }}">
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    民族
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    <input type="text" class="form-control" name="nation" id="nation"
+                                                           value="{{ staffinfo.nation|default:'' }}">
+                                                </td>
+                                            </tr>
+                                            <tr style="height: 50px">
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    政治面貌
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    <input type="text" class="form-control" name="politicsstatus"
+                                                           id="politicsstatus"
+                                                           value="{{ staffinfo.politicsstatus|default:'' }}">
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    籍贯
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    <input type="text" class="form-control" name="nativeplace"
+                                                           id="nativeplace"
+                                                           value="{{ staffinfo.nativeplace|default:'' }}">
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    户口类型
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    <input type="text" class="form-control" name="censustypes"
+                                                           id="censustypes"
+                                                           value="{{ staffinfo.censustypes|default:'' }}">
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    户口所在地
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    <input type="text" class="form-control" name="censuslocation"
+                                                           id="censuslocation"
+                                                           value="{{ staffinfo.censuslocation|default:'' }}">
+                                                </td>
+                                            </tr>
+                                            <tr style="height: 50px">
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    职工住地
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    <input type="text" class="form-control" name="staffhome"
+                                                           id="staffhome" value="{{ staffinfo.staffhome|default:'' }}">
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    出生日期
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    <input type="date" class="form-control" name="dateofbirth"
+                                                           id="dateofbirth"
+                                                           value="{{ staffinfo.dateofbirth|date:"Y-m-d" }}">
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    年龄
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    <input type="text" class="form-control" name="age" id="age"
+                                                           value="{{ staffinfo.age|default:'' }}">
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    入职日期
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    <input type="date" class="form-control" name="dateonboard"
+                                                           id="dateonboard"
+                                                           value="{{ staffinfo.dateonboard|date:"Y-m-d" }}">
+                                                </td>
+                                            </tr>
+                                            <tr style="height: 50px">
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    工龄
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    <input type="text" class="form-control" name="workingage"
+                                                           id="workingage"
+                                                           value="{{ staffinfo.workingage|default:'' }}">
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    合同到期日
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    <input type="date" class="form-control"
+                                                           name="contractexpirationdate" id="contractexpirationdate"
+                                                           value="{{ staffinfo.contractexpirationdate|date:"Y-m-d" }}">
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    未提交资料
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    <input type="text" class="form-control"
+                                                           name="unsubmittedinformation" id="unsubmittedinformation"
+                                                           value="{{ staffinfo.unsubmittedinformation|default:'' }}">
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    开户行
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    <input type="text" class="form-control" name="openingbank"
+                                                           id="openingbank"
+                                                           value="{{ staffinfo.openingbank|default:'' }}">
+                                                </td>
+                                            </tr>
+                                            <tr style="height: 50px">
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    银行卡号
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    <input type="text" class="form-control" name="bankid" id="bankid"
+                                                           value="{{ staffinfo.bankid|default:'' }}">
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    基本工资
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    <input type="text" class="form-control" name="office" id="office"
+                                                           value="{{ staffinfo.office|default:'' }}">
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    状态
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    <input type="text" class="form-control" name="status" id="status"
+                                                           value="{{ staffinfo.status|default:'' }}">
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    离职日期
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    <input type="date" class="form-control" name="departure_date"
+                                                           id="departure_date"
+                                                           value="{{ staffinfo.departure_date|date:"Y-m-d" }}">
+                                                </td>
+                                            </tr>
+                                            <tr style="height: 60px">
+                                                <td colspan="8" style="text-align: center">
+                                                    {% if staffinfo %}
+                                                        <input type="text" class="form-control" name="id"
+                                                               id="id" style="display: none"
+                                                               value="{{ staffinfo.id }}">
+                                                        <button type="button"
+                                                                onclick="submits()"
+                                                                style="width:140px;height:36px;line-height:18px;font-size:18px; color:#2ea8e5;padding-bottom:4px">
+                                                            修改
+                                                        </button>
+                                                    {% else %}
+                                                        <button type="button" onclick="submits()"
+                                                                style="width:140px;height:36px;line-height:18px;font-size:18px; color:#2ea8e5;padding-bottom:4px">
+                                                            添加
+                                                        </button>
+                                                    {% endif %}
+
+                                                </td>
+                                            </tr>
+                                        </form>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <script>
+        function submits() {
+            $('form').submit();
+        }
+    </script>
+
+{% endblock %}
+

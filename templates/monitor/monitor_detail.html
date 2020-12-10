@@ -1,0 +1,272 @@
+{% extends 'parent_template/parent_template.html' %}
+
+{% load static %}
+
+{% block 监控管理-active %}
+    active
+{% endblock %}
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'img/css/updateimg.css' %}">
+{% endblock %}
+{% block 列表统计-active %}
+    active
+{% endblock %}
+
+{% block collapse3 %}
+    collapse
+{% endblock %}
+{% block collapse1 %}
+    collapse
+{% endblock %}
+{% block collapse2 %}
+    collapse
+{% endblock %}
+{% block collapse4 %}
+    collapse
+{% endblock %}
+{% block collapse6 %}
+    collapse
+{% endblock %}
+{% block collapse7 %}
+    collapse
+{% endblock %}
+{% block collapse8 %}
+    collapse
+{% endblock %}
+{% block collapse9 %}
+    collapse
+{% endblock %}
+{% block collapse11 %}
+    collapse
+{% endblock %}
+{% block collapse12 %}
+    collapse
+{% endblock %}
+{% block collapse14 %}
+    collapse
+{% endblock %}
+{% block collapse15 %}
+
+{% endblock %}
+
+{% block body %}
+    <style>
+        .zhezhao {
+            position: fixed;
+            left: 0px;
+            top: 0px;
+            background: #000;
+            width: 100%;
+            height: 100%;
+        }
+
+        .tankuang {
+            position: relative;
+            background: #fff;
+            width: 50%;
+            height: 80%;
+            border-radius: 5px;
+            margin: 5% auto;
+        }
+
+        #header {
+            height: 40px;
+        }
+
+        #header-right {
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            border-radius: 5px;
+            background: red;
+            color: #fff;
+            right: 5px;
+            top: 5px;
+            text-align: center;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .fa {
+            width: 1000px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .top {
+            margin: 20px 0;
+        }
+
+        .top input {
+            width: 25px;
+            height: 25px;
+            border: 1px solid #fff;
+            border-radius: 4px;
+            background: #ddd;
+        }
+
+        .top .i1 {
+            background: #000000;
+        }
+
+        .top .i2 {
+            background: #FF0000;
+        }
+
+        .top .i3 {
+            background: #80FF00;
+        }
+
+        .top .i4 {
+            background: #00FFFF;
+        }
+
+        .top .i5 {
+            background: #808080;
+        }
+
+        .top .i6 {
+            background: #FF8000;
+        }
+
+        .top .i7 {
+            background: #408080;
+        }
+
+        .top .i8 {
+            background: #8000FF;
+        }
+
+        .top .i9 {
+            background: #CCCC00;
+        }
+
+        #canvas {
+            background: #eee;
+            cursor: default;
+        }
+
+        .font input {
+            font-size: 14px;
+        }
+
+        .top .grea {
+            background: #aaa;
+        }
+    </style>
+    <div class="dashboard-ecommerce">
+        <div class="container-fluid dashboard-content ">
+            <!-- ============================================================== -->
+            <!-- pageheader  -->
+            <!-- ============================================================== -->
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="page-header">
+                        <h2 class="pageheader-title">监控管理</h2>
+                        <div class="page-breadcrumb">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="#" class="breadcrumb-link">监控管理</a>
+                                    </li>
+                                    <li class="breadcrumb-item active" aria-current="page">当天选项卡
+                                    </li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid dashboard-content ">
+            <div style="border: 1px solid black;width: 1255px; height: 660px;margin-left: 118px;margin-top: -100px;">
+                {% for foo in info %}
+                    <div style="border: 1px solid grey;width: 400px;height: 300px;float:left;margin: 8px;">
+                        {% if foo.okpictures %}
+                            <div style="position:relative;width:400px;height:270px;">
+                                <img src="{{ foo.okpictures }}" alt="" width="400" height="270"
+                                 onclick="pic_handle({{ foo.id }})"/>
+                                <div style="position:absolute;width:400px;height:270px;z-indent:2;left:250px;top:230px; color: red; font-size: 20px" >
+                                    图片已处理
+                                </div>
+                            </div>
+
+                        {% else %}
+                            <img src="{{ foo.pictures }}" alt="" width="400" height="270"
+                                 onclick="pic_handle({{ foo.id }})">
+                        {% endif %}
+                        <div>
+                            <span style="text-align: center;display: block;line-height: 30px;">时间 {{ foo.dates|date:'Y-m-d' }}</span>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <nav aria-label="Page navigation">
+                <div class="pagination">
+                    <ul class="pagination">
+                        <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
+                        <li>当前页数：{{ info.number }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
+                        {% if info.has_previous %}
+                            <li>
+                                <a href="{% url 'monitor:monitor_detail' %}?id={{ id }}&num={{ num }}&fourreceiptspage={{ info.previous_page_number }}"
+                                   aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;&nbsp;&nbsp;</span></a>
+                            </li>
+                        {% endif %}
+
+                        {% for nums in info.paginator.page_range %}
+                            {% if nums == info.number|add:-1 or nums == info.number|add:-2 or nums == info.number|add:-3 or nums == info.number or nums == info.number|add:1 or nums == info.number|add:2 or nums == info.number|add:3 %}
+                                {% if nums == info.number %}
+                                    <li><a href="">{{ nums }}&nbsp;&nbsp;</a></li>
+                                {% else %}
+                                    <li>
+                                        <a href="{% url 'monitor:monitor_detail' %}?id={{ id }}&num={{ num }}&fourreceiptspage={{ nums }}">{{ nums }}&nbsp;&nbsp;</a>
+                                    </li>
+                                {% endif %}
+                            {% endif %}
+                        {% endfor %}
+
+                        {% if info.has_next %}
+                            <li>
+                                <a href="{% url 'monitor:monitor_detail' %}?id={{ id }}&num={{ num }}&fourreceiptspage={{ info.next_page_number }}"
+                                   aria-label="Next">
+                                    <span aria-hidden="true">&raquo;&nbsp;&nbsp;</span></a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </nav>
+            <div aria-label="Page navigation" style="margin-left: 29px;margin-top: -13px;">
+                <span>跳转至</span>
+                <input type="text" style="width: 30px;" class="jump">
+                <input type="hidden" value="{{ info.paginator.num_pages }}" class="hidden_val">
+                <span>页</span>
+                <input type="button" value="GO" onclick="jump_to()">
+            </div>
+        </div>
+    </div>
+    <script>
+        function jump_to() {
+            var href = $('.jump').val()
+            var num_pages = $('.hidden_val').val()
+            if (href === "" || href == null) {
+                alert('请输入正确的页码！')
+                return false
+            } else if (parseInt(href) > parseInt(num_pages)) {
+                location.href = '{% url 'monitor:monitor_detail' %}?id={{ id }}&num={{ num }}&fourreceiptspage=' + num_pages
+            } else if (num_pages === '') {
+                location.href = '{% url 'monitor:monitor_detail' %}?id={{ id }}&num={{ num }}&fourreceiptspage=' + 1
+            } else {
+                location.href = '{% url 'monitor:monitor_detail' %}?id={{ id }}&num={{ num }}&fourreceiptspage=' + href
+            }
+        }
+
+        function pic_handle(id) {
+            window.open("{% url 'monitor:handle_pic' %}?id=" + id)
+        }
+
+
+    </script>
+{% endblock %}

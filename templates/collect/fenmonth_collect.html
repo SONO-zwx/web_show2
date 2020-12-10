@@ -1,0 +1,590 @@
+{% extends 'parent_template/parent_template.html' %}
+{% load static %}
+
+{% block 运营状况-active %}
+    active
+{% endblock %}
+{% block 月报表分摊-active %}
+    active
+{% endblock %}
+
+{% block collapse3 %}
+    collapse
+{% endblock %}
+{% block collapse1 %}
+
+{% endblock %}
+{% block collapse2 %}
+    collapse
+{% endblock %}
+{% block collapse4 %}
+    collapse
+{% endblock %}
+{% block collapse6 %}
+    collapse
+{% endblock %}
+{% block collapse7 %}
+    collapse
+{% endblock %}
+{% block collapse8 %}
+    collapse
+{% endblock %}
+{% block collapse9 %}
+    collapse
+{% endblock %}
+{% block collapse11 %}
+    collapse
+{% endblock %}
+{% block collapse12 %}
+    collapse
+{% endblock %}
+
+
+
+
+
+{% block body %}
+    <div class="dashboard-ecommerce">
+        <div class="container-fluid dashboard-content ">
+            <!-- ============================================================== -->
+            <!-- pageheader  -->
+            <!-- ============================================================== -->
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="page-header">
+                        <h2 class="pageheader-title">月报表</h2>
+                        <div class="page-breadcrumb">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="#" class="breadcrumb-link">运营状况</a>
+                                    </li>
+                                    <li class="breadcrumb-item active" aria-current="page">月报表
+                                    </li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <form action="{% url 'collect:fenmonth_collect' %}" method="post">
+                <div class="row">
+
+                    <div class="card" style="height: 40px;width: 253px; margin: 10px 5px;">
+                        <div class="form-group row" style="width: 362px;">
+                            <label class="col-12 col-sm-3 col-form-label text-sm-right"
+                                   style="line-height: 5px;">&emsp;开始日期</label>
+                            <div class="col-12 col-sm-8 col-lg-6" style="margin-top: -10px">
+                                <input type="date" class="form-control" name="starttime" id="starttime"
+                                       value="{{ searchinfo.starttime }}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card" style="height: 40px;width: 250px; margin: 10px 5px;">
+                        <div class="form-group" style="width: 250px;">
+                            <span style="margin-left: 12px;margin-top: 10px;display: inline-block;font-size: 15px;">截止日期</span>
+                            <div style="margin-top: -30px;margin-left: 80px;width: 155px;">
+                                <input type="date" class="form-control" name="endtime" id="endtime"
+                                       value="{{ searchinfo.endtime }}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card" style="height: 40px;width: 250px; margin: 10px 5px;">
+                        <div class="form-group" style="width: 250px;">
+                            <span style="margin-left: 12px;margin-top: 10px;display: inline-block;font-size: 15px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;门&nbsp;&nbsp;店</span>
+                            <div style="margin-top: -30px;margin-left: 80px;width: 155px;">
+                                <select name="shopname" id="shopname" class="form-control text-sm-center"
+                                        style="width: 92%;margin-left: 10px;">
+                                    <option value="">请选择门店</option>
+                                    {% for ShopName in ShopNames %}
+                                        {% if searchinfo.shopname == ShopName.shopname %}
+                                            <option value="{{ ShopName.shopname }}"
+                                                    selected>{{ ShopName.shopname }}</option>
+                                        {% else %}
+                                            <option value="{{ ShopName.shopname }}">{{ ShopName.shopname }}</option>
+                                        {% endif %}
+
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card" style="height: 40px;width: 250px; margin: 10px 5px;">
+                        <div class="form-group" style="width: 250px;">
+                            <span style="margin-left: 12px;margin-top: 10px;display: inline-block;font-size: 15px;">&nbsp;是&nbsp;否&nbsp;保&nbsp;存</span>
+                            <div style="margin-top: -30px;margin-left: 80px;width: 155px;">
+                                <select name="save" id="save" class="form-control text-sm-center"
+                                        style="width: 92%;margin-left: 10px;">
+                                    <option value="">请选择</option>
+                                    <option value="ok">查询并保存</option>
+                                    <option value="no">仅查询</option>
+
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card" style="width: 70px;height: 37px; margin: 10px 5px;">
+
+                        <button type="submit" class="btn btn-success"
+                                style="width: 70px;height: 37px;">确认
+                        </button>
+
+                    </div>
+                    <div class="card" style="width: 70px;height: 37px; margin: 10px 5px;">
+                        <button type="button" class="btn btn-warning"
+                                style="width: 70px;height: 37px;color: white;"
+                                onclick="export_xlsx('tableExcel', '月报表')">导出
+                        </button>
+                    </div>
+
+                </div>
+
+
+            </form>
+
+            <div class="col-xl-12 col-lg-12 col-md-6 col-sm-12 col-12">
+                <div class="row">
+                    <div class="col-xl-8 col-lg-6 col-md-6" style="margin: 0 auto">
+                        <div class="card">
+                            <div class="card-body">
+
+                                <input type="text" style="display: none" id="allpriceinfo" name="allpriceinfo"
+                                       value="">
+
+                                <table style="width: 100%" border="1" cellspacing="1" cellpadding="2" id="tableExcel">
+                                    <tr style="height: 40px">
+                                        <td colspan="6">
+                                            <h3 style="text-align: center; line-height: 40px;">门店资金流动月报表</h3>
+                                        </td>
+                                    </tr>
+                                    <tr style="height: 40px">
+                                        <td class="text-sm-center" style="width: 12.5%">
+                                            开始时间
+                                        </td>
+                                        <td class="text-sm-center" style="width: 12.5%">
+                                            {{ searchinfo.starttime }}
+                                        </td>
+                                        <td class="text-sm-center" style="width: 12.5%">
+                                            结束时间
+                                        </td>
+                                        <td class="text-sm-center" style="width: 12.5%">
+                                            {{ searchinfo.endtime }}
+                                        </td>
+                                        <td class="text-sm-center" style="width: 12.5%">
+                                            门店
+                                        </td>
+                                        <td class="text-sm-center" style="width: 12.5%">
+                                            {{ searchinfo.shopname }}
+                                        </td>
+
+                                    </tr>
+                                    <tr style="height: 80px">
+                                        <td class="text-sm-center" colspan="6">
+                                            收入类
+                                        </td>
+                                    </tr>
+                                    <tr style="height: 40px">
+                                        <td class="text-sm-center" style="width: 12.5%">
+                                            收入类
+                                        </td>
+                                        <td class="text-sm-center" style="width: 12.5%" colspan="2">
+                                            金额
+                                        </td>
+
+                                        <td class="text-sm-center" style="width: 12.5%">
+                                            合计
+                                        </td>
+                                        <td class="text-sm-center" style="width: 12.5%" colspan="2">
+                                            金额
+                                        </td>
+
+                                    </tr>
+                                    <tr style="height: 40px">
+                                        <td class="text-sm-center" style="width: 12.5%">
+                                            毛利润收入
+                                        </td>
+                                        <td class="text-sm-center" style="width: 12.5%" colspan="2">
+
+                                        </td>
+                                        <td class="text-sm-center" style="width: 12.5%" rowspan="2">
+                                            收入合计
+                                        </td>
+                                        <td class="text-sm-center" style="width: 12.5%" rowspan="2" colspan="2">
+
+                                        </td>
+
+                                    </tr>
+                                    <tr style="height: 40px">
+                                        <td class="text-sm-center" style="width: 12.5%">
+                                            快修云
+                                        </td>
+                                        <td class="text-sm-center" style="width: 12.5%" colspan="2">
+
+                                        </td>
+                                    </tr>
+
+                                    <tr style="height: 40px">
+                                        <td class="text-sm-center" style="width: 12.5%">
+                                            <a href="{% url 'collect:fenxiangqing' %}?type=收入类&starttime={{ searchinfo.starttime }}&endtime={{ searchinfo.endtime }}&project=危废收入&shopname={{ searchinfo.shopname }}">危废销售</a>
+                                        </td>
+                                        <td class="text-sm-center" style="width: 12.5%" colspan="2">
+                                            ￥{{ nowinfo.危废收入|floatformat:"2" }}
+                                        </td>
+                                        <td class="text-sm-center" style="width: 12.5%">
+                                            成本合计
+                                        </td>
+                                        <td class="text-sm-center" style="width: 12.5%" colspan="2">
+                                            ￥{{ nowinfo.成本合计|floatformat:"2" }}
+                                        </td>
+
+                                    </tr>
+                                    <tr style="height: 40px">
+                                        <td class="text-sm-center" style="width: 12.5%">
+                                            <a href="{% url 'collect:fenxiangqing' %}?type=收入类&starttime={{ searchinfo.starttime }}&endtime={{ searchinfo.endtime }}&project=其他收入&shopname={{ searchinfo.shopname }}">其他收入</a>
+                                        </td>
+                                        <td class="text-sm-center" style="width: 12.5%" colspan="2">
+                                            ￥{{ nowinfo.其他收入|floatformat:"2" }}
+                                        </td>
+                                        <td class="text-sm-center" style="width: 12.5%">
+                                            税前账面利润
+                                        </td>
+                                        <td class="text-sm-center" style="width: 12.5%" colspan="2">
+
+                                        </td>
+
+                                    </tr>
+                                    <tr style="height: 40px">
+                                        <td class="text-sm-center" style="width: 12.5%">
+                                            <a href="{% url 'collect:fenxiangqing' %}?type=收入类&starttime={{ searchinfo.starttime }}&endtime={{ searchinfo.endtime }}&project=应收金额&shopname={{ searchinfo.shopname }}">应收金额</a>
+                                        </td>
+                                        <td class="text-sm-center" style="width: 12.5%" colspan="2">
+                                            ￥{{ nowinfo.应收金额|floatformat:"2" }}
+                                        </td>
+                                        <td class="text-sm-center" style="width: 12.5%">
+                                            应付款
+                                        </td>
+                                        <td class="text-sm-center" style="width: 12.5%" colspan="2">
+                                            ￥{{ nowinfo.应付收入|floatformat:"2" }}
+                                        </td>
+                                    </tr>
+                                    <tr style="height: 80px;">
+                                        <td class="text-sm-center" style="width: 12.5%" colspan="6">支出类</td>
+
+                                    </tr>
+                                    <tr>
+                                        <td class="text-sm-center" style="width: 12.5%" colspan="2">
+                                            <table style="width: 100%" border="1" cellspacing="1" cellpadding="2"
+                                                   id="table001">
+                                                <tr>
+                                                    <td class="text-sm-center" style="width: 12.5%">分类</td>
+                                                    <td class="text-sm-center" style="width: 12.5%">项目名称</td>
+                                                    <td class="text-sm-center" style="width: 12.5%">金额</td>
+                                                </tr>
+                                                {% for info in nowinfo.one %}
+                                                    <tr style="height: 35px">
+                                                        <td class="text-sm-center"
+                                                            style="width: 50%">{{ info.一级分类 }}</td>
+                                                        <td class="text-sm-center"
+                                                            style="width: 50%">
+                                                            <a href="{% url 'collect:fenxiangqing' %}?type=支出类&starttime={{ searchinfo.starttime }}&endtime={{ searchinfo.endtime }}&project={{ info.二级分类 }}&shopname={{ searchinfo.shopname }}">{{ info.二级分类 }}</a>
+                                                        </td>
+                                                        <td class="text-sm-center" style="width: 50%">
+                                                            ￥{{ info.金额|floatformat:"2" }}</td>
+                                                    </tr>
+                                                {% endfor %}
+
+
+                                            </table>
+                                        </td>
+                                        <td class="text-sm-center" style="width: 12.5%" colspan="2">
+                                            <table style="width: 100%" border="1" cellspacing="1" cellpadding="2"
+                                                   id="table002">
+                                                <tr>
+                                                    <td class="text-sm-center" style="width: 12.5%">分类</td>
+                                                    <td class="text-sm-center" style="width: 12.5%">项目名称</td>
+                                                    <td class="text-sm-center" style="width: 12.5%">金额</td>
+                                                </tr>
+                                                {% for info in nowinfo.two %}
+                                                    <tr style="height: 35px">
+                                                        <td class="text-sm-center"
+                                                            style="width: 50%">{{ info.一级分类 }}</td>
+                                                        <td class="text-sm-center"
+                                                            style="width: 50%">
+                                                            <a href="{% url 'collect:fenxiangqing' %}?type=支出类&starttime={{ searchinfo.starttime }}&endtime={{ searchinfo.endtime }}&project={{ info.二级分类 }}&shopname={{ searchinfo.shopname }}">{{ info.二级分类 }}</a>
+                                                        </td>
+                                                        <td class="text-sm-center" style="width: 50%">
+                                                            ￥{{ info.金额|floatformat:"2" }}</td>
+                                                    </tr>
+                                                {% endfor %}
+                                            </table>
+                                        </td>
+                                        <td class="text-sm-center" style="width: 12.5%" colspan="2">
+                                            <table style="width: 100%" border="1" cellspacing="1" cellpadding="2"
+                                                   id="table003">
+                                                <tr>
+                                                    <td class="text-sm-center" style="width: 12.5%">分类</td>
+                                                    <td class="text-sm-center" style="width: 12.5%">项目名称</td>
+                                                    <td class="text-sm-center" style="width: 12.5%">金额</td>
+                                                </tr>
+                                                {% for info in nowinfo.three %}
+                                                    <tr style="height: 35px">
+                                                        <td class="text-sm-center"
+                                                            style="width: 50%">{{ info.一级分类 }}</td>
+                                                        <td class="text-sm-center"
+                                                            style="width: 50%">
+                                                            <a href="{% url 'collect:fenxiangqing' %}?type=支出类&starttime={{ searchinfo.starttime }}&endtime={{ searchinfo.endtime }}&project={{ info.二级分类 }}&shopname={{ searchinfo.shopname }}">{{ info.二级分类 }}</a>
+                                                        </td>
+                                                        <td class="text-sm-center" style="width: 50%">
+                                                            ￥{{ info.金额|floatformat:"2" }}</td>
+                                                    </tr>
+                                                {% endfor %}
+                                            </table>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="6">
+                                            <table style="width: 100%" border="1" cellspacing="1" cellpadding="2">
+                                                <tr style="height: 40px">
+                                                    <td style="width: 12%" class="text-sm-center">分类</td>
+                                                    {% for foo in nowinfo.chengbenxiaoji.0.values %}
+                                                        <td style="width: 12%" class="text-sm-center">
+                                                            {{ foo }}
+                                                        </td>
+                                                    {% endfor %}
+
+                                                </tr>
+                                                <tr style="height: 40px">
+                                                    <td style="width: 12%" class="text-sm-center">小计</td>
+                                                    {% for foo in nowinfo.chengbenxiaoji.1.values %}
+                                                        <td style="width: 12%" class="text-sm-center">
+                                                            ￥{{ foo|floatformat:"2" }}
+                                                        </td>
+                                                    {% endfor %}
+
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                    <tr style="height: 80px;">
+                                        <td class="text-sm-center" style="width: 12.5%" colspan="6">应付类</td>
+
+                                    </tr>
+                                    <tr>
+                                        <td class="text-sm-center" style="width: 12.5%" colspan="2">
+                                            <table style="width: 100%" border="1" cellspacing="1" cellpadding="2"
+                                                   id="table004">
+                                                <tr>
+                                                    <td class="text-sm-center" style="width: 12.5%">分类</td>
+                                                    <td class="text-sm-center" style="width: 12.5%">项目名称</td>
+                                                    <td class="text-sm-center" style="width: 12.5%">金额</td>
+                                                </tr>
+                                                {% for info in nowinfo.daione %}
+                                                    <tr style="height: 35px">
+                                                        <td class="text-sm-center"
+                                                            style="width: 50%">{{ info.一级分类 }}</td>
+                                                        <td class="text-sm-center"
+                                                            style="width: 50%">
+                                                            <a href="{% url 'collect:fenxiangqing' %}?type=应付类&starttime={{ searchinfo.starttime }}&endtime={{ searchinfo.endtime }}&project={{ info.二级分类 }}&shopname={{ searchinfo.shopname }}">{{ info.二级分类 }}</a>
+                                                        </td>
+                                                        <td class="text-sm-center" style="width: 50%">
+                                                            ￥{{ info.金额|floatformat:"2" }}</td>
+                                                    </tr>
+                                                {% endfor %}
+
+
+                                            </table>
+                                        </td>
+                                        <td class="text-sm-center" style="width: 12.5%" colspan="2">
+                                            <table style="width: 100%" border="1" cellspacing="1" cellpadding="2"
+                                                   id="table005">
+                                                <tr>
+                                                    <td class="text-sm-center" style="width: 12.5%">分类</td>
+                                                    <td class="text-sm-center" style="width: 12.5%">项目名称</td>
+                                                    <td class="text-sm-center" style="width: 12.5%">金额</td>
+                                                </tr>
+                                                {% for info in nowinfo.daitwo %}
+                                                    <tr style="height: 35px">
+                                                        <td class="text-sm-center"
+                                                            style="width: 50%">{{ info.一级分类 }}</td>
+                                                        <td class="text-sm-center"
+                                                            style="width: 50%">
+                                                            <a href="{% url 'collect:fenxiangqing' %}?type=应付类&starttime={{ searchinfo.starttime }}&endtime={{ searchinfo.endtime }}&project={{ info.二级分类 }}&shopname={{ searchinfo.shopname }}">{{ info.二级分类 }}</a>
+                                                        </td>
+                                                        <td class="text-sm-center" style="width: 50%">
+                                                            ￥{{ info.金额|floatformat:"2" }}</td>
+                                                    </tr>
+                                                {% endfor %}
+                                            </table>
+                                        </td>
+                                        <td class="text-sm-center" style="width: 12.5%" colspan="2">
+                                            <table style="width: 100%" border="1" cellspacing="1" cellpadding="2"
+                                                   id="table006">
+                                                <tr>
+                                                    <td class="text-sm-center" style="width: 12.5%">分类</td>
+                                                    <td class="text-sm-center" style="width: 12.5%">项目名称</td>
+                                                    <td class="text-sm-center" style="width: 12.5%">金额</td>
+                                                </tr>
+                                                {% for info in nowinfo.daithree %}
+                                                    <tr style="height: 35px">
+                                                        <td class="text-sm-center"
+                                                            style="width: 50%">{{ info.一级分类 }}</td>
+                                                        <td class="text-sm-center"
+                                                            style="width: 50%">
+                                                            <a href="{% url 'collect:fenxiangqing' %}?type=应付类&starttime={{ searchinfo.starttime }}&endtime={{ searchinfo.endtime }}&project={{ info.二级分类 }}&shopname={{ searchinfo.shopname }}">{{ info.二级分类 }}</a>
+                                                        </td>
+                                                        <td class="text-sm-center" style="width: 50%">
+                                                            ￥{{ info.金额|floatformat:"2" }}</td>
+                                                    </tr>
+                                                {% endfor %}
+                                            </table>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="6">
+                                            <table style="width: 100%" border="1" cellspacing="1" cellpadding="2">
+                                                <tr style="height: 40px">
+                                                    <td style="width: 12%" class="text-sm-center">分类</td>
+                                                    {% for foo in nowinfo.xiaoji.0.values %}
+                                                        <td style="width: 12%" class="text-sm-center">
+                                                            {{ foo }}
+                                                        </td>
+                                                    {% endfor %}
+                                                </tr>
+                                                <tr style="height: 40px">
+                                                    <td style="width: 12%" class="text-sm-center">小计</td>
+                                                    {% for foo in nowinfo.xiaoji.1.values %}
+                                                        <td style="width: 12%" class="text-sm-center">
+                                                            ￥{{ foo|floatformat:"2" }}
+                                                        </td>
+                                                    {% endfor %}
+
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                    <tr style="height: 80px;">
+                                        <td class="text-sm-center" style="width: 12.5%" colspan="6">应收类</td>
+
+                                    </tr>
+                                    <tr>
+                                        <td class="text-sm-center" style="width: 12.5%" colspan="2">
+                                            <table style="width: 100%" border="1" cellspacing="1" cellpadding="2"
+                                                   id="table004">
+                                                <tr>
+                                                    <td class="text-sm-center" style="width: 12.5%">分类</td>
+                                                    <td class="text-sm-center" style="width: 12.5%">项目名称</td>
+                                                    <td class="text-sm-center" style="width: 12.5%">金额</td>
+                                                </tr>
+                                                {% for info in nowinfo.yinone %}
+                                                    <tr style="height: 35px">
+                                                        <td class="text-sm-center"
+                                                            style="width: 50%">{{ info.一级分类 }}</td>
+                                                        <td class="text-sm-center"
+                                                            style="width: 50%">
+                                                            <a href="{% url 'collect:fenxiangqing' %}?type=应收类&starttime={{ searchinfo.starttime }}&endtime={{ searchinfo.endtime }}&project={{ info.二级分类 }}&shopname={{ searchinfo.shopname }}">{{ info.二级分类 }}</a>
+                                                        </td>
+                                                        <td class="text-sm-center" style="width: 50%">
+                                                            ￥{{ info.金额|floatformat:"2" }}</td>
+                                                    </tr>
+                                                {% endfor %}
+
+
+                                            </table>
+                                        </td>
+                                        <td class="text-sm-center" style="width: 12.5%" colspan="2">
+                                            <table style="width: 100%" border="1" cellspacing="1" cellpadding="2"
+                                                   id="table005">
+                                                <tr>
+                                                    <td class="text-sm-center" style="width: 12.5%">分类</td>
+                                                    <td class="text-sm-center" style="width: 12.5%">项目名称</td>
+                                                    <td class="text-sm-center" style="width: 12.5%">金额</td>
+                                                </tr>
+                                                {% for info in nowinfo.yintwo %}
+                                                    <tr style="height: 35px">
+                                                        <td class="text-sm-center"
+                                                            style="width: 50%">{{ info.一级分类 }}</td>
+                                                        <td class="text-sm-center"
+                                                            style="width: 50%">
+                                                            <a href="{% url 'collect:fenxiangqing' %}?type=应收类&starttime={{ searchinfo.starttime }}&endtime={{ searchinfo.endtime }}&project={{ info.二级分类 }}&shopname={{ searchinfo.shopname }}">{{ info.二级分类 }}</a>
+                                                        </td>
+                                                        <td class="text-sm-center" style="width: 50%">
+                                                            ￥{{ info.金额|floatformat:"2" }}</td>
+                                                    </tr>
+                                                {% endfor %}
+                                            </table>
+                                        </td>
+                                        <td class="text-sm-center" style="width: 12.5%" colspan="2">
+                                            <table style="width: 100%" border="1" cellspacing="1" cellpadding="2"
+                                                   id="table006">
+                                                <tr>
+                                                    <td class="text-sm-center" style="width: 12.5%">分类</td>
+                                                    <td class="text-sm-center" style="width: 12.5%">项目名称</td>
+                                                    <td class="text-sm-center" style="width: 12.5%">金额</td>
+                                                </tr>
+                                                {% for info in nowinfo.yinthree %}
+                                                    <tr style="height: 35px">
+                                                        <td class="text-sm-center"
+                                                            style="width: 50%">{{ info.一级分类 }}</td>
+                                                        <td class="text-sm-center"
+                                                            style="width: 50%">
+                                                            <a href="{% url 'collect:fenxiangqing' %}?type=应收类&starttime={{ searchinfo.starttime }}&endtime={{ searchinfo.endtime }}&project={{ info.二级分类 }}&shopname={{ searchinfo.shopname }}">{{ info.二级分类 }}</a>
+                                                        </td>
+                                                        <td class="text-sm-center" style="width: 50%">
+                                                            ￥{{ info.金额|floatformat:"2" }}</td>
+                                                    </tr>
+                                                {% endfor %}
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </table>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="{% static 'assets/libs/js/export_utils.js' %}" type='text/javascript'></script>
+    <script>
+        /**
+         * 合并单元格(如果结束行传0代表合并所有行)
+         * @param table1    表格的ID
+         * @param startRow  起始行
+         * @param endRow    结束行
+         * @param col   合并的列号，对第几列进行合并(从0开始)。第一行从0开始
+         */
+        function mergeCell(table1, startRow, endRow, col) {
+            var tb = document.getElementById(table1);
+            if (!tb || !tb.rows || tb.rows.length <= 0) {
+                return;
+            }
+            if (col >= tb.rows[0].cells.length || (startRow >= endRow && endRow != 0)) {
+                return;
+            }
+            if (endRow == 0) {
+                endRow = tb.rows.length - 1;
+            }
+            for (var i = startRow; i < endRow; i++) {
+                if (tb.rows[startRow].cells[col].innerHTML == tb.rows[i + 1].cells[col].innerHTML) { //如果相等就合并单元格,合并之后跳过下一行
+                    tb.rows[i + 1].removeChild(tb.rows[i + 1].cells[col]);
+                    tb.rows[startRow].cells[col].rowSpan = (tb.rows[startRow].cells[col].rowSpan) + 1;
+                } else {
+                    mergeCell(table1, i + 1, endRow, col);
+                    break;
+                }
+            }
+        }
+    </script>
+    <script>
+        window.onload = mergeCell('table001', 0, 0, 0);
+        window.onload = mergeCell('table002', 0, 0, 0);
+        window.onload = mergeCell('table003', 0, 0, 0);
+        window.onload = mergeCell('table004', 0, 0, 0);
+        window.onload = mergeCell('table005', 0, 0, 0);
+        window.onload = mergeCell('table006', 0, 0, 0);
+    </script>
+{% endblock %}
+

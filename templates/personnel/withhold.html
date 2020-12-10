@@ -1,0 +1,363 @@
+{% extends 'parent_template/parent_template.html' %}
+
+{% load static %}
+
+{% block 人事模块-active %}
+    active
+{% endblock %}
+
+{% block 扣款明细-active %}
+    active
+{% endblock %}
+
+{% block collapse3 %}
+    collapse
+{% endblock %}
+{% block collapse1 %}
+    collapse
+{% endblock %}
+{% block collapse2 %}
+    collapse
+{% endblock %}
+{% block collapse4 %}
+    collapse
+{% endblock %}
+{% block collapse6 %}
+    collapse
+{% endblock %}
+{% block collapse7 %}
+
+{% endblock %}
+{% block collapse8 %}
+    collapse
+{% endblock %}
+{% block collapse9 %}
+    collapse
+{% endblock %}
+{% block collapse11 %}
+    collapse
+{% endblock %}
+{% block collapse12 %}
+    collapse
+{% endblock %}
+
+{% block body %}
+    <div class="dashboard-ecommerce">
+        <div class="container-fluid dashboard-content ">
+            <!-- ============================================================== -->
+            <!-- pageheader  -->
+            <!-- ============================================================== -->
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="page-header">
+                        <h2 class="pageheader-title">人事模块</h2>
+                        <div class="page-breadcrumb">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="#" class="breadcrumb-link">人事模块</a>
+                                    </li>
+                                    <li class="breadcrumb-item active" aria-current="page">未达标明细
+                                    </li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <h5>
+                <a href="{% url 'personnel:withhold' %}"><span
+                        style="width: 100px;height: 30px;display: inline-block;text-align: center;line-height: 30px;background-color: rgb(51, 122, 183);color: white;border: 1px solid grey;">未达标明细</span></a>
+                {% if 'personnel:addwithhold' in limits %}
+                    <a href="{% url 'personnel:addwithhold' %}"><span style="width: 100px;height: 30px;display: inline-block;text-align: center;line-height: 30px;">添加未达标明细</span></a>
+                {% endif %}
+            </h5>
+            <div class="row">
+                <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
+                    <div class="card" style="height: 40px;width: 253px;">
+                        <div class="form-group row" style="width: 362px;">
+                            <label class="col-12 col-sm-3 col-form-label text-sm-right"
+                                   style="line-height: 5px;">&emsp;开始日期</label>
+                            <div class="col-12 col-sm-8 col-lg-6" style="margin-top: -10px">
+                                <input type="date" class="form-control" name="starttime" id="starttime"
+                                       value="{{ search_info.starttime }}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card" style="height: 40px;width: 250px;margin-left: -124px;">
+                    <div class="form-group" style="width: 250px;">
+                        <span style="margin-left: 12px;margin-top: 10px;display: inline-block;font-size: 15px;">截止日期</span>
+                        <div style="margin-top: -30px;margin-left: 80px;width: 155px;">
+                            <input type="date" class="form-control" name="endtime" id="endtime"
+                                   value="{{ search_info.endtime }}">
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <select name="shopname" id="shopname" class="form-control text-sm-center"
+                            style="width: 120px;margin-left: 10px;">
+                        <option>请选择门店</option>
+                        {% for shopname in ShopNames %}
+                            {% if search_info.shopname == shopname.shopname %}
+                                <option selected="selected">{{ shopname.shopname }}</option>
+                            {% else %}
+                                <option>{{ shopname.shopname }}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                    <select name="status" id="status" class="form-control text-sm-center"
+                            style="width: 120px;margin-left: 137px;margin-top: -38px;">
+                        <option>请选择状态</option>
+                        {% for foo in status %}
+                            <option>{{ foo }}</option>
+                        {% endfor %}
+
+                    </select>
+                </div>
+                <div style="margin-left: 10px;">
+                    <button type="button" class="btn btn-success" style="width: 70px;height: 37px;"
+                            onclick="searchinfo()">确认
+                    </button>&emsp;
+                </div>
+            </div>
+
+            <div class="ecommerce-widget" id="div01" style="display: block">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="row">
+                        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-12">
+                            <div class="card">
+                                <h5 class="card-header">员工绩效</h5>
+                                <div class="card-body">
+                                    <table class="table">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col">项目</th>
+                                            <th scope="col">分值</th>
+                                            <th scope="col">姓名</th>
+                                            <th scope="col">状态</th>
+                                            <th scope="col">时间</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for withholdinfo in withhold %}
+                                            <tr>
+                                                <td>
+                                                    <a href="{% url 'personnel:withhold' %}?withholdid={{ withholdinfo.id }}&withholdpage={{ withhold.number }}&shopname={{ search_info.shopname }}&starttime={{ search_info.starttime }}&endtime={{ search_info.endtime }}&status={{ search_info.status }}">{{ withholdinfo.project|default:'' }}</a>
+                                                </td>
+                                                <td>
+                                                    <a href="{% url 'personnel:withhold' %}?withholdid={{ withholdinfo.id }}&withholdpage={{ withhold.number }}&shopname={{ search_info.shopname }}&starttime={{ search_info.starttime }}&endtime={{ search_info.endtime }}&status={{ search_info.status }}">{{ withholdinfo.price|default:'' }}</a>
+                                                </td>
+                                                <td>
+                                                    <a href="{% url 'personnel:withhold' %}?withholdid={{ withholdinfo.id }}&withholdpage={{ withhold.number }}&shopname={{ search_info.shopname }}&starttime={{ search_info.starttime }}&endtime={{ search_info.endtime }}&status={{ search_info.status }}">{{ withholdinfo.staffname|default:'' }}</a>
+                                                </td>
+                                                <td>
+                                                    <a href="{% url 'personnel:withhold' %}?withholdid={{ withholdinfo.id }}&withholdpage={{ withhold.number }}&shopname={{ search_info.shopname }}&starttime={{ search_info.starttime }}&endtime={{ search_info.endtime }}&status={{ search_info.status }}">{{ withholdinfo.status|default:'' }}</a>
+                                                </td>
+                                                <td>
+                                                    <a href="{% url 'personnel:withhold' %}?withholdid={{ withholdinfo.id }}&withholdpage={{ withhold.number }}&shopname={{ search_info.shopname }}&starttime={{ search_info.starttime }}&endtime={{ search_info.endtime }}&status={{ search_info.status }}">{{ withholdinfo.datatimes|date:'Y-m-d H:i' }}</a>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                                <nav aria-label="Page navigation">
+                                    <div class="pagination">
+                                        <ul class="pagination">
+                                            <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
+                                            <li>当前页数：{{ withhold.number }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
+                                            {% if withhold.has_previous %}
+                                                <li>
+                                                    <a href="{% url 'personnel:withhold' %}?withholdpage={{ withhold.previous_page_number }}&shopname={{ search_info.shopname }}&starttime={{ search_info.starttime }}&endtime={{ search_info.endtime }}&status={{ search_info.status }}"
+                                                       aria-label="Previous"><span aria-hidden="true">&laquo;&nbsp;&nbsp;</span></a>
+                                                </li>
+                                            {% endif %}
+
+                                            {% for num in withhold.paginator.page_range %}
+                                                {% if num == withhold.number|add:-1 or num == withhold.number|add:-2 or num == withhold.number|add:-3 or num == withhold.number or num == withhold.number|add:1 or num == withhold.number|add:2 or num == withhold.number|add:3 %}
+                                                    {% if num == withhold.number %}
+                                                        <li><a href="">{{ num }}&nbsp;&nbsp;</a></li>
+                                                    {% else %}
+                                                        <li>
+                                                            <a href="{% url 'personnel:withhold' %}?withholdpage={{ num }}&shopname={{ search_info.shopname }}&starttime={{ search_info.starttime }}&endtime={{ search_info.endtime }}&status={{ search_info.status }}">{{ num }}&nbsp;&nbsp;</a>
+                                                        </li>
+                                                    {% endif %}
+                                                {% endif %}
+                                            {% endfor %}
+
+                                            {% if withhold.has_next %}
+                                                <li>
+                                                    <a href="{% url 'personnel:withhold' %}?withholdpage={{ withhold.next_page_number }}&shopname={{ search_info.shopname }}&starttime={{ search_info.starttime }}&endtime={{ search_info.endtime }}&status={{ search_info.status }}"
+                                                       aria-label="Next">
+                                                        <span aria-hidden="true">&raquo;&nbsp;&nbsp;</span></a></li>
+                                            {% endif %}
+                                        </ul>
+                                    </div>
+                                </nav>
+                                <div aria-label="Page navigation" style="margin-left: 29px;margin-top: -13px;">
+                                    <span>跳转至</span>
+                                    <input type="text" style="width: 30px;" class="jump">
+                                    <input type="hidden" value="{{ info.paginator.num_pages }}" class="hidden_val">
+                                    <span>页</span>
+                                    <input type="button" value="GO" onclick="jump_to()">
+                                </div>
+                            </div>
+                        </div>
+                        {% if withholdinfo %}
+                            <div class="col-xl-8 col-lg-6 col-md-6" style="margin: 0 auto">
+                                <div class="card">
+                                    <h5 class="card-header">绩效项目</h5>
+                                    <div class="card-body">
+                                                                            <div class="form-group row">
+                                            <label class="col-12 col-sm-3 col-form-label text-sm-right">门&nbsp;&nbsp;店</label>
+                                            <div class="col-12 col-sm-8 col-lg-6">
+                                                <input required readonly type="text" class="form-control"
+                                                       name="shopname"
+                                                       id="shopname"
+                                                       value="{{ withholdinfo.shopname }}">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-12 col-sm-3 col-form-label text-sm-right">绩&nbsp;效&nbsp;类&nbsp;别</label>
+                                            <div class="col-12 col-sm-8 col-lg-6">
+                                                <input required readonly type="text" class="form-control" name="project"
+                                                       id="project"
+                                                       value="{{ withholdinfo.project }}">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-12 col-sm-3 col-form-label text-sm-right">员&nbsp;工&nbsp;姓&nbsp;名</label>
+                                            <div class="col-12 col-sm-8 col-lg-6">
+                                                <input required readonly type="text" class="form-control"
+                                                       name="staffname"
+                                                       id="staffname"
+                                                       value="{{ withholdinfo.staffname }}">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-12 col-sm-3 col-form-label text-sm-right">分&nbsp;值</label>
+                                            <div class="col-12 col-sm-8 col-lg-6">
+                                                <input required readonly type="text" class="form-control" name="price"
+                                                       id="price"
+                                                       value="{{ withholdinfo.price }}">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label class="col-12 col-sm-3 col-form-label text-sm-right">说&nbsp;明&nbsp;备&nbsp;注</label>
+                                            <div class="col-12 col-sm-8 col-lg-6">
+                                                <input required readonly type="text" class="form-control" name="remark"
+                                                       id="remark"
+                                                       value="{{ withholdinfo.remark }}">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-12 col-sm-3 col-form-label text-sm-right">扣&nbsp;款&nbsp;时&nbsp;间</label>
+                                            <div class="col-12 col-sm-8 col-lg-6">
+                                                <input required readonly type="text" class="form-control"
+                                                       name="datatimes"
+                                                       id="datatimes"
+                                                       value="{{ withholdinfo.datatimes|date:'Y-m-d' }}">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-12 col-sm-3 col-form-label text-sm-right">相&nbsp;关&nbsp;照&nbsp;片</label>
+                                            <div class="col-12 col-sm-8 col-lg-6">
+                                                {% for photo in withholdinfo.photos %}
+                                                    <img src="{{ photo.img_url.url }}" alt="" style="height: 100px"
+                                                         id="myImg{{ photo.id }}" height="100"
+                                                         onclick="bigimg(this.id)">
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row text-right">
+                                            <div class="col col-sm-10 col-lg-9 offset-sm-1 offset-lg-0">
+                                                <a href="{% url 'personnel:addwithhold' %}?withholdid={{ withholdinfo.id }}">
+                                                    <button type="button"
+                                                            style="width:140px;height:36px;line-height:18px;font-size:18px; color:#2ea8e5;padding-bottom:4px">
+                                                        申诉
+                                                    </button>
+                                                </a>
+
+                                            </div>
+                                        </div>
+                                        <div id="myModal" class="modal">
+                                            <!-- 弹窗内容 -->
+                                            <img class="modal-content" id="img01">
+                                            <div>
+                                                <div style="margin: 0 auto; width: 205px;">
+                                                    <div style="position: fixed;bottom: 40px;">
+                                                        <button type="button" class="btn btn-outline-light"
+                                                                id="fangda">
+                                                            <span class="fa fa-search-plus"></span>
+                                                        </button>
+                                                        <button type="button" class="btn btn-outline-light"
+                                                                id="suoxiao">
+                                                            <span class="fas fa-search-minus"></span>
+                                                        </button>
+                                                        <button type="button" class="btn btn-outline-light"
+                                                                id="zuozhuan">
+                                                            <span class="fas fa-undo"></span>
+                                                        </button>
+                                                        <button type="button" class="btn btn-outline-light"
+                                                                id="youzhuan">
+                                                            <span class="fas fa-redo"></span>
+                                                        </button>
+                                                        <button type="button" class="btn btn-outline-light"
+                                                                id="youzhuan"
+                                                                onclick="document.getElementById('myModal').style.display='none'">
+                                                            <span class="fa fa-power-off"></span>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <link rel="stylesheet" href="{% static 'img/css/myimg.css' %}">
+    <script src="{% static 'img/js/myjs.js' %}"></script>
+    <script>
+        function searchinfo() {
+            var shopname = $('#shopname').val();
+            var status = $('#status').val();
+            var starttime = $('#starttime').val();
+            var endtime = $('#endtime').val();
+            if (starttime > endtime) {
+                alert('开始时间应早于截止时间');
+                return false;
+            }
+            location.href = '{% url 'personnel:withhold' %}?shopname=' + shopname + '&starttime=' + starttime + '&endtime=' + endtime + '&status=' + status
+        }
+    </script>
+    <script>
+        function jump_to() {
+            var href = $('.jump').val()
+            var num_pages = $('.hidden_val').val()
+            if (href === "" || href == null) {
+                alert('请输入正确的页码！')
+                return false
+            } else if (parseInt(href) > parseInt(num_pages)) {
+                location.href = '{% url 'personnel:withhold' %}?withholdpage=' + num_pages + '&shopname=' + shopname + '&starttime=' + starttime + '&endtime=' + endtime + '&status=' + status
+            } else if (num_pages === '') {
+                location.href = '{% url 'personnel:withhold' %}?withholdpage=' + 1 + '&shopname=' + shopname + '&starttime=' + starttime + '&endtime=' + endtime + '&status=' + status
+            } else {
+                location.href = '{% url 'personnel:withhold' %}?withholdpage=' + href + '&shopname=' + shopname + '&starttime=' + starttime + '&endtime=' + endtime + '&status=' + status
+            }
+        }
+    </script>
+{% endblock %}
+

@@ -1,0 +1,176 @@
+{% extends 'parent_template/parent_template.html' %}
+
+{% load static %}
+
+{% block 危废模块-active %}
+    active
+{% endblock %}
+
+{% block 废料承包商-active %}
+    active
+{% endblock %}
+
+{% block collapse3 %}
+    collapse
+{% endblock %}
+{% block collapse1 %}
+    collapse
+{% endblock %}
+{% block collapse2 %}
+    collapse
+{% endblock %}
+{% block collapse4 %}
+    collapse
+{% endblock %}
+{% block collapse6 %}
+    collapse
+{% endblock %}
+{% block collapse7 %}
+    collapse
+{% endblock %}
+{% block collapse8 %}
+
+{% endblock %}
+{% block collapse9 %}
+    collapse
+{% endblock %}
+{% block collapse11 %}
+    collapse
+{% endblock %}
+{% block collapse12 %}
+    collapse
+{% endblock %}
+
+{% block body %}
+    <div class="dashboard-ecommerce">
+        <div class="container-fluid dashboard-content ">
+            <!-- ============================================================== -->
+            <!-- pageheader  -->
+            <!-- ============================================================== -->
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="page-header">
+                        <h2 class="pageheader-title">危废模块</h2>
+                        <div class="page-breadcrumb">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="#" class="breadcrumb-link">危废模块</a>
+                                    </li>
+                                    <li class="breadcrumb-item active" aria-current="page">危废承包商
+                                    </li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <h5>
+                <a href="{% url 'waste:wastecontractor' %}"><span
+                        style="width: 100px;height: 30px;display: inline-block;text-align: center;line-height: 30px;">危废承包商</span></a>
+                <a href="{% url 'waste:addwastecontractor' %}"><span
+                        style="width: 150px;height: 30px;display: inline-block;text-align: center;line-height: 30px;">添加危废承包商</span></a>
+                <a href="{% url 'waste:wastecontractorinfo' %}"><span
+                        style="width: 150px;height: 30px;display: inline-block;text-align: center;line-height: 30px;background-color: rgb(51, 122, 183);color: white;border: 1px solid grey;">承包商扣款</span></a>
+            </h5>
+            <div class="ecommerce-widget">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="row">
+                        <div class="col-xl-8 col-lg-6 col-md-6 col-sm-12 col-12" style="margin: 0 auto">
+                            <form action="{% url 'waste:wastecontractorinfo' %}" method="post">
+                                <div class="card">
+                                    <h5 class="card-header">承包商扣款</h5>
+                                    <div class="card-body">
+                                        <div class="form-group row">
+                                            <label class="col-12 col-sm-3 col-form-label text-sm-right">承&nbsp;&nbsp;包&nbsp;&nbsp;商</label>
+                                            <div class="col-12 col-sm-8 col-lg-6">
+                                                <select class="custom-select d-block" id="username" required=""
+                                                        name="username">
+                                                    <option>请选择</option>
+                                                    {% for foo in wasteuser %}
+                                                        <option>{{ foo.username }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-12 col-sm-3 col-form-label text-sm-right">处理流程</label>
+                                            <div class="col-12 col-sm-8 col-lg-6">
+                                                <select class="custom-select d-block" id="state" required=""
+                                                        name="state">
+                                                    <option>请选择</option>
+                                                    <option>扣款</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-12 col-sm-3 col-form-label text-sm-right">金&nbsp;&nbsp;额</label>
+                                            <div class="col-12 col-sm-8 col-lg-6">
+                                                <input type="text" class="form-control"
+                                                       name="manay" id="manay">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label text-sm-right">备&nbsp;&nbsp;注</label>
+                                            <div class="col-12 col-sm-8 col-lg-6">
+                                                <input type="text" class="form-control"
+                                                       name="remark" id="remark">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row text-right">
+                                            <div class="col col-sm-10 col-lg-9 offset-sm-1 offset-lg-0">
+                                                <a id="activate">
+                                                    <button onclick="submits()"
+                                                            style="width:140px;height:36px;line-height:18px;font-size:18px; color:#2ea8e5;padding-bottom:4px">
+                                                        创建
+                                                    </button>
+                                                </a>
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+
+        function submits() {
+            var username = $('#username').val();
+            if (username === '请选择') {
+                alert('请选择承包商');
+                return false;
+            }
+            var status = $('#status').val();
+            if (status === '请选择') {
+                alert('请选择处理流程');
+                return false;
+            }
+            var manay = $('#manay').val();
+            if (manay === "" || manay == null) {
+                alert('请输入金额');
+                return false;
+            }
+            if (isNaN(manay)) {
+                alert('金额为数字');
+                return false;
+            }
+            var remark = $('#remark').val();
+            if (remark === '请选择') {
+                alert('请选择处理流程');
+                return false;
+            }
+            $('form').submit()
+        }
+    </script>
+
+{% endblock %}
+

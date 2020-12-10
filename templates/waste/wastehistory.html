@@ -1,0 +1,400 @@
+{% extends 'parent_template/parent_template.html' %}
+
+{% load static %}
+
+{% block 危废模块-active %}
+    active
+{% endblock %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'img/css/updateimg.css' %}">
+{% endblock %}
+
+{% block 废料交易单-active %}
+    active
+{% endblock %}
+
+{% block collapse3 %}
+    collapse
+{% endblock %}
+{% block collapse1 %}
+    collapse
+{% endblock %}
+{% block collapse2 %}
+    collapse
+{% endblock %}
+{% block collapse4 %}
+    collapse
+{% endblock %}
+{% block collapse6 %}
+    collapse
+{% endblock %}
+{% block collapse7 %}
+    collapse
+{% endblock %}
+{% block collapse8 %}
+
+{% endblock %}
+{% block collapse9 %}
+    collapse
+{% endblock %}
+{% block collapse11 %}
+    collapse
+{% endblock %}
+{% block collapse12 %}
+    collapse
+{% endblock %}
+
+{% block body %}
+    <div class="dashboard-ecommerce">
+        <div class="container-fluid dashboard-content ">
+            <!-- ============================================================== -->
+            <!-- pageheader  -->
+            <!-- ============================================================== -->
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="page-header">
+                        <h2 class="pageheader-title">危废模块</h2>
+                        <div class="page-breadcrumb">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="#" class="breadcrumb-link">危废模块</a>
+                                    </li>
+                                    <li class="breadcrumb-item active" aria-current="page">危废单据
+                                    </li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <h5>
+                <a href="{% url 'waste:wastetradinghistory' %}"><span
+                        style="width: 100px;height: 30px;display: inline-block;text-align: center;line-height: 30px;background-color: rgb(51, 122, 183);color: white;border: 1px solid grey;">危废单据历史</span></a>
+                <a href="{% url 'waste:wastetrading' %}"><span
+                        style="width: 100px;height: 30px;display: inline-block;text-align: center;line-height: 30px;">创建危废单据</span></a>
+            </h5>
+            <div class="row">
+                <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
+                    <div class="card" style="height: 40px;width: 253px;">
+                        <div class="form-group row" style="width: 362px;">
+                            <label class="col-12 col-sm-3 col-form-label text-sm-right"
+                                   style="line-height: 5px;">&emsp;开始日期</label>
+                            <div class="col-12 col-sm-8 col-lg-6" style="margin-top: -10px">
+                                <input type="date" class="form-control" name="starttime" id="starttime"
+                                       value="{{ search_info.starttime }}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card" style="height: 40px;width: 250px;margin-left: -124px;">
+                    <div class="form-group" style="width: 250px;">
+                        <span style="margin-left: 12px;margin-top: 10px;display: inline-block;font-size: 15px;">截止日期</span>
+                        <div style="margin-top: -30px;margin-left: 80px;width: 155px;">
+                            <input type="date" class="form-control" name="endtime" id="endtime"
+                                   value="{{ search_info.endtime }}">
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <select name="shopname" id="shopname" class="form-control text-sm-center"
+                            style="width: 120px;margin-left: 10px;">
+                        <option>请选择门店</option>
+                        {% for shopname in ShopNames %}
+                            {% if search_info.shopname == shopname.shopname %}
+                                <option selected="selected">{{ shopname.shopname }}</option>
+                            {% else %}
+                                <option>{{ shopname.shopname }}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                    <select name="gongaccount" id="gongaccount" class="form-control text-sm-center"
+                            style="width: 120px;margin-left: 137px;margin-top: -38px;">
+                        <option>请选择外采公司</option>
+                        {% for foo in gongaccount %}
+                            <option {% if search_info.gongaccount == foo.username %}selected{% endif %}>{{ foo.username }}</option>
+                        {% endfor %}
+
+                    </select>
+                </div>
+                <div style="margin-left: 10px;">
+                    <button type="button" class="btn btn-success" style="width: 70px;height: 37px;"
+                            onclick="searchinfo()">确认
+                    </button>&emsp;
+                    <button type="button" class="btn btn-warning" style="width: 70px;height: 37px;color: white"
+                            onclick="export_xlsx('tableExcel', '未对选项卡')">导出
+                    </button>
+                </div>
+            </div>
+
+            <div class="ecommerce-widget" id="div01" style="display: block">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="row">
+                        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-12">
+                            <div class="card">
+                                <h5 class="card-header">危废交易单</h5>
+                                <div class="card-body">
+                                    <table class="table">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col">类型</th>
+                                            <th scope="col">经办人</th>
+                                            <th scope="col">日期</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for foo in info %}
+                                            <tr>
+                                                <td>
+                                                    <a href="{% url 'waste:wastetradinghistory' %}?infoid={{ foo.id }}&infopage={{ info.number }}&shopname={{ search_info.shopname }}&starttime={{ search_info.starttime }}&endtime={{ search_info.endtime }}&gongaccount={{ search_info.gongaccount }}">{{ foo.wastepro }}</a>
+                                                </td>
+                                                <td>
+                                                    <a href="{% url 'waste:wastetradinghistory' %}?infoid={{ foo.id }}&infopage={{ info.number }}&shopname={{ search_info.shopname }}&starttime={{ search_info.starttime }}&endtime={{ search_info.endtime }}&gongaccount={{ search_info.gongaccount }}">{{ foo.responsibleperson }}</a>
+                                                </td>
+                                                <td>
+                                                    <a href="{% url 'waste:wastetradinghistory' %}?infoid={{ foo.id }}&infopage={{ info.number }}&shopname={{ search_info.shopname }}&starttime={{ search_info.starttime }}&endtime={{ search_info.endtime }}&gongaccount={{ search_info.gongaccount }}">{{ foo.datetimes|date:"Y-m-d" }}</a>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <nav aria-label="Page navigation">
+                                    <div class="pagination">
+                                        <ul class="pagination">
+                                            <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
+                                            <li>当前页数：{{ info.number }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
+                                            {% if info.has_previous %}
+                                                <li>
+                                                    <a href="{% url 'waste:wastetradinghistory' %}?infopage={{ info.previous_page_number }}&shopname={{ search_info.shopname }}&starttime={{ search_info.starttime }}&endtime={{ search_info.endtime }}&gongaccount={{ search_info.gongaccount }}"
+                                                       aria-label="Previous">
+                                                        <span aria-hidden="true">&laquo;&nbsp;&nbsp;</span></a></li>
+                                            {% endif %}
+
+                                            {% for num in info.paginator.page_range %}
+                                                {% if num == info.number|add:-1 or num == info.number|add:-2 or num == info.number|add:-3 or num == info.number or num == info.number|add:1 or num == info.number|add:2 or num == info.number|add:3 %}
+                                                    {% if num == info.number %}
+                                                        <li><a href="">{{ num }}&nbsp;&nbsp;</a></li>
+                                                    {% else %}
+                                                        <li>
+                                                            <a href="{% url 'waste:wastetradinghistory' %}?infopage={{ num }}&shopname={{ search_info.shopname }}&starttime={{ search_info.starttime }}&endtime={{ search_info.endtime }}&gongaccount={{ search_info.gongaccount }}">{{ num }}&nbsp;&nbsp;</a>
+                                                        </li>
+                                                    {% endif %}
+                                                {% endif %}
+                                            {% endfor %}
+
+                                            {% if info.has_next %}
+                                                <li>
+                                                    <a href="{% url 'waste:wastetradinghistory' %}?infopage={{ info.next_page_number }}&shopname={{ search_info.shopname }}&starttime={{ search_info.starttime }}&endtime={{ search_info.endtime }}&gongaccount={{ search_info.gongaccount }}"
+                                                       aria-label="Next">
+                                                        <span aria-hidden="true">&raquo;&nbsp;&nbsp;</span></a></li>
+                                            {% endif %}
+                                        </ul>
+                                    </div>
+                                </nav>
+                                <div aria-label="Page navigation" style="margin-left: 29px;margin-top: -13px;">
+                                    <span>跳转至</span>
+                                    <input type="text" style="width: 30px;" class="jump">
+                                    <input type="hidden" value="{{ info.paginator.num_pages }}" class="hidden_val">
+                                    <span>页</span>
+                                    <input type="button" value="GO" onclick="jump_to()">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-8 col-lg-6 col-md-6" style="margin: 0 auto">
+                            {% if wasteinfo %}
+                                <div class="card">
+                                    <div class="card-body">
+
+                                        <input type="text" style="display: none" id="allpriceinfo" name="allpriceinfo"
+                                               value="">
+
+                                        <table style="width: 100%" border="1" cellspacing="1" cellpadding="2">
+                                            <tr style="height: 40px">
+                                                <td colspan="8">
+                                                    <h3 style="text-align: center; line-height: 40px;">危废单据</h3>
+                                                </td>
+                                            </tr>
+                                            <tr style="height: 40px">
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    门&nbsp;&nbsp;店
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    {{ wasteinfo.shopname }}
+
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    类&nbsp;&nbsp;型
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    {{ wasteinfo.wastepro }}
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    当&nbsp;前&nbsp;状&nbsp;态
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    {{ wasteinfo.status }}
+                                                </td>
+                                            </tr>
+                                            <tr style="height: 40px">
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    经&nbsp;办&nbsp;人
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    {{ wasteinfo.responsibleperson }}
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    核&nbsp;对&nbsp;人/交&nbsp;易&nbsp;方
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%" colspan="1">
+                                                    {{ wasteinfo.wasteuser }}
+                                                </td>
+                                                <td class="text-sm-center" style="width: 7.5%">
+                                                    日&nbsp;&nbsp;期
+                                                </td>
+                                                <td class="text-sm-center" style="width: 7.5%">
+                                                    {{ wasteinfo.datetimes|date:'Y-m-d' }}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    明&nbsp;&nbsp;细
+                                                </td>
+                                                <td class="text-sm-left" colspan="3">
+                                                    <table style="width: 100%" border="1" cellspacing="1"
+                                                           cellpadding="2" id="dealproject">
+                                                        <tr style="height: 40px">
+                                                            <td class="text-sm-left" style="width: 25%">
+                                                                废&nbsp;料&nbsp;项&nbsp;目
+                                                            </td>
+                                                            <td class="text-sm-left" style="width: 25%">
+                                                                数&nbsp;&nbsp;量
+                                                            </td>
+                                                            <td class="text-sm-left" style="width: 25%">
+                                                                支&nbsp;付&nbsp;金&nbsp;额
+                                                            </td>
+
+
+                                                        </tr>
+                                                        {% for foo in wasteinfo.dealproject %}
+                                                            <tr>
+                                                                <td>{{ foo.wastepro }}</td>
+                                                                <td>{{ foo.number }}</td>
+                                                                <td>{{ foo.zhimanay }}</td>
+                                                            </tr>
+                                                        {% endfor %}
+                                                    </table>
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    总&nbsp;金&nbsp;额
+                                                </td>
+                                                <td class="text-sm-center" style="width: 12.5%" id="allprice">
+                                                    {{ wasteinfo.zhimanay }}￥
+                                                </td>
+                                            </tr>
+
+                                            <tr style="height: 120px">
+
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    凭&nbsp;证&nbsp;图&nbsp;片<br>
+
+                                                    <input type="text" name="for_id" id="for_id" style="display: none">
+                                                </td>
+                                                <td colspan="7">
+                                                    {% for photo in wasteinfo.photos %}
+                                                        <img src="{{ photo.img_url.url }}" alt="" style="height: 100px"
+                                                             id="myImg{{ photo.id }}" height="100"
+                                                             onclick="bigimg(this.id)">
+                                                    {% endfor %}
+                                                    <div id="result" name="result"></div>
+                                                </td>
+
+                                            </tr>
+                                            <tr>
+                                                <td class="text-sm-center" style="width: 12.5%">
+                                                    提&nbsp;交&nbsp;备&nbsp;注
+                                                </td>
+                                                <td colspan="7">
+                                                    <input type="text" class="form-control"
+                                                           name="remark" id="remark" style="width: 100%; height: 80px" value="{{ wasteinfo.remark }}">
+                                                </td>
+                                            </tr>
+                                        </table>
+
+                                        <!-- 弹窗 -->
+                                        <div id="myModal" class="modal">
+                                            <!-- 弹窗内容 -->
+                                            <img id="img01" style="height: 600px; display: block; margin: auto;">
+                                            <div>
+                                                <div style="margin: 0 auto; width: 205px;">
+                                                    <div style="position: fixed;bottom: 40px;">
+                                                        <button type="button" class="btn btn-outline-light"
+                                                                id="fangda">
+                                                            <span class="fa fa-search-plus"></span>
+                                                        </button>
+                                                        <button type="button" class="btn btn-outline-light"
+                                                                id="suoxiao">
+                                                            <span class="fas fa-search-minus"></span>
+                                                        </button>
+                                                        <button type="button" class="btn btn-outline-light"
+                                                                id="zuozhuan">
+                                                            <span class="fas fa-undo"></span>
+                                                        </button>
+                                                        <button type="button" class="btn btn-outline-light"
+                                                                id="youzhuan">
+                                                            <span class="fas fa-redo"></span>
+                                                        </button>
+                                                        <button type="button" class="btn btn-outline-light"
+                                                                id="close"
+                                                                onclick="document.getElementById('myModal').style.display='none'">
+                                                            <span class="fa fa-power-off"></span>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function searchinfo() {
+            var shopname = $('#shopname').val();
+            var gongaccount = $('#gongaccount').val();
+            var starttime = $('#starttime').val();
+            var endtime = $('#endtime').val();
+            if (starttime > endtime) {
+                alert('开始时间应早于截止时间');
+                return false;
+            }
+            location.href = '{% url 'waste:wastetradinghistory' %}?shopname=' + shopname + '&starttime=' + starttime + '&endtime=' + endtime + '&gongaccount=' + gongaccount
+        }
+    </script>
+    <script>
+        function jump_to() {
+            var shopname = $('#shopname').val();
+            var gongaccount = $('#gongaccount').val();
+            var starttime = $('#starttime').val();
+            var endtime = $('#endtime').val();
+            var href = $('.jump').val()
+            var num_pages = $('.hidden_val').val()
+            if (href === "" || href == null) {
+                alert('请输入正确的页码！')
+                return false
+            } else if (parseInt(href) > parseInt(num_pages)) {
+                location.href = '{% url 'waste:wastetradinghistory' %}?infopage=' + num_pages + '&shopname=' + shopname + '&starttime=' + starttime + '&endtime=' + endtime + '&gongaccount=' + gongaccount
+            } else if (num_pages === '') {
+                location.href = '{% url 'waste:wastetradinghistory' %}?infopage=' + 1 + '&shopname=' + shopname + '&starttime=' + starttime + '&endtime=' + endtime + '&gongaccount=' + gongaccount
+            } else {
+                location.href = '{% url 'waste:wastetradinghistory' %}?infopage=' + href + '&shopname=' + shopname + '&starttime=' + starttime + '&endtime=' + endtime + '&gongaccount=' + gongaccount
+            }
+        }
+    </script>
+{% endblock %}
+

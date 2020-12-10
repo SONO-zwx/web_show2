@@ -1,0 +1,249 @@
+{% extends 'parent_template/parent_template.html' %}
+
+{% load static %}
+
+{% block 门店单据-active %}
+    active
+{% endblock %}
+
+{% block body %}
+    <div class="dashboard-ecommerce">
+        <div class="container-fluid dashboard-content ">
+            <!-- ============================================================== -->
+            <!-- pageheader  -->
+            <!-- ============================================================== -->
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="page-header">
+                        <h2 class="pageheader-title">门店单据</h2>
+                        <div class="page-breadcrumb">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="#" class="breadcrumb-link">非外采单据</a>
+                                    </li>
+                                    <li class="breadcrumb-item active" aria-current="page">创建单据
+                                    </li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <h5>
+                <a href="{% url 'certificate:addreceipts' %}">创建单据</a>
+                <a href="{% url 'certificate:m_gongaccount' %}">&emsp;&emsp;驳回单据</a>
+                <a href="{% url 'certificate:add_account' %}">&emsp;&emsp;历史单据</a>
+            </h5>
+            <div class="ecommerce-widget" id="div01" style="display: block">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="row">
+                        <div class="col-xl-8 col-lg-6 col-md-6" style="margin: 0 auto">
+                            <div class="card">
+                                <div class="card-body">
+                                    <table style="width: 100%" border="1" cellspacing="1" cellpadding="2">
+                                        <tr>
+                                            <td colspan="8">
+                                                <h3 style="text-align: center">单据凭证</h3>
+                                            </td>
+                                        </tr>
+                                        <tr style="height: 40px">
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                门&nbsp;&nbsp;店
+                                            </td>
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                {{ receipts.shopname|default:"" }}
+                                            </td>
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                类&nbsp;&nbsp;型
+                                            </td>
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                {{ receipts.types|default:"" }}
+                                            </td>
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                提&nbsp;交&nbsp;方&nbsp;式
+                                            </td>
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                {{ receipts.yuzhi|default:"" }}
+                                            </td>
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                当&nbsp;前&nbsp;状&nbsp;态
+                                            </td>
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                {{ receipts.paymenttyoe|default:"" }}
+                                            </td>
+                                        </tr>
+                                        <tr style="height: 40px">
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                经&nbsp;办&nbsp;人
+                                            </td>
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                {{ receipts.responsibleperson|default:"" }}
+                                            </td>
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                创&nbsp;建&nbsp;日&nbsp;期
+                                            </td>
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                {{ receipts.dates|date:"Y-m-d" }}
+                                            </td>
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                收&nbsp;款&nbsp;账&nbsp;号&nbsp;信&nbsp;息
+                                            </td>
+                                            <td class="text-sm-center" style="width: 12.5%" colspan="3">
+                                                {{ receipts.paymentaccout.name|default:"" }}<br>{{ receipts.paymentaccout.account|default:"" }}
+                                            </td>
+
+                                        </tr>
+                                        <tr>
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                明&nbsp;&nbsp;细
+                                            </td>
+                                            <td class="text-sm-left" colspan="5">
+                                                <table style="width: 100%" border="1" cellspacing="1"
+                                                       cellpadding="2">
+                                                    <tr style="height: 40px">
+                                                        <td class="text-sm-center" style="width: 15%">
+                                                            类&nbsp;&nbsp;型
+                                                        </td>
+                                                        <td class="text-sm-center" style="width: 20%">
+                                                            项&nbsp;目&nbsp;名&nbsp;称
+                                                        </td>
+                                                        <td class="text-sm-center" style="width: 50%">
+                                                            备&nbsp;&nbsp;注
+                                                        </td>
+                                                        <td class="text-sm-center" style="width: 15%">
+                                                            金&nbsp;&nbsp;额
+                                                        </td>
+                                                    </tr>
+
+                                                    {% for dealpro in receipts.dealproject %}
+                                                        <tr style="height: 40px">
+                                                            <td class="text-sm-center">{{ dealpro.types }}</td>
+                                                            <td class="text-sm-center">{{ dealpro.projectname }}</td>
+                                                            <td>{{ dealpro.remark }}</td>
+                                                            <td class="text-sm-center">{{ dealpro.price }}￥</td>
+                                                        </tr>
+                                                    {% endfor %}
+
+                                                </table>
+                                            </td>
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                总&nbsp;金&nbsp;额
+                                            </td>
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                {{ receipts.allprice|default:"" }}￥
+                                            </td>
+                                        </tr>
+                                        <tr style="height: 120px">
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                凭&nbsp;证&nbsp;图&nbsp;片
+                                            </td>
+                                            <td colspan="7">
+                                                {% for photo in receipts.photos %}
+                                                    <img src="{{ photo.img_url.url }}" alt="" style="height: 100px"
+                                                         id="myImg{{ photo.id }}" height="100"
+                                                         onclick="bigimg(this.id)">
+                                                {% endfor %}
+                                            </td>
+                                        </tr>
+                                        <tr style="height: 40px">
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                提&nbsp;交&nbsp;备&nbsp;注
+                                            </td>
+                                            <td colspan="7">
+                                                {{ receipts.remark|default:"" }}
+                                            </td>
+                                        </tr>
+                                        <tr style="height: 80px">
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                一&nbsp;级&nbsp;审&nbsp;批&nbsp;人
+                                            </td>
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                {{ receipts.generalmanager|default:"" }}
+                                            </td>
+                                            <td class="text-sm-center">审&nbsp;批&nbsp;备&nbsp;注</td>
+                                            <td colspan="5">
+                                                {{ receipts.remarks|default:"" }}
+                                            </td>
+                                        </tr>
+                                        <tr style="height: 80px">
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                二&nbsp;级&nbsp;审&nbsp;批&nbsp;人
+                                            </td>
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                {{ receipts.ergeneralmanager|default:"" }}
+                                            </td>
+                                            <td class="text-sm-center">审&nbsp;批&nbsp;备&nbsp;注</td>
+                                            <td colspan="5">
+                                                {{ receipts.erremarks|default:"" }}
+                                            </td>
+                                        </tr>
+                                        <tr style="height: 40px">
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                财&nbsp;&nbsp;务
+                                            </td>
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                {{ receipts.finance|default:"" }}
+                                            </td>
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                打&nbsp;款&nbsp;账&nbsp;号&nbsp;信&nbsp;息
+                                            </td>
+                                            <td class="text-sm-center" style="width: 12.5%" colspan="3">
+                                                {{ receipts.zhichupaymentaccout.name|default:"" }}<br>{{ receipts.zhichupaymentaccout.account|default:"" }}
+                                            </td>
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                打&nbsp;款&nbsp;日&nbsp;期
+                                            </td>
+                                            <td class="text-sm-center" style="width: 12.5%">
+                                                {{ receipts.zhidates|date:"Y-m-d" }}
+                                            </td>
+                                        </tr>
+                                    </table>
+
+                                    <!-- 弹窗 -->
+                                    <div id="myModal" class="modal">
+                                        <!-- 弹窗内容 -->
+                                        <img class="modal-content" id="img01">
+                                        <div>
+                                            <div style="margin: 0 auto; width: 205px;">
+                                                <div style="position: fixed;bottom: 40px;">
+                                                    <button type="button" class="btn btn-outline-light"
+                                                            id="fangda">
+                                                        <span class="fa fa-search-plus"></span>
+                                                    </button>
+                                                    <button type="button" class="btn btn-outline-light"
+                                                            id="suoxiao">
+                                                        <span class="fas fa-search-minus"></span>
+                                                    </button>
+                                                    <button type="button" class="btn btn-outline-light"
+                                                            id="zuozhuan">
+                                                        <span class="fas fa-undo"></span>
+                                                    </button>
+                                                    <button type="button" class="btn btn-outline-light"
+                                                            id="youzhuan">
+                                                        <span class="fas fa-redo"></span>
+                                                    </button>
+                                                    <button type="button" class="btn btn-outline-light"
+                                                            id="youzhuan"
+                                                            onclick="document.getElementById('myModal').style.display='none'">
+                                                        <span class="fa fa-power-off"></span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <link rel="stylesheet" href="{% static 'img/css/myimg.css' %}">
+    <script src="{% static 'img/js/myjs.js' %}"></script>
+
+{% endblock %}
+

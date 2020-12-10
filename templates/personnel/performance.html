@@ -1,0 +1,231 @@
+{% extends 'parent_template/parent_template.html' %}
+
+{% load static %}
+
+{% block 人事模块-active %}
+    active
+{% endblock %}
+
+{% block 绩效项目-active %}
+    active
+{% endblock %}
+
+{% block collapse3 %}
+collapse
+{% endblock %}
+{% block collapse1 %}
+collapse
+{% endblock %}
+{% block collapse2 %}
+collapse
+{% endblock %}
+{% block collapse4 %}
+collapse
+{% endblock %}
+{% block collapse6 %}
+collapse
+{% endblock %}
+{% block collapse7 %}
+
+{% endblock %}
+{% block collapse8 %}
+collapse
+{% endblock %}
+{% block collapse9 %}
+collapse
+{% endblock %}
+{% block collapse11 %}
+collapse
+{% endblock %}
+{% block collapse12 %}
+collapse
+{% endblock %}
+
+{% block body %}
+    <div class="dashboard-ecommerce">
+        <div class="container-fluid dashboard-content ">
+            <!-- ============================================================== -->
+            <!-- pageheader  -->
+            <!-- ============================================================== -->
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="page-header">
+                        <h2 class="pageheader-title">人事模块</h2>
+                        <div class="page-breadcrumb">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="#" class="breadcrumb-link">人事模块</a>
+                                    </li>
+                                    <li class="breadcrumb-item active" aria-current="page">员工绩效
+                                    </li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <h5>
+                <a href="{% url 'personnel:performance' %}"><span style="width: 100px;height: 30px;display: inline-block;text-align: center;line-height: 30px;background-color: rgb(51, 122, 183);color: white;border: 1px solid grey;">员工绩效</span></a>
+                <a href="{% url 'personnel:addperformance' %}"><span style="width: 100px;height: 30px;display: inline-block;text-align: center;line-height: 30px;">添加员工绩效</span></a>
+            </h5>
+            <div class="ecommerce-widget" id="div01" style="display: block">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="row">
+                        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-12">
+                            <div class="card">
+                                <h5 class="card-header">员工绩效</h5>
+                                <div class="card-body">
+                                    <table class="table">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col">岗位</th>
+                                            <th scope="col">绩效名称</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for performanceinfo in performance %}
+                                            <tr>
+                                                <td>
+                                                    <a href="{% url 'personnel:performance' %}?performanceid={{ performanceinfo.id }}">{{ performanceinfo.post|default:'' }}</a>
+                                                </td>
+                                                <td>
+                                                    <a href="{% url 'personnel:performance' %}?performanceid={{ performanceinfo.id }}">{{ performanceinfo.project|default:'' }}</a>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                                <nav aria-label="Page navigation">
+                                    <div class="pagination">
+                                        <ul class="pagination">
+                                            <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
+                                            <li>当前页数：{{ performance.number }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
+                                            {% if performance.has_previous %}
+                                                <li>
+                                                    <a href="{% url 'personnel:performance' %}?performancepage={{ performance.previous_page_number }}"
+                                                       aria-label="Previous"><span aria-hidden="true">&laquo;&nbsp;&nbsp;</span></a>
+                                                </li>
+                                            {% endif %}
+
+                                            {% for num in performance.paginator.page_range %}
+                                                {% if num == performance.number|add:-1 or num == performance.number|add:-2 or num == performance.number|add:-3 or num == performance.number or num == performance.number|add:1 or num == performance.number|add:2 or num == performance.number|add:3 %}
+                                                    {% if num == performance.number %}
+                                                        <li><a href="">{{ num }}&nbsp;&nbsp;</a></li>
+                                                    {% else %}
+                                                        <li>
+                                                            <a href="{% url 'personnel:performance' %}?performancepage={{ num }}">{{ num }}&nbsp;&nbsp;</a>
+                                                        </li>
+                                                    {% endif %}
+                                                {% endif %}
+                                            {% endfor %}
+
+                                            {% if performance.has_next %}
+                                                <li>
+                                                    <a href="{% url 'personnel:performance' %}?performancepage={{ performance.next_page_number }}"
+                                                       aria-label="Next">
+                                                        <span aria-hidden="true">&raquo;&nbsp;&nbsp;</span></a></li>
+                                            {% endif %}
+                                        </ul>
+                                    </div>
+                                </nav>
+                                <div aria-label="Page navigation" style="margin-left: 29px;margin-top: -13px;">
+                                    <span>跳转至</span>
+                                    <input type="text" style="width: 30px;" class="jump">
+                                    <input type="hidden" value="{{ info.paginator.num_pages }}" class="hidden_val">
+                                    <span>页</span>
+                                    <input type="button" value="GO" onclick="jump_to()">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-8 col-lg-6 col-md-6" style="margin: 0 auto">
+                            <div class="card">
+                                <h5 class="card-header">绩效项目</h5>
+                                <div class="card-body">
+                                    <div class="form-group row">
+                                        <label class="col-12 col-sm-3 col-form-label text-sm-right">绩&nbsp;效&nbsp;名&nbsp;称</label>
+                                        <div class="col-12 col-sm-8 col-lg-6">
+                                            <input required readonly type="text" class="form-control" name="project"
+                                                   id="project"
+                                                   value="{{ performanceinfo.project }}">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-12 col-sm-3 col-form-label text-sm-right">绩&nbsp;效&nbsp;细&nbsp;节</label>
+                                        <div class="col-12 col-sm-8 col-lg-6">
+                                            <input required readonly type="text" class="form-control" name="particulars"
+                                                   id="particulars"
+                                                   value="{{ performanceinfo.particulars }}">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-12 col-sm-3 col-form-label text-sm-right">岗&nbsp;&nbsp;位</label>
+                                        <div class="col-12 col-sm-8 col-lg-6">
+                                            <input required readonly type="text" class="form-control" name="post"
+                                                   id="post"
+                                                   value="{{ performanceinfo.post }}">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row text-right">
+                                        <div class="col col-sm-10 col-lg-9 offset-sm-1 offset-lg-0">
+                                            <a href="{% url 'personnel:addperformance' %}?performanceid={{ performanceinfo.id }}">
+                                                <button type="button"
+                                                        style="width:140px;height:36px;line-height:18px;font-size:18px; color:#2ea8e5;padding-bottom:4px">
+                                                    修改
+                                                </button>
+                                            </a>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        function submits() {
+            var name = $('#name').val();
+            var remark = $('#remark').val();
+            var superior = $('#superior').val();
+
+            if (name === '') {
+                alert('请输入试卷名');
+                return false;
+            }
+            if (remark === '') {
+                alert('请输入试卷说明');
+                return false;
+            }
+            if (superior === '') {
+                alert('请输入所属公司');
+                return false;
+            }
+            $('form').submit();
+        }
+
+        function jump_to() {
+            var href = $('.jump').val()
+            var num_pages = $('.hidden_val').val()
+            if (href === "" || href == null) {
+                alert('请输入正确的页码！')
+                return false
+            } else if (parseInt(href) > parseInt(num_pages)) {
+                location.href = '{% url 'personnel:performance' %}?performancepage=' + num_pages
+            } else if (num_pages === '') {
+                location.href = '{% url 'personnel:performance' %}?performancepage=' + 1
+            } else {
+                location.href = '{% url 'personnel:performance' %}?performancepage=' + href
+            }
+        }
+    </script>
+{% endblock %}
+

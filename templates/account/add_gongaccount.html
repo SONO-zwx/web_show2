@@ -1,0 +1,238 @@
+{% extends 'parent_template/account_template.html' %}
+{% load static %}
+
+{% block 首付款账号-active %}
+    active
+{% endblock %}
+
+{% block body1 %}
+    <div class="dashboard-ecommerce">
+        <div class="container-fluid dashboard-content ">
+            <!-- ============================================================== -->
+            <!-- pageheader  -->
+            <!-- ============================================================== -->
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="page-header">
+                        <h2 class="pageheader-title">收付款账号</h2>
+                        <div class="page-breadcrumb">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item">账号管理
+                                    </li>
+                                    <li class="breadcrumb-item active" aria-current="page">收付款账号
+                                    </li>
+                                    <li class="breadcrumb-item active" aria-current="page">添加门店账号
+                                    </li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <h5>
+                <a href="{% url 'certificate:m_gongaccount' %}"><span
+                        style="width: 100px;height: 30px;display: inline-block;text-align: center;line-height: 30px;">供货商账号</span></a>
+                <a href="{% url 'certificate:add_gongaccount' %}"><span
+                        style="width: 150px;height: 30px;display: inline-block;text-align: center;line-height: 30px;background-color: rgb(51, 122, 183);color: white;border: 1px solid grey;">添加供货商账号</span></a>
+            </h5>
+            <div class="ecommerce-widget" id="div01" style="display: block">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="row">
+                        <div class="col-xl-8 col-lg-6 col-md-6 col-sm-12 col-12" style="margin: 0 auto">
+                            <div class="card">
+                                <h5 class="card-header">添加供货商账号</h5>
+                                <div class="card-body">
+                                    {% if info != '无' %}
+                                        <form action="{% url 'certificate:add_gongaccount' %}" method="post">
+                                            <input type="text"
+                                                   class="form-control" style="display: none"
+                                                   name="id" id="id" value="{{ info.id }}">
+                                            <input type="text"
+                                                   class="form-control" style="display: none"
+                                                   name="id" id="id" value="{{ info.usernameid }}">
+                                            <div class="form-group row">
+                                                <label class="col-12 col-sm-3 col-form-label text-sm-right">收&nbsp;&nbsp;款&nbsp;&nbsp;账&nbsp;&nbsp;号</label>
+                                                <div class="col-12 col-sm-8 col-lg-6">
+                                                    <input type="text"
+                                                           class="form-control"
+                                                           name="gongaccount" id="gongaccount"
+                                                           value="{{ info.account }}">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-sm-3 col-form-label text-sm-right">登&nbsp;&nbsp;录&nbsp;&nbsp;账&nbsp;&nbsp;号</label>
+                                                <div class="col-12 col-sm-8 col-lg-6">
+                                                    <input readonly type="text" required=""
+                                                           class="form-control"
+                                                           name="username" value="{{ info.username }}">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-sm-3 col-form-label text-sm-right">登&nbsp;&nbsp;录&nbsp;&nbsp;密&nbsp;&nbsp;码</label>
+                                                <div class="col-12 col-sm-8 col-lg-6">
+                                                    <input type="text" required=""
+                                                           class="form-control"
+                                                           name="password" value="{{ info.password }}">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-12 col-sm-3 col-form-label text-sm-right">用&nbsp;&nbsp;&nbsp;&nbsp;户</label>
+                                                <div class="col-12 col-sm-8 col-lg-6">
+                                                    <input type="text"
+                                                           class="form-control" value="{{ info.name }}"
+                                                           name="gongname" id="gongname">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-12 col-sm-3 col-form-label text-sm-right">供&nbsp;&nbsp;货&nbsp;&nbsp;商</label>
+                                                <div class="col-12 col-sm-8 col-lg-6">
+                                                    <input type="text"
+                                                           class="form-control" value="{{ info.effect }}"
+                                                           name="gongeffect" id="gongeffect">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-12 col-sm-3 col-form-label text-sm-right">供&nbsp;&nbsp;给&nbsp;&nbsp;门&nbsp;&nbsp;店</label>
+                                                <div class="col-12 col-sm-8 col-lg-6">
+                                                    <input type="text" required=""
+                                                           class="form-control" readonly
+                                                           name="gongshopname" id="gongshopname" value="{{ superior }}">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-sm-3 col-form-label text-sm-right">供&nbsp;&nbsp;货&nbsp;&nbsp;类&nbsp;&nbsp;型</label>
+                                                <div class="col-12 col-sm-8 col-lg-6">
+                                                    <input type="text" class="form-control"
+                                                           value="{{ info.types }}" name="gongtypes" id="gongtypes">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-sm-3 col-form-label text-sm-right">是&nbsp;&nbsp;否&nbsp;&nbsp;使&nbsp;&nbsp;用</label>
+                                                <div class="col-12 col-sm-8 col-lg-6">
+                                                    <label class="custom-control custom-radio custom-control-inline">
+                                                        <input type="radio" name="isuse" id="isuse1"
+                                                               class="custom-control-input" value="1"
+                                                               {% if info.isuse == 1 %}checked{% endif %}><span
+                                                            class="custom-control-label">使用</span>
+                                                    </label>
+                                                    <label class="custom-control custom-radio custom-control-inline">
+                                                        <input type="radio" name="isuse" id="isuse2"
+                                                               class="custom-control-input" value="0"
+                                                               {% if info.isuse == 0 %}checked{% endif %}><span
+                                                            class="custom-control-label">禁用</span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row text-right">
+                                                <div class="col col-sm-10 col-lg-9 offset-sm-1 offset-lg-0">
+                                                    <button type="button" onclick="verification()"
+                                                            style="width:140px;height:36px;line-height:18px;font-size:18px; color:#2ea8e5;padding-bottom:4px">
+                                                        修改
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    {% else %}
+                                        <form action="{% url 'certificate:add_gongaccount' %}" method="post">
+                                            <div class="form-group row">
+                                                <label class="col-12 col-sm-3 col-form-label text-sm-right">收&nbsp;&nbsp;款&nbsp;&nbsp;账&nbsp;&nbsp;号</label>
+                                                <div class="col-12 col-sm-8 col-lg-6">
+                                                    <input type="text"
+                                                           class="form-control"
+                                                           name="gongaccount" id="gongaccount"
+                                                           value="{{ info.account }}">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-sm-3 col-form-label text-sm-right">登&nbsp;&nbsp;录&nbsp;&nbsp;账&nbsp;&nbsp;号</label>
+                                                <div class="col-12 col-sm-8 col-lg-6">
+                                                    <input type="text" required=""
+                                                           class="form-control"
+                                                           name="username" >
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-sm-3 col-form-label text-sm-right">登&nbsp;&nbsp;录&nbsp;&nbsp;密&nbsp;&nbsp;码</label>
+                                                <div class="col-12 col-sm-8 col-lg-6">
+                                                    <input type="text" required=""
+                                                           class="form-control"
+                                                           name="password">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-12 col-sm-3 col-form-label text-sm-right">用&nbsp;&nbsp;&nbsp;&nbsp;户</label>
+                                                <div class="col-12 col-sm-8 col-lg-6">
+                                                    <input type="text"
+                                                           class="form-control"
+                                                           name="gongname" id="gongname">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-12 col-sm-3 col-form-label text-sm-right">供&nbsp;&nbsp;货&nbsp;&nbsp;商</label>
+                                                <div class="col-12 col-sm-8 col-lg-6">
+                                                    <input type="text"
+                                                           class="form-control"
+                                                           name="gongeffect" id="gongeffect">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-12 col-sm-3 col-form-label text-sm-right">供&nbsp;&nbsp;给&nbsp;&nbsp;门&nbsp;&nbsp;店</label>
+
+                                                <div class="col-12 col-sm-8 col-lg-6">
+                                                    <input type="text"
+                                                           class="form-control"
+                                                           name="gongshopname" id="gongshopname" value="{{ superior }}"
+                                                           readonly>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-sm-3 col-form-label text-sm-right">供&nbsp;&nbsp;货&nbsp;&nbsp;类&nbsp;&nbsp;型</label>
+                                                <div class="col-12 col-sm-8 col-lg-6">
+                                                    <input type="text"
+                                                           class="form-control"
+                                                           name="gongtypes" id="gongtypes">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-sm-3 col-form-label text-sm-right">是&nbsp;&nbsp;否&nbsp;&nbsp;使&nbsp;&nbsp;用</label>
+                                                <div class="col-12 col-sm-8 col-lg-6">
+                                                    <label class="custom-control custom-radio custom-control-inline">
+                                                        <input type="radio" name="isuse" id="isuse1"
+                                                               class="custom-control-input" value="1"><span
+                                                            class="custom-control-label">使用</span>
+                                                    </label>
+                                                    <label class="custom-control custom-radio custom-control-inline">
+                                                        <input type="radio" name="isuse" id="isuse2"
+                                                               class="custom-control-input" value="0"><span
+                                                            class="custom-control-label">禁用</span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row text-right">
+                                                <div class="col col-sm-10 col-lg-9 offset-sm-1 offset-lg-0">
+                                                    <button type="button" onclick="verification()"
+                                                            style="width:140px;height:36px;line-height:18px;font-size:18px; color:#2ea8e5;padding-bottom:4px">
+                                                        提交
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    {% endif %}
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function verification() {
+            $('form').submit();
+        }
+    </script>
+{% endblock %}
+
