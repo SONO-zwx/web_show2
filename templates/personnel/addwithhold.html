@@ -189,7 +189,7 @@
                                                 <label class="col-12 col-sm-3 col-form-label text-sm-right">绩&nbsp;效&nbsp;名&nbsp;称</label>
                                                 <div class="col-12 col-sm-8 col-lg-6">
                                                     <select class="form-control" id="projectname"
-                                                            required="" name="projectname">
+                                                            required="" name="projectname" onchange="xiugaifenzhi()">
                                                         <option>请选择</option>
                                                     </select>
 
@@ -372,7 +372,6 @@
             });
         }
 
-
         function chajixiao() {
             var post = $('#post').val();
             $.ajax({
@@ -387,9 +386,24 @@
                     var projectname = $('#projectname');
                     var t = '<option>请选择</option>';
                     $.each(data.info, function (i, n) {
-                        t = t + '<option style="width: 120px">' + n + '</option>'
+                        t = t + '<option style="width: 120px" value="' + n.id + '">' + n.neirong + '</option>'
                     });
                     projectname.html(t)
+                }
+            });
+        }
+
+        function xiugaifenzhi() {
+            var projectname = $('#projectname').val();
+            $.ajax({
+                type: "post",
+                url: "{% url 'personnel:xiugaifenzhi' %}",
+                data: {
+                    'id': projectname,
+                    'csrfmiddlewaretoken': '{{ csrf_token }}',
+                },
+                success: function (data) {
+                    $('#price').attr('value', data.info)
                 }
             });
         }

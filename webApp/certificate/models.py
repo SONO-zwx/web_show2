@@ -140,10 +140,13 @@ class Waicaidealinfo(models.Model):
     manay = models.FloatField(blank=True, null=True)
     forid = models.TextField(blank=True, null=True)
     jiesuan_status = models.TextField(blank=True, null=True)
+    baojiaxishu = models.FloatField(blank=True, null=True)
+    trueunit = models.FloatField(blank=True, null=True)
 
     class Meta:
         managed = False
         db_table = 'waicaidealinfo'
+
 
 
 class Waicaiinfo(models.Model):
@@ -156,17 +159,20 @@ class Waicaiinfo(models.Model):
     number = models.IntegerField(blank=True, null=True)
     forid = models.TextField(blank=True, null=True)
     status = models.TextField(blank=True, null=True)
-    userid = models.TextField(blank=True, null=True)
-    jiesuan_status = models.TextField(blank=True, null=True)
     tijiaodata = models.DateField(blank=True, null=True)
-    zhidates = models.DateField(blank=True, null=True)
     sansong = models.FloatField(blank=True, null=True)
     allprice = models.FloatField(blank=True, null=True)
     yunfei = models.FloatField(blank=True, null=True)
+    zhidates = models.DateField(blank=True, null=True)
+    userid = models.TextField(blank=True, null=True)
+    jiesuan_status = models.TextField(blank=True, null=True)
+    shouprice = models.FloatField(blank=True, null=True)
+    xiaoshouxishu = models.FloatField(blank=True, null=True)
 
     class Meta:
         managed = False
         db_table = 'waicaiinfo'
+
 
 
 class Vinimg(models.Model):

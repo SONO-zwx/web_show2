@@ -16,5 +16,6 @@ urlpatterns = [
     path('addwithhold/', views.addwithhold.as_view(), name='addwithhold'),
     path('seestaffs/', views.seestaffs, name='seestaffs'),
     path('seejixiao/', views.seejixiao, name='seejixiao'),
+    path('xiugaifenzhi/', views.xiugaifenzhi, name='xiugaifenzhi'),
     path('seeparticulars/', views.seeparticulars, name='seeparticulars'),
 ]

@@ -852,10 +852,10 @@ class offshorereceiptshistory(APIView):
         else:
             if nowshopname == '总部':
                 offshores = Waicaiinfo.objects.order_by('-id').filter(
-                tijiaodata=str(datetime.date.today().strftime("%Y-%m-%d")))
+                    tijiaodata=str(datetime.date.today().strftime("%Y-%m-%d")))
             else:
                 offshores = Waicaiinfo.objects.filter(shopname=nowshopname).filter(
-                tijiaodata=str(datetime.date.today().strftime("%Y-%m-%d"))).order_by('-id')
+                    tijiaodata=str(datetime.date.today().strftime("%Y-%m-%d"))).order_by('-id')
 
         if offshoreid:
             offshoreinfo = Waicaiinfo.objects.filter(id=offshoreid).all().values()[0]
@@ -904,10 +904,10 @@ class gongoffshorereceiptshistory(APIView):
         else:
             if nowshopname == '总部':
                 offshores = Waicaiinfo.objects.order_by('-id').filter(
-                tijiaodata=str(datetime.date.today().strftime("%Y-%m-%d")))
+                    tijiaodata=str(datetime.date.today().strftime("%Y-%m-%d")))
             else:
                 offshores = Waicaiinfo.objects.filter(shopname=nowshopname).filter(
-                tijiaodata=str(datetime.date.today().strftime("%Y-%m-%d"))).order_by('-id')
+                    tijiaodata=str(datetime.date.today().strftime("%Y-%m-%d"))).order_by('-id')
         if offshoreid:
             offshoreinfo = Waicaiinfo.objects.filter(id=offshoreid).all().values()[0]
             gonginfo = Gongaccount.objects.filter(id=offshoreinfo['gongaccount']).all().values()[0]
@@ -1093,8 +1093,8 @@ def cncurrency(value, capital=True, prefix=False, classical=None):
             so.append(iunit[i])
             if n == 0:  # 处理这些位上为零的情况
                 # if not haszero:  # 如果以前没有加过零
-                    # so.insert(-1, num[0])  # 则在单位后面加零
-                    # haszero = True  # 标记加过零了
+                # so.insert(-1, num[0])  # 则在单位后面加零
+                # haszero = True  # 标记加过零了
                 pass
             else:  # 处理不为零的情况
                 so.append(num[n])
@@ -1114,6 +1114,7 @@ def cncurrency(value, capital=True, prefix=False, classical=None):
     so.append(prefix)
     so.reverse()
     return ''.join(so)
+
 
 class gongoneoffshorereceiptshistory(APIView):
 
@@ -1136,7 +1137,6 @@ class gongoneoffshorereceiptshistory(APIView):
             else:
                 offshores = Waicaiinfo.objects.filter(shopname=nowshopname).order_by('-id')
 
-
         starttime = request.GET.get('starttime', '')
         endtime = request.GET.get('endtime', '')
         shopname = request.GET.get('shopname', '请选择门店')
@@ -1151,7 +1151,8 @@ class gongoneoffshorereceiptshistory(APIView):
         if offshoreid:
             offshoreinfo = Waicaiinfo.objects.filter(id=offshoreid).all().values()[0]
             gonginfo = Gongaccount.objects.filter(id=offshoreinfo['gongaccount']).all().values()[0]
-            offshoreinfo['gongaccount'] = gonginfo['effect'] + ' ---  ' + gonginfo['name'] + ' ---  ' + gonginfo['types']
+            offshoreinfo['gongaccount'] = gonginfo['effect'] + ' ---  ' + gonginfo['name'] + ' ---  ' + gonginfo[
+                'types']
             offshoreinfo['baojiaxishu'] = gonginfo['baojiaxishu']
             offshoreinfo['xiaoshouxishu'] = gonginfo['xiaoshouxishu']
             offshoreinfo['Carinfoimg'] = Carinfoimg.objects.filter(for_id=offshoreinfo['id']).all()
@@ -1191,9 +1192,11 @@ class No_right(APIView):
         if nowshopname == '供应商':
             gongid = Gongaccount.objects.filter(usernameid=id).all().values()[0]['id']
 
-            info = Waicaiinfo.objects.filter(gongaccount=str(gongid)).filter(status__in=['已完成', '待安装']).filter(jiesuan_status__in=['门店已对账', '供货商已对账', ''])
+            info = Waicaiinfo.objects.filter(gongaccount=str(gongid)).filter(status__in=['已完成', '待安装']).filter(
+                jiesuan_status__in=['门店已对账', '供货商已对账', ''])
         else:
-            info = Waicaiinfo.objects.filter(status__in=['已完成', '待安装']).filter(jiesuan_status__in=['门店已对账', '供货商已对账', ''])
+            info = Waicaiinfo.objects.filter(status__in=['已完成', '待安装']).filter(
+                jiesuan_status__in=['门店已对账', '供货商已对账', ''])
         shopname = request.GET.get('shopname', '请选择门店')
         if shopname != '请选择门店':
             info = info.filter(shopname=shopname)
@@ -1206,7 +1209,8 @@ class No_right(APIView):
 
         for i in list(info.all().values()):
 
-            dealprojectinfo = Waicaidealinfo.objects.filter(forid=i['id']).filter(status__in=['待安装', '已完成']).all().values()
+            dealprojectinfo = Waicaidealinfo.objects.filter(forid=i['id']).filter(
+                status__in=['待安装', '已完成']).all().values()
             for dealinfo in dealprojectinfo:
                 if i['status'] in ['已完成', '待安装', '退货运费已完成'] and i['jiesuan_status'] in ['门店已对账', '供货商已对账', '']:
                     dealinfo['ertwo'] = dealinfo['productname']
@@ -1241,7 +1245,8 @@ class No_right(APIView):
         orderid = request.POST.get('orderid')
         dealid = request.POST.get('dealid')
 
-        if Waicaidealinfo.objects.filter(id=dealid).all().values()[0]['status'] in ['已完成', '待安装'] and Waicaidealinfo.objects.filter(id=dealid).all().values()[0]['jiesuan_status'] in ['供货商已对账', '']:
+        if Waicaidealinfo.objects.filter(id=dealid).all().values()[0]['status'] in ['已完成', '待安装'] and \
+                Waicaidealinfo.objects.filter(id=dealid).all().values()[0]['jiesuan_status'] in ['供货商已对账', '']:
             Waicaidealinfo.objects.filter(id=dealid).update(jiesuan_status='供货商已对账')
         else:
             Waicaidealinfo.objects.filter(id=dealid).update(jiesuan_status='已对账')
@@ -1279,7 +1284,6 @@ class offshoreaddreceipts(APIView):
             else:
                 offshores = Waicaiinfo.objects.filter(shopname=nowshopname).filter(status='待确认').order_by('-id')
 
-
         if offshoreid:
             offshoreinfo = Waicaiinfo.objects.filter(id=offshoreid).all().values()[0]
             gonginfo = Gongaccount.objects.filter(id=offshoreinfo['gongaccount']).all().values()[0]
@@ -1299,7 +1303,6 @@ class offshoreaddreceipts(APIView):
         offshores = Paginator(offshores, 10)
         offshores = offshores.page(offshorepage)
 
-
         return render(request, 'certificate/offshorereceipts.html',
                       {'ShopNames': ShopNames, 'name': name, 'ShopName': ShopName, 'nowshopname': nowshopname,
                        'gongaccount': gongaccount, 'offshores': offshores, 'offshoreinfo': offshoreinfo,
@@ -1318,7 +1321,8 @@ class offshoreaddreceipts(APIView):
         tishi = WechatMessage(
             source_table='waicaiinfo',
             source_id=str(info.get('id')),
-            send_message='途虎养车（' + waicaiinfo['shopname'] + '）' + waicaiinfo['brand'] + '的外采订单待发货，请前往处理（OA地址：http://www.sonoams.com/）',
+            send_message='途虎养车（' + waicaiinfo['shopname'] + '）' + waicaiinfo[
+                'brand'] + '的外采订单待发货，请前往处理（OA地址：http://www.sonoams.com/）',
             status='0',
             wechatid=wechatid
         )
@@ -1385,7 +1389,7 @@ class shouoffshoreaddreceipts(APIView):
             tuiinfo = CommentreturnDealproject.objects.filter(order_num=tuiid).all().values()[0]['for_id']
             Commentreturn.objects.filter(id=tuiinfo).update(status='待审批')
             Waicaiinfo.objects.filter(id=info.get('id')).update(status='待退货', sansong=sansong, jiesuan_status='',
-                                                            ordernumber=info.get('ordernumber'))
+                                                                ordernumber=info.get('ordernumber'))
             tishi = WechatMessage(
                 source_table='waicaiinfo',
                 source_id=str(info.get('id')),
@@ -1396,7 +1400,7 @@ class shouoffshoreaddreceipts(APIView):
             tishi.save()
         else:
             Waicaiinfo.objects.filter(id=info.get('id')).update(status='已完成', sansong=sansong, jiesuan_status='',
-                                                            ordernumber=info.get('ordernumber'))
+                                                                ordernumber=info.get('ordernumber'))
             tishi = WechatMessage(
                 source_table='waicaiinfo',
                 source_id=str(info.get('id')),
@@ -1457,7 +1461,6 @@ class faoffshoreaddreceipts(APIView):
     def post(self, request):
         info = request.POST
 
-
         if info.get('yunfei') == '':
             yunfei = 0
         else:
@@ -1472,19 +1475,22 @@ class faoffshoreaddreceipts(APIView):
 
         Waicaiinfo.objects.filter(id=info.get('id')).update(yunfei=yunfei, status='待安装')
         price = Waicaiinfo.objects.filter(id=info.get('id')).all().values()[0]
-
+        gonginfo = Gongaccount.objects.filter(id=price['gongaccount']).all().values()[0]
         pricesinfo = pricesinfo + price['yunfei'] + price['sansong']
-        Waicaiinfo.objects.filter(id=info.get('id')).update(allprice=pricesinfo)
+        Waicaiinfo.objects.filter(id=info.get('id')).update(allprice=pricesinfo,
+                                                            shouprice=pricesinfo * gonginfo['xiaoshouxishu'],
+                                                            xiaoshouxishu=gonginfo['xiaoshouxishu'])
         waicaiinfo = Waicaiinfo.objects.filter(id=info.get('id')).all().values()[0]
         gongaccount = waicaiinfo['gongaccount']
         userid = waicaiinfo['userid']
         brand = waicaiinfo['brand']
+
         gongaccountname = Gongaccount.objects.filter(id=gongaccount).all().values()[0]['effect']
         wechatid = Users.objects.filter(id=userid).all().values()[0]['oneapprover']
         tishi = WechatMessage(
             source_table='waicaiinfo',
             source_id=str(info.get('id')),
-            send_message=gongaccountname + brand +'的货品已经发货，请准备收货，施工',
+            send_message=gongaccountname + brand + '的货品已经发货，请准备收货，施工',
             status='0',
             wechatid=wechatid
         )
@@ -1508,7 +1514,8 @@ class tuifaoffshoreaddreceipts(APIView):
             status__in=['待退货', '已完成', '待审批']).all().values()]
         orderid = []
         for i in commentreturninfo:
-            order = CommentreturnDealproject.objects.filter(for_id=i).all().values()[0]['order_num'].replace('外采订单:', '')
+            order = CommentreturnDealproject.objects.filter(for_id=i).all().values()[0]['order_num'].replace('外采订单:',
+                                                                                                             '')
             orderid.append(order)
         gongaccount = Gongaccount.objects.filter(shopname=superior).all().values()
         orderid = Waicaidealinfo.objects.filter(id__in=orderid).values_list('forid')
@@ -1567,7 +1574,8 @@ class tuishoreonereceipts(APIView):
             status__in=['待退货', '已完成', '待审批']).all().values()]
         orderid = []
         for i in commentreturninfo:
-            order = CommentreturnDealproject.objects.filter(for_id=i).all().values()[0]['order_num'].replace('外采订单:','')
+            order = CommentreturnDealproject.objects.filter(for_id=i).all().values()[0]['order_num'].replace('外采订单:',
+                                                                                                             '')
             orderid.append(order)
         gongaccount = Gongaccount.objects.filter(shopname=superior).all().values()
         offshores = Waicaidealinfo.objects.filter(id__in=orderid).values_list('forid')
@@ -1611,17 +1619,20 @@ class tuishoreonereceipts(APIView):
         Waicaiinfo.objects.filter(id=info.get('id')).update(yunfei=yunfei, status='待安装')
         return redirect(reverse("certificate:faoffshoreaddreceipts"))
 
+
 def cuidan(request):
     info = request.POST
     waicaiinfo = Waicaiinfo.objects.filter(id=info.get('id')).all().values()[0]
     userid = Gongaccount.objects.filter(id=waicaiinfo['gongaccount']).all().values()[0]['usernameid']
     wechatid = Users.objects.filter(id=userid).all().values()[0]['oneapprover']
-    timeinfo = WechatMessage.objects.filter(source_id=str(info.get('id'))).filter(source_table='waicaiinfo').filter(wechatid=wechatid).filter(status=1).all().values('send_datatime')
+    timeinfo = WechatMessage.objects.filter(source_id=str(info.get('id'))).filter(source_table='waicaiinfo').filter(
+        wechatid=wechatid).filter(status=1).all().values('send_datatime')
     timeinfo = [i['send_datatime'] for i in timeinfo]
     if len(timeinfo) != 0:
         timeinfo = max(timeinfo)
-        timeinfo = abs((datetime.datetime.now() - datetime.datetime.strptime(str(timeinfo).split('+')[0],'%Y-%m-%d %H:%M:%S')).total_seconds()/ 60)
-        if timeinfo>3:
+        timeinfo = abs((datetime.datetime.now() - datetime.datetime.strptime(str(timeinfo).split('+')[0],
+                                                                             '%Y-%m-%d %H:%M:%S')).total_seconds() / 60)
+        if timeinfo > 3:
             msg = 'ok'
         else:
             msg = 'no'
@@ -1642,6 +1653,7 @@ def cuidan(request):
 
     return JsonResponse({'msg': msg})
 
+
 def chakan(request):
     offshoreid = request.GET.get('offshoreid', None)
 
@@ -1657,7 +1669,8 @@ def chakan(request):
     offshoreinfo['Kindsimg'] = Kindsimg.objects.filter(for_id=offshoreinfo['id']).all()
     offshoreinfo['offshoredealproject'] = Waicaidealinfo.objects.filter(forid=offshoreinfo['id']).filter(
         status__in=['已完成', '已退货', '待退货', '待发货', '结算已完成', '供货商已对账', '门店已对账', '待安装']).all().values()
-    offshoreinfo['danhao'] = str(offshoreinfo['tijiaodata'].strftime("%Y-%m-%d")).replace('-', '') + str(offshoreinfo['id'])
+    offshoreinfo['danhao'] = str(offshoreinfo['tijiaodata'].strftime("%Y-%m-%d")).replace('-', '') + str(
+        offshoreinfo['id'])
     offshoreinfo['daxiemanay'] = cncurrency(offshoreinfo['allprice'])
     return render(request, 'certificate/chakan.html', {'offshoreinfo': offshoreinfo})
 
@@ -1674,7 +1687,8 @@ def chakanan(request):
     offshoreinfo['Kindsimg'] = Kindsimg.objects.filter(for_id=offshoreinfo['id']).all()
     offshoreinfo['offshoredealproject'] = Waicaidealinfo.objects.filter(forid=offshoreinfo['id']).filter(
         status__in=['已完成', '已退货', '待退货', '待发货', '结算已完成', '供货商已对账', '门店已对账']).all().values()
-    offshoreinfo['danhao'] = str(offshoreinfo['tijiaodata'].strftime("%Y-%m-%d")).replace('-', '') + str(offshoreinfo['id'])
+    offshoreinfo['danhao'] = str(offshoreinfo['tijiaodata'].strftime("%Y-%m-%d")).replace('-', '') + str(
+        offshoreinfo['id'])
     offshoreinfo['daxiemanay'] = cncurrency(offshoreinfo['allprice'])
     return render(request, 'certificate/chakanan.html', {'offshoreinfo': offshoreinfo})
 
@@ -1822,8 +1836,10 @@ class offshoreonereceipts(APIView):
                     model=i[2],
                     number=i[3],
                     unit=i[4],
+                    trueunit=float(i[4]) * baojiaxishu,
                     status=i[6],
                     manay=float(i[4]) * float(i[3]) * baojiaxishu,
+                    baojiaxishu=baojiaxishu,
                     forid=forid,
                     jiesuan_status='',
                 )
@@ -1839,7 +1855,7 @@ class offshoreonereceipts(APIView):
         tishi = WechatMessage(
             source_table='waicaiinfo',
             source_id=str(forid),
-            send_message=gongaccountname + '，已经添加' + brand +'的货品待您确认货品，请前往处理（OA地址：http://www.sonoams.com/）',
+            send_message=gongaccountname + '，已经添加' + brand + '的货品待您确认货品，请前往处理（OA地址：http://www.sonoams.com/）',
             status='0',
             wechatid=wechatid
         )
@@ -1902,7 +1918,7 @@ def notquerenokdealinfo(request):
 def farenokdealinfo(request):
     Waicaidealinfo.objects.filter(id=request.POST.get('id')).update(status='待安装')
     forid = Waicaidealinfo.objects.filter(id=request.POST.get('id')).all().values()[0]['forid']
-    if request.POST.get('yunfei')=='':
+    if request.POST.get('yunfei') == '':
         yunfei = 0
     else:
         yunfei = request.POST.get('yunfei')
@@ -1913,7 +1929,7 @@ def farenokdealinfo(request):
 def notfarenokdealinfo(request):
     Waicaidealinfo.objects.filter(id=request.POST.get('id')).update(status='待发货')
     forid = Waicaidealinfo.objects.filter(id=request.POST.get('id')).all().values()[0]['forid']
-    if request.POST.get('yunfei')=='':
+    if request.POST.get('yunfei') == '':
         yunfei = 0
     else:
         yunfei = request.POST.get('yunfei')
@@ -2005,14 +2021,14 @@ def chashourenokdealinfo(request):
     return JsonResponse({'msg': info, 'tuimsg': tuiinfo})
 
 
-
 def shoufarenokdealinfo(request):
     Waicaidealinfo.objects.filter(id=request.POST.get('id')).update(status='已完成')
     forid = Waicaidealinfo.objects.filter(id=request.POST.get('id')).all().values()[0]['forid']
     if request.POST.get('sansong') == '':
         Waicaiinfo.objects.filter(id=forid).update(ordernumber=request.POST.get('ordernumber'))
     else:
-        Waicaiinfo.objects.filter(id=forid).update(ordernumber=request.POST.get('ordernumber'),sansong=request.POST.get('sansong'))
+        Waicaiinfo.objects.filter(id=forid).update(ordernumber=request.POST.get('ordernumber'),
+                                                   sansong=request.POST.get('sansong'))
     return JsonResponse({'msg': 200})
 
 
@@ -2022,7 +2038,8 @@ def notshoufarenokdealinfo(request):
     if request.POST.get('sansong') == '':
         Waicaiinfo.objects.filter(id=forid).update(ordernumber=request.POST.get('ordernumber'))
     else:
-        Waicaiinfo.objects.filter(id=forid).update(ordernumber=request.POST.get('ordernumber'),sansong=request.POST.get('sansong'))
+        Waicaiinfo.objects.filter(id=forid).update(ordernumber=request.POST.get('ordernumber'),
+                                                   sansong=request.POST.get('sansong'))
     return JsonResponse({'msg': 200})
 
 

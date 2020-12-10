@@ -391,7 +391,7 @@ class addwithhold(APIView):
 
         if not info.get('id', None):
             punish = Punish(
-                project=str(info.get('projectname')),
+                project=str(Performance.objects.filter(id=info.get('projectname')).all().values()[0]['particulars']),
                 number=info.get('number'),
                 staffname=info.get('staffname'),
                 price=info.get('price'),
@@ -427,8 +427,16 @@ def seejixiao(request):
     superior = request.session.get('superior')
     post = request.POST.get('post')
     info = list(Performance.objects.filter(corporation=superior, post=post, isus=1).all().values())
-    jixiao = [i['particulars'] for i in info]
+    jixiao = [{'id': i['id'], 'neirong': i['particulars']} for i in info]
     return JsonResponse({'info': jixiao})
+
+
+def xiugaifenzhi(request):
+    id = request.POST.get('id')
+    print(id)
+    info = Performance.objects.filter(id=id).all().values()[0]['fenzhi']
+
+    return JsonResponse({'info': info})
 
 
 def seeparticulars(request):

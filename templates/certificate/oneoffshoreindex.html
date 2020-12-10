@@ -334,7 +334,7 @@
                                                                     {{ dealpro.number }}
                                                                 </td>
                                                                 <td class="text-sm-center" style="width: 15%">
-                                                                    {{ dealpro.unit|mul:offshoreinfo.baojiaxishu }}
+                                                                    {{ dealpro.trueunit }}
                                                                 </td>
                                                                 <td class="text-sm-center" style="width: 15%">
                                                                     {{ dealpro.manay }}
@@ -385,7 +385,7 @@
                                                     销&nbsp;售&nbsp;金&nbsp;额
                                                 </td>
                                                 <td class="text-sm-center" style="width: 12.5%" colspan="3">
-                                                    ￥{{ offshoreinfo.allprice|mul:offshoreinfo.xiaoshouxishu }}
+                                                    ￥{{ offshoreinfo.shouprice }}
                                                 </td>
                                             </tr>
                                             {% if offshoreinfo.status == '申请中' or offshoreinfo.status == '待发货' %}
